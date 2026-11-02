@@ -116,4 +116,8 @@
 - [x] Etapa 4 Regra unificada de trilha na seção 2
 - [x] Etapa 5 Diff granular + botão Editar fixo
 - [x] Etapa 6 Princípio 4 no blueprint
-- [ ] Passo 6 criar empresa Privacium — bloqueado até aval
+- [x] Passo 6.1 criar dpo@privacium.com.br e atribuir apenas DPO_OPERACIONAL; link de confirmação solicitado.
+- [ ] Passo 6.1 confirmar e-mail — bloqueado pelo clique do destinatário; chegada à caixa postal não verificável pelos registros disponíveis.
+- [ ] Passo 6.2 criar workspace inicial da Privacium e verificar empresa, CORE, 50.000 tokens e vínculo exclusivo do novo DPO.
+- [ ] Passo 6.3 preencher declaração ME e contato contato@privacium.com.br — bloqueado pelos critérios de enquadramento, nome do encarregado e confirmação da conta; não assinar em nome do DPO.
+- [ ] Passo 6.4 reportar seis provas de isolamento/criação e existência de nome fantasia/CNAE; não cadastrar ROT, membros, terceiros ou identificadores reais.

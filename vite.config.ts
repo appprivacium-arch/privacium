@@ -9,6 +9,13 @@ import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
+// Trava estrita de compilação: falha explícita se as variáveis do backend não estiverem no ambiente.
+if (!process.env.VITE_SUPABASE_URL || !process.env.VITE_SUPABASE_PUBLISHABLE_KEY) {
+  throw new Error(
+    "BUILD ERROR: VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY são obrigatórias no ambiente para o build de produção.",
+  );
+}
+
 const digest = createHash("sha256");
 function fingerprint(dir: string) {
   for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
@@ -23,7 +30,13 @@ let baseCommit = "indisponível";
 try { baseCommit = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(); } catch { /* Source identity remains available. */ }
 
 export default defineConfig({
-  vite: { define: { __PRIVACIUM_BUILD__: JSON.stringify({ id: digest.digest("hex"), builtAt: new Date().toISOString(), baseCommit }) } },
+  vite: {
+    define: {
+      __PRIVACIUM_BUILD__: JSON.stringify({ id: digest.digest("hex"), builtAt: new Date().toISOString(), baseCommit }),
+      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(process.env.VITE_SUPABASE_URL),
+      "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(process.env.VITE_SUPABASE_PUBLISHABLE_KEY),
+    },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

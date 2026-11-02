@@ -251,9 +251,35 @@ Critério: mensagens com hash/secret/key/token/senha/password/credencial/env/con
 | 9861b49 / 28f2aa2 | 01/11/2026 | Publicou e removeu hashes | Ver 10.7.1 — (d) |
 | 3922901 / e4e5a2a | 01/11/2026 | Removed synthetic hashes in CT | Guarda de build contra assinaturas pré-chanceladas na demo; hashes cenográficos — (d) |
 | f9b306e / 94a14f4 | 01/11/2026 | Changes | Criação de .env.example (modelo sem valores) — (c) |
-| 4726e8e / 51d4599 | 30/10/2026 | Corrigiu provação do Envio 1 | Casou por palavra-chave; sem arquivos sensíveis — a confirmar no item 6 |
-| ce0eece / 0f3937a | 29/10/2026 | Apertou botão de envio | Casou por palavra-chave; sem arquivos sensíveis — a confirmar no item 6 |
+| 4726e8e / 51d4599 | 30/10/2026 | Corrigiu provação do Envio 1 | Revisado linha a linha em 02/11/2026 — (d), ver 10.7.3 |
+| ce0eece / 0f3937a | 29/10/2026 | Apertou botão de envio | Revisado linha a linha em 02/11/2026 — (c)/(d), ver 10.7.3 |
 | 8fd234e | 22/10/2026 | Changes | Adicionou .env (6 variáveis: URL, ID do projeto e chave pública de bootstrap) e supabase/config.toml — (c), já classificado como risco zero em 10.2 |
+
+#### 10.7.3. Revisão linha a linha de 4726e8e e ce0eece (02/11/2026)
+Método: diff de cada merge contra o primeiro pai, com busca por padrões de credencial (JWT, chaves sb_secret_/ghp_, strings de conexão postgres://, atribuições de senha/api_key) e de dado pessoal (CPF e CNPJ formatados).
+
+4726e8e — "Corrigiu provação do Envio 1" (35 arquivos, +695/−111):
+- roadmap.md; componentes AIShield, CopiarModelo (novo), EncerrarIncidente, FormularioANPD, ui; telas Auditoria, Bloco3, Bloco4, Bloco5, Manual, Pendencias; bibliotecas ajuda, anpd, demo, dosimetria, estadoIncidente, pedagogia, pendencias, store, useCnpjRows, useEstadoBloco4, bibliotecaMitigacao, bibliotecaTextos (novo); rotas bloco-4 e demo; 6 testes unitários e 3 testes e2e da demonstração.
+- Achados: nenhum. Conteúdo = modelos de texto, ajustes de interface e dados cenográficos da demonstração. Categoria (d).
+
+ce0eece — "Apertou botão de envio" (29 arquivos, +431/−102):
+- AGENTS.md, roadmap.md; migrações 0017 (encarregado e comunicação ANPD), 0018, 0019 e seus snapshots/journal; componentes AppShell, EncarregadoDPO (novo), FormularioANPD, ProximoPasso, ui; hook useEncarregado (novo); tipos gerados do banco; bibliotecas anpd, demo, pendencias; rotas bloco-1 a bloco-4, enterprise, kanban, membros, painel, index; teste anpd.
+- Achados: uma única ocorrência do termo "service_role", em `GRANT ALL ON public.encarregado_dpo TO service_role;` — é o nome de um papel do banco em comando de permissão, não uma chave. Nenhum e-mail, CPF ou CNPJ real. Categoria (c)/(d).
+
+Resultado: nenhum valor de credencial, token, chave, dado pessoal ou dado de cliente nos dois commits. Item 6 concluído em 02/11/2026.
+
+#### 10.7.4. Varredura de segredos no código atual (02/11/2026)
+Escopo: todos os arquivos de código-fonte, migrações, configuração e documentação (.ts, .tsx, .js, .jsx, .sql, .json, .toml, .yaml, .md, .html, .css, .env, .env.example), excluindo .git, node_modules, dist, build, .output e arquivos de lock.
+Padrões: chave de API, token (Bearer literal, JWT), senha, string de conexão, service role key (sb_secret_), JWT secret, tokens GitHub, chaves privadas PEM; e variáveis de ambiente usadas com valor literal em vez de referência ao ambiente.
+
+| Arquivo | Linha | Tipo | Ativo | Avaliação |
+|---|---|---|---|---|
+| .env (local, fora do Git) | 2 e 5 | Chave pública de bootstrap (sb_p…) | Sim | Pública por design (protegida por RLS), não é credencial — ver 10.2 |
+| system-blueprint.md | 174 | Falso positivo do padrão "string de conexão" | — | Texto narrativo sobre a inexistência de senha de banco; nenhum valor |
+
+Demais verificações: o cliente do banco lê URL e chave somente por variáveis de ambiente (import.meta.env / process.env); o segredo do agendador é lido de process.env; os testes de integração montam o cabeçalho Bearer com o token da sessão em tempo de execução, sem valor literal. Nenhuma variável de ambiente sensível com valor fixo no código.
+
+Resultado: **varredura limpa em 02/11/2026**. Item 7 concluído — nenhuma rotação necessária.
 
 Pendências restantes:
 | # | Item | Urgência |
@@ -263,5 +289,5 @@ Pendências restantes:
 | 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (3119fae) |
 | 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Pendência aberta (10.5) |
 | 5 | Auditoria do commit "Publicou e removeu hashes" | ✅ Concluída — nenhuma credencial ou dado pessoal (10.7.1) |
-| 6 | Inventário de outros commits com indício de exposição | 🟡 Inventariado (10.7.2) — revisão linha a linha de 4726e8e e ce0eece pendente |
-| 7 | Rotação de credenciais eventualmente expostas | 🟢 Não necessária até o momento — nenhuma credencial encontrada |
+| 6 | Inventário de outros commits com indício de exposição | ✅ Concluído 02/11/2026 — 4726e8e e ce0eece revisados, sem achados (10.7.3) |
+| 7 | Rotação de credenciais eventualmente expostas | ✅ Concluído 02/11/2026 — varredura limpa, rotação dispensada (10.7.4) |

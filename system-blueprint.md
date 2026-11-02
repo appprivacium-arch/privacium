@@ -215,3 +215,11 @@ Sequência obrigatória:
 | 4 | Confirmar que o commit correspondente aparece no GitHub | GitHub → histórico de commits |
 
 Em caso de falha no passo 4: ajustar o escopo do app no GitHub (adicionar o repositório à seleção do app, sem reinstalar) — nunca reconectar, conforme 10.3. Registrar o conteúdo de "Repository access" e a mensagem de erro exata.
+
+Pendências restantes:
+| # | Item | Urgência |
+|---|---|---|
+| 1 | Tornar repositório privado no GitHub | 🟡 Execução manual |
+| 2 | Verificar escopo do app Lovable | 🟡 Após o passo 1 |
+| 3 | Teste de sync com alteração posterior | 🟡 Após o passo 1 |
+| 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Registrada como pendência (10.5) |

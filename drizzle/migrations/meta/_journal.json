@@ -435,6 +435,13 @@
       "when": 1793655448629,
       "tag": "0061_achado4_falha_login_servidor",
       "breakpoints": true
+    },
+    {
+      "idx": 62,
+      "version": "7",
+      "when": 1793658914562,
+      "tag": "0062_encerrar_incidente_trilha",
+      "breakpoints": true
     }
   ]
 }

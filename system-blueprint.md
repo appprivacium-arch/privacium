@@ -1,5 +1,46 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
+## Identidade e Princípios do Privacium
+
+> Leitura obrigatória antes de qualquer alteração. Versão curta em `AGENTS.md`.
+
+### Identidade
+
+O Privacium é o primeiro cliente do próprio método. Não é o dono da regra: é quem primeiro a cumpre.
+Todo produto que o sistema gera carrega autor, data, hash SHA-256 e encadeamento com o registro anterior.
+Dogfooding não é marketing: é a condição de credibilidade.
+
+### Princípios invioláveis
+
+1. **Ausência de dado não é afirmação de fato.** Toda tela que consome dado restrito distingue três estados: "não há", "não posso ver" e "erro ao carregar". Nunca exibir "pendente" quando a leitura foi negada.
+2. **Bloqueio na interface não é bloqueio.** Toda regra de acesso existe na policy do banco. A interface é camada de conveniência; o banco é camada de controle.
+3. **Ler e alterar são permissões distintas.** SELECT e UPDATE têm policies separadas. Quem precisa ver não precisa poder alterar.
+4. **[RESERVADO — entra após comprovação do diff granular e do botão de edição proeminente no ROT.]**
+5. **Trilha registra fatos, não intenções.** Grava o que revela dado pessoal ou altera estado. Não grava o que apenas navega. (Regra Unificada de Trilha, seção 2.)
+6. **Pseudonimização não é anonimização.** Dado pseudonimizado continua sendo dado pessoal para a LGPD. Nunca chamar de anônimo ou sintético o que é reversível.
+7. **Super-admin é decisão de contrato, não de código.** Qualquer bypass de ADMIN_SISTEMA em tabela com dado pessoal precisa de justificativa documentada e registro na trilha.
+
+### Regras de interface
+
+1. Cabeçalho de campo usa nome legível. O número do método (7A, 10C, 10D) é referência secundária, em tamanho menor.
+2. Todo campo tem tooltip com: o que é, o que preencher e um exemplo real do próprio ROT.
+3. Texto de abertura descreve a tarefa, não a estrutura do método.
+4. Toda pendência leva ao ponto exato de resolução, com foco visual no elemento.
+5. Status em linguagem de tarefa, com números clicáveis para filtrar.
+
+### Regras de engenharia
+
+1. Refatoração de camada de dados exige paridade de resultado: capture a saída visível antes, compare depois.
+2. Teste de função pura não é teste de tela.
+3. Bug que surge em refatoração é diagnóstico, não regressão: o problema já existia.
+4. Visualização interna não é deploy. Toda verificação de entrega se faz na URL pública.
+
+### Regras de auditoria
+
+1. Toda afirmação de conformidade precisa de evidência reproduzível: a consulta executada e o resultado colado.
+2. "Auditoria executada" não é auditoria.
+3. Lição só se escreve sobre o que foi resolvido. Problema em aberto é pendência, não aprendizado.
+
 ## 0. Identidade da Marca
 
 - Marca do produto: Privacium (domínio oficial: privacium.com.br)
@@ -17,7 +58,10 @@
 
 - **Segregação de Papéis (RBAC):** 'ADMIN_SISTEMA', 'DPO_OPERACIONAL', 'C_SUITE'.
 
-- **Rastreabilidade Forense:** Toda leitura ou modificação de dado pessoal sensível DEVE registrar uma linha na tabela 'trilha_auditoria_sistema'.
+- **Rastreabilidade Forense — Regra Unificada de Trilha:** grava o que revela dado pessoal ou altera estado. Não grava o que apenas navega. Todo registro vai para 'trilha_auditoria_sistema'.
+  - *Grava:* desmascarar CPF, CNPJ ou e-mail de titular, membro ou terceiro; editar qualquer campo de registro (com diff: campo, valor anterior, valor novo, autor, data); assinar produto; encerrar incidente; registrar acesso de suporte; criar, remover ou alterar vínculo de membro.
+  - *Não grava:* abrir tela; clicar em filtro, atalho ou link de pendência; visualizar checklist ou lista de pendências; navegar entre blocos.
+  - *Motivo:* navegação é intenção; revelação de dado pessoal e alteração de estado são fatos. Registrar intenção infla a trilha e esconde o fato.
 
 - **Privacy by Default:** CPFs, CNPJs e e-mails de titulares aparecem ocultos/mascarados por padrão (ex: ***.555.***-77).
 

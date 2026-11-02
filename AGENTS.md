@@ -9,12 +9,20 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
+- Princípios invioláveis (versão completa no topo de `system-blueprint.md`, leia antes de alterar):
+  1. Ausência de dado não é fato: distinguir "não há", "não posso ver" e "erro ao carregar".
+  2. Bloqueio na interface não é bloqueio: toda regra de acesso vive na policy do banco.
+  3. Ler e alterar são permissões distintas (SELECT e UPDATE separados).
+  4. [Reservado até comprovar diff granular e edição proeminente no ROT.]
+  5. Trilha registra fatos: grava revelação de dado pessoal e alteração de estado; nunca navegação.
+  6. Pseudonimização não é anonimização.
+  7. Bypass de ADMIN_SISTEMA em dado pessoal exige justificativa documentada e trilha.
 - Brand: Privacium (privacium.com.br), never "PRIVA 2EC". Demo embeds a build-time source fingerprint, not a claimed deployment commit; why: delivery verification.
 - Titular lookup/requests use isolated tables and tenant-authorized audited RPCs, never workspace JSON; why: protect identifiers.
 - Subdirectories have their own AGENTS.md (e.g. src/lib/priva); read it before changing files there.
 
 - BLLOCO: realtime `workspace_empresa` JSON per CNPJ; localStorage holds active CNPJ/role to preserve company-bound progress.
-- Audit entries are only written via the `registrar_trilha` security-definer RPC into `trilha_auditoria_sistema` (server-side SHA-256 chain incl. CNPJ, no update/delete grants); checked with `verificar_trilha`; opening screens with personal data logs a SELECT. Why: blueprint forensic traceability. `audit_log`/`workspace_state` are deprecated.
+- Audit entries are only written via the `registrar_trilha` security-definer RPC into `trilha_auditoria_sistema` (server-side SHA-256 chain incl. CNPJ, no update/delete grants); checked with `verificar_trilha`; only fact events (revealing personal data, changing state) log — navigation never does. Why: blueprint forensic traceability. `audit_log`/`workspace_state` are deprecated.
 - `user_roles`: first signup ADMIN+DPO, later roleless until admin assigns.
 - `empresas` (contract/plan/status per CNPJ, auto-synced from `workspace_empresa` inserts) and `usuarios` (1:1 with profiles; `perfil_acesso` = primary role synced from `user_roles`, which remains the source of truth for multi-role RBAC). Why: blueprint data model without breaking existing progress storage.
 - Audit writes go through `registrar_acesso` (forensic columns: usuario_id, acao_executada, tabela_afetada, campo_mascarado_acessado, ip_origem from request headers, timestamp_evento, hash_integridade_sha256) alongside the legacy hash chain; `registrar_trilha` wraps it. Masked-field eye clicks always log. Why: ISO 27037 accountability.

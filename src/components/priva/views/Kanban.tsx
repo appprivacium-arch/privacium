@@ -13,11 +13,14 @@ import { Input } from "@/components/ui/input";
 
 
 export function Kanban() {
-  const { kanban, set, demo } = usePriva();
+  const { kanban, set, demo, roles } = usePriva();
+  // Sem DPO, o banco recusa a gravação: desabilitar com explicação em vez de falhar em silêncio.
+  const somenteLeitura = !demo && !roles.includes("DPO_OPERACIONAL");
   const [what, setWhat] = useState("");
 
   const move = async (card: KanbanCard, to: KanbanColumn) => {
     if (demo) return avisarAcaoDemo();
+    if (somenteLeitura) return;
     if (to === "doing" && kanban.filter((k) => k.column === "doing").length >= 3) {
       toast.error("Limite de 3 cartões em execução para evitar dispersão.");
       return;
@@ -39,14 +42,19 @@ export function Kanban() {
       <PageHeader eyebrow="Gestão transversal" title="Kanban 5W2H">
         Em Execução aceita no máximo 3 cartões. "Pendente com Terceiros" pausa o cronômetro de conformidade. A revisão exige evidência com hash SHA-256.
       </PageHeader>
+      {somenteLeitura && (
+        <div role="status" className="mb-6 rounded-md border border-primary/40 bg-muted p-4 text-sm font-medium text-foreground">
+          Dados de conformidade do cliente restritos ao DPO da empresa — Administrador possui permissão de leitura, mas não altera o fluxo operacional.
+        </div>
+      )}
       <div id="kanban-guia" className="mb-6"><AjudaTarefa {...AJUDA_KANBAN} pendencias={pendenciasKanban(kanban)} /></div>
       <form className="mb-6 flex max-w-xl gap-2" onSubmit={(e) => {
-        e.preventDefault(); if (demo) return avisarAcaoDemo(); if (!what.trim()) return;
+        e.preventDefault(); if (demo) return avisarAcaoDemo(); if (somenteLeitura || !what.trim()) return;
         set({ kanban: [...kanban, { id: crypto.randomUUID(), what, why: "—", who: "—", where: "—", when: "—", how: "—", howMuch: "—", block: 1, column: "todo" }] }, { op: "INSERT", target: "kanban", detail: what });
         setWhat("");
       }}>
-        <Input value={what} onChange={(e) => setWhat(e.target.value)} placeholder="O quê? (nova ação)" />
-        <Button type="submit">Adicionar</Button>
+        <Input value={what} onChange={(e) => setWhat(e.target.value)} placeholder="O quê? (nova ação)" disabled={somenteLeitura} />
+        <Button type="submit" disabled={somenteLeitura}>Adicionar</Button>
       </form>
       <div id="quadro" className="grid scroll-mt-6 gap-4 xl:grid-cols-5">
         {KANBAN_COLUMNS.map((col, ci) => {
@@ -71,8 +79,8 @@ export function Kanban() {
                       {c.evidenceHash && <span className="font-mono text-[10px] text-success">#{c.evidenceHash.slice(0, 8)}</span>}
                     </div>
                     <div className="mt-2 flex gap-1">
-                      {ci > 0 && <Button size="sm" variant="ghost" className="h-6 px-2" onClick={() => move(c, KANBAN_COLUMNS[ci - 1]?.id ?? col.id)}>←</Button>}
-                      {ci < 4 && <Button size="sm" variant="outline" className="h-6 flex-1 px-2" onClick={() => move(c, KANBAN_COLUMNS[ci + 1]?.id ?? col.id)}>Avançar →</Button>}
+                      {ci > 0 && <Button size="sm" variant="ghost" className="h-6 px-2" disabled={somenteLeitura} onClick={() => move(c, KANBAN_COLUMNS[ci - 1]?.id ?? col.id)}>←</Button>}
+                      {ci < 4 && <Button size="sm" variant="outline" className="h-6 flex-1 px-2" disabled={somenteLeitura} onClick={() => move(c, KANBAN_COLUMNS[ci + 1]?.id ?? col.id)}>Avançar →</Button>}
                     </div>
                   </div>
                 ))}

@@ -34,6 +34,7 @@ export function useRespostas(cnpj: string | null) {
   const qc = useQueryClient();
   const demo = useDemo();
   const questions = useQuestions();
+  const instancia = useId();
   const q = useQuery({
     queryKey: respostasKey(cnpj),
     enabled: !!cnpj && !demo,
@@ -46,13 +47,13 @@ export function useRespostas(cnpj: string | null) {
   useEffect(() => {
     if (!cnpj || demo) return;
     const ch = supabase
-      .channel(`respostas_${cnpj}`)
+      .channel(`respostas_${cnpj}_${instancia}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "respostas_diagnostico", filter: `empresa_cnpj=eq.${cnpj}` }, () => {
         void qc.invalidateQueries({ queryKey: respostasKey(cnpj) });
       })
       .subscribe();
     return () => { void supabase.removeChannel(ch); };
-  }, [cnpj, qc, demo]);
+  }, [cnpj, qc, demo, instancia]);
   if (demo) return demoAnswers(questions);
   return q.data ?? {};
 }

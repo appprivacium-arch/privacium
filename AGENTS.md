@@ -13,7 +13,7 @@
   1. Ausência de dado não é fato: distinguir "não há", "não posso ver" e "erro ao carregar".
   2. Bloqueio na interface não é bloqueio: toda regra de acesso vive na policy do banco.
   3. Ler e alterar são permissões distintas (SELECT e UPDATE separados).
-  4. [Reservado até comprovar diff granular e edição proeminente no ROT.]
+  4. Toda linha do ROT é editável com diff na trilha (campo, anterior, novo, autor, data); nada mudou = nada grava.
   5. Trilha registra fatos: grava revelação de dado pessoal e alteração de estado; nunca navegação.
   6. Pseudonimização não é anonimização.
   7. Bypass de ADMIN_SISTEMA em dado pessoal exige justificativa documentada e trilha.

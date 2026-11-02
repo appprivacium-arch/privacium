@@ -41,3 +41,4 @@
 - Tenant tables require restrictive company policies beyond role checks, with no ADMIN bypass on client-data tables (ADMIN reads SaaS metadata and `workspace_empresa`, never edits it; support access only via audited `admin_acesso_suporte`). Why: prevent cross-company access, Achado 3.
 - Glossary terms and dashboard indicators come from one shared glossary module. Why: no bare acronyms; every metric shows definition, formula and action.
 - Public client build vars (VITE_ URL + publishable key only) live in versioned `publico.env`; vite.config.ts reads it with a no-fallback guard. Why: publish builder gets no `.env`/env vars and `.env.*` is gitignored.
+- ROT field edits are audited per field by the `trg_auditar_diff_rot` trigger (op UPDATE_CAMPO: campo, valor anterior/novo, autor, data); `encerrar_incidente` audits ENCERRAR_INCIDENTE itself. Why: Regra Unificada de Trilha — state changes are facts.

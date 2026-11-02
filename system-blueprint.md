@@ -239,6 +239,96 @@ Checklist 4b.2 — requisitos sistêmicos complementares (base legal exata):
 
 Nota: a nomenclatura "Encarregado (DPO)" continua válida pela LGPD art. 5º, VIII, base primária; a Res. 18/2024 é reforço, não fundamento.
 
+#### 10.5.A. Resultado da verificação de conformidade 4a e 4b (02/11/2026)
+
+Método: leitura do código atual (FormularioANPD.tsx, anpd.ts, estadoIncidente.ts, Bloco4.tsx, rota do formulário ANPD, EncarregadoDPO.tsx, useEncarregado.ts) e das migrations 0009, 0017–0023, 0030–0032. Critério: o que o campo efetivamente captura, não o nome. Nenhum código foi alterado. Ressalva: as funções do banco foram lidas nas migrations, não no banco em produção.
+
+**Bloco 1 — Art. 6º, §2º (comunicação à ANPD)**
+| Inciso | Campo no formulário | Status | Observação |
+|---|---|---|---|
+| I | Natureza principal/secundárias (`natureza`) + Categorias de dados (`categorias`, vindas do ROT) | CONFORME | Catálogo com fonte; categorias validadas no banco contra o processo do ROT. |
+| II | Número aproximado de titulares (`titulares`) | PARCIAL | Só o total. Não separa crianças, adolescentes nem idosos. |
+| III | Medidas técnicas e de segurança (`medidas_selecionadas`) | PARCIAL | Lista única. Não separa medidas adotadas antes e após o incidente. |
+| IV | Riscos e consequências (`riscos_selecionados` + detalhe de 50 caracteres) | CONFORME | Riscos de catálogo com fonte e detalhe obrigatório do caso. |
+| V | — | AUSENTE | O sistema marca `comunicacao_atrasada`, mas não pede os motivos da demora. |
+| VI | Mesmo campo de medidas | PARCIAL | Medidas de mitigação misturadas às de segurança; não há campo próprio "a adotar". |
+| VII | `iniciado_em` (momento em que o incidente é declarado no sistema) | PARCIAL | Não há data da ocorrência. A data de conhecimento é a do clique "Declarar incidente", não informada pelo controlador. |
+| VIII | Contato do Encarregado (`encarregado`) | PARCIAL | A comunicação guarda só o e-mail; nome e telefone existem no cadastro, mas não entram na comunicação. |
+| IX | CNPJ da empresa (implícito) + enquadramento do Bloco 1 | PARCIAL | O porte alimenta o prazo (3 ou 6 dias úteis, `prazo_agente_anpd`), mas a declaração de pequeno porte e a identificação do controlador não constam da comunicação gravada. |
+| X | — | AUSENTE | Não há campo de operador. Lacuna relevante para SaaS. |
+| XI | Natureza + detalhes dos riscos | PARCIAL | Não há campo de descrição do incidente nem de causa principal. |
+| XII | — | AUSENTE | Não pede o total de titulares tratados nas atividades afetadas. |
+
+**Bloco 2 — Art. 9º (comunicação ao titular)**
+| Requisito | Status | Observação |
+|---|---|---|
+| I a VII (natureza, medidas, riscos, demora, mitigação, data de conhecimento, contato) | AUSENTE (7) | Não existe fluxo de comunicação ao titular. Há só a medida de catálogo "Notificação aos titulares afetados" (marcação, sem conteúdo nem evidência). |
+| §1º, I — linguagem simples | AUSENTE | — |
+| §2º — comunicação direta e individualizada | AUSENTE | — |
+| §3º — divulgação ampla por 3 meses | AUSENTE | — |
+| §4º — declaração de cumprimento em 3 dias úteis | AUSENTE | — |
+
+**Bloco 3 — Art. 10 (registro do incidente)**
+| Campo do §1º | Status | Observação |
+|---|---|---|
+| Guarda de todos os incidentes por 5 anos | PARCIAL | Incidentes não podem ser apagados pelo app (sem permissão de exclusão), mas não há regra de guarda de 5 anos registrada. Incidentes não comunicados não têm caminho de registro próprio (ver VIII). |
+| I — data de conhecimento | PARCIAL | `iniciado_em` = momento da declaração no sistema. |
+| II — circunstâncias | PARCIAL | Só preenchido no momento da comunicação à ANPD. |
+| III — natureza e categoria | PARCIAL | Idem. |
+| IV — número de titulares | PARCIAL | Idem. |
+| V — avaliação do risco | PARCIAL | Idem; não há avaliação de "risco ou dano relevante" que decida se comunica. |
+| VI — medidas de correção | PARCIAL | Etapas 1–5 com data e responsável + medidas da comunicação. |
+| VII — forma e conteúdo da comunicação | CONFORME | Conteúdo congelado, data de envio, contato e trilha com hash. |
+| VIII — motivos da ausência de comunicação | AUSENTE | O encerramento exige envio à ANPD; não é possível registrar "não comunicado" com motivo. |
+
+**Bloco 4 — Prazos**
+| Regra | Status | Observação |
+|---|---|---|
+| 3 dias úteis à ANPD (art. 6º) | CONFORME | Contador na tela e flag de atraso no banco, com feriados nacionais 2026–2027. |
+| 3 dias úteis ao titular (art. 9º) | AUSENTE | Sem fluxo ao titular. |
+| Dobro para pequeno porte (art. 6º, §8º) | PARCIAL | Aplicado à ANPD (6 dias úteis, fixado no incidente); não aplicado ao titular nem à complementação, que não existem. |
+| 20 dias úteis para complementação (art. 6º, §3º), 40 no pequeno porte | AUSENTE | Não há comunicação complementar; a comunicação enviada é imutável. |
+| Contagem a partir do conhecimento (art. 6º, §1º) | PARCIAL | Conta a partir da declaração no sistema; se o controlador soube antes, o prazo começa tarde demais. |
+
+**Bloco 5 — Encarregado (Res. 18/2024)**
+| Dispositivo | Status | Observação |
+|---|---|---|
+| Art. 3º — ato formal de indicação | AUSENTE | Só nome, e-mail, telefone e endereço; sem documento datado e assinado. |
+| Art. 4º — substituto | AUSENTE | Um único encarregado por CNPJ. |
+| Art. 8º — divulgação e atualização | PARCIAL | Alterações auditadas com data (`atualizado_em`), sem divulgação. |
+| Art. 9º — divulgação pública (I nome; II meios de contato) | PARCIAL | Existe a opção "Publicar o contato", mas nenhuma página pública usa essa opção. Não distingue pessoa natural e jurídica. |
+| Art. 12 — pessoa natural ou jurídica | AUSENTE | Sem campo de tipo nem de responsável da PJ. |
+| Art. 13 — língua portuguesa | AUSENTE | Sem declaração registrada (risco baixo). |
+| Art. 15 — atividades (reclamações, comunicações da ANPD, orientação) | PARCIAL | Solicitações de titulares existem; não há registro de comunicações recebidas da ANPD nem de orientações. |
+| Art. 16 — assistência (I a VII) | PARCIAL | A plataforma cobre incidente, ROT, RIPD, medidas e modelos, mas não registra a assistência do encarregado como tal. |
+| Arts. 18 a 21 — conflito de interesse | AUSENTE | Sem declaração nem verificação de acúmulo com funções decisórias. |
+
+**Resumo executivo**
+| Bloco | CONFORME | PARCIAL | AUSENTE |
+|---|---|---|---|
+| 1 — Art. 6º, §2º (12) | 2 | 7 | 3 |
+| 2 — Art. 9º (11) | 0 | 0 | 11 |
+| 3 — Art. 10 (9) | 1 | 7 | 1 |
+| 4 — Prazos (5) | 1 | 2 | 2 |
+| 5 — Encarregado (9) | 0 | 4 | 5 |
+| **Total (46)** | **4** | **20** | **22** |
+
+**Lacunas por risco regulatório (maior → menor)**
+| # | Lacuna | Base |
+|---|---|---|
+| L1 | Não existe comunicação ao titular (conteúdo, forma, prazo, declaração de cumprimento) | Res. 15/2024, art. 9º; LGPD art. 48 |
+| L2 | Incidente não comunicado não pode ser registrado com motivo; o sistema força envio à ANPD para encerrar | Art. 10, §1º, VIII |
+| L3 | Data de conhecimento = clique no sistema; sem data da ocorrência; prazo pode começar tarde | Art. 6º, caput, §1º e §2º, VII |
+| L4 | Falta motivo da demora, mesmo com atraso detectado | Art. 6º, §2º, V |
+| L5 | Falta operador, total de titulares das atividades e causa principal | Art. 6º, §2º, X, XII e XI |
+| L6 | Titulares vulneráveis não discriminados; medidas antes/após/mitigação misturadas; comunicação sem nome do encarregado e sem declaração de porte | Art. 6º, §2º, II, III, VI, VIII e IX |
+| L7 | Sem comunicação complementar (20/40 dias úteis) | Art. 6º, §3º e §8º |
+| L8 | Sem ato formal de indicação nem substituto | Res. 18/2024, arts. 3º e 4º |
+| L9 | Opção "publicar contato" não gera divulgação pública | Res. 18/2024, arts. 8º e 9º |
+| L10 | Sem declaração de conflito de interesse | Res. 18/2024, arts. 18 a 21 |
+| L11 | Sem tipo PN/PJ, idioma, registro de atividades e assistências | Res. 18/2024, arts. 12, 13, 15 e 16 |
+| L12 | Guarda de 5 anos não formalizada | Res. 15/2024, art. 10 |
+
 ### 10.6. Procedimento de validação pós-mudança de visibilidade
 
 Correção de sequência: o teste proposto anteriormente não é válido. A alteração registrada na seção 10 ocorreu antes da mudança de visibilidade do repositório e, portanto, prova apenas que a sincronização funcionava com o repositório público. O protocolo válido exige uma alteração posterior à mudança de visibilidade.
@@ -324,8 +414,17 @@ Pendências restantes:
 | 1 | Tornar repositório privado no GitHub | ✅ Concluído 02/11/2026 |
 | 2 | Verificar escopo do app Lovable | ✅ Concluído 02/11/2026 |
 | 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (3119fae) |
-| 4a | Conformidade do módulo Encarregado com a Res. CD/ANPD nº 18/2024 (arts. 3º, 4º, 8º, 9º, 15, 16, 18–21) | 🟢 Pendência aberta (10.5) |
-| 4b | Conformidade do formulário de incidentes e fluxos sistêmicos com a Res. CD/ANPD nº 15/2024 (art. 6º §2º I–XII, art. 9º §§1º–4º, art. 10 §1º I–VIII, prazo em dobro art. 6º §8º) | 🟢 Pendência aberta (10.5) |
+| 4a | Conformidade do módulo Encarregado com a Res. CD/ANPD nº 18/2024 | ✅ Verificação executada 02/11/2026 — lacunas abertas como itens 8 a 16 (10.5.A) |
+| 4b | Conformidade do formulário de incidentes e fluxos sistêmicos com a Res. CD/ANPD nº 15/2024 | ✅ Verificação executada 02/11/2026 — lacunas abertas como itens 8 a 16 (10.5.A) |
 | 5 | Auditoria do commit "Publicou e removeu hashes" | ✅ Concluída — nenhuma credencial ou dado pessoal (10.7.1) |
 | 6 | Inventário de outros commits com indício de exposição | ✅ Concluído 02/11/2026 — 4726e8e e ce0eece revisados, sem achados (10.7.3) |
 | 7 | Rotação de credenciais eventualmente expostas | ✅ Concluído 02/11/2026 — varredura limpa, rotação dispensada (10.7.4) |
+| 8 | Fluxo de comunicação ao titular (Res. 15/2024, art. 9º, incisos I–VII, §§1º–4º e prazo de 3 dias úteis) | 🔴 Aberta — lacuna L1 (10.5.A) |
+| 9 | Registro de incidente não comunicado com motivos da ausência (art. 10, §1º, VIII); hoje o encerramento exige envio à ANPD | 🔴 Aberta — lacuna L2 |
+| 10 | Data de conhecimento e data da ocorrência informadas pelo controlador; prazo contado do conhecimento (art. 6º, caput e §2º, VII) | 🔴 Aberta — lacuna L3 |
+| 11 | Campos da comunicação: motivos da demora (V), operador (X), total de titulares das atividades (XII), causa principal (XI), titulares vulneráveis (II), medidas antes × após × mitigação (III/VI) | 🟠 Aberta — lacunas L4 a L6 |
+| 12 | Complementação fundamentada em 20 dias úteis, 40 para pequeno porte (art. 6º, §3º e §8º) | 🟠 Aberta — lacuna L7 |
+| 13 | Ato formal de indicação do encarregado e substituto (Res. 18/2024, arts. 3º e 4º) | 🟠 Aberta — lacuna L8 |
+| 14 | Divulgação pública efetiva do encarregado (Res. 18/2024, arts. 8º e 9º); a opção "publicar" não alimenta página nenhuma | 🟠 Aberta — lacuna L9 |
+| 15 | Declaração e verificação de conflito de interesse do encarregado (Res. 18/2024, arts. 18 a 21) | 🟡 Aberta — lacuna L10 |
+| 16 | Encarregado pessoa natural × pessoa jurídica, registro de atividades e assistências (arts. 12, 13, 15 e 16); prazo de guarda de 5 anos explícito (art. 10) | 🟡 Aberta — lacunas L11 e L12 |

@@ -3,7 +3,9 @@ import { limiteANPD } from './anpd';
 
 export const ETAPAS_INCIDENTE = ['Isolamento', 'Invocação', 'Sandbox', 'Descriptografia', 'Validação', 'Comunicação à ANPD'] as const;
 export type IncidenteFonte = {
-  id: string; passos: boolean[]; iniciado_em: string; enviado_anpd_em: string | null; encerrado_em: string | null;
+  id: string; passos: boolean[]; iniciado_em: string;
+  /** Base legal do prazo (Res. 15/2024, art. 6º, §1º). iniciado_em é só auditoria. */
+  data_conhecimento: string; enviado_anpd_em: string | null; encerrado_em: string | null;
   etapas_registro?: unknown;
   prazo_dias_uteis?: number | null;
 };
@@ -37,7 +39,7 @@ export function carregarEstadoIncidente(incidenteId: string, fonte: FonteInciden
   return {
     incidente,
     etapas: { total: 6 as const, concluidas: itens.filter(i => i.concluida).length, itens },
-    anpd: { enviado, enviado_em: incidente.enviado_anpd_em, prazoDias: enviado && incidente.prazo_dias_uteis === 6 ? 6 as const : enviado && incidente.prazo_dias_uteis === 3 ? 3 as const : fonte.prazoDias ?? 3, prazo_vencido: (incidente.enviado_anpd_em ? Date.parse(incidente.enviado_anpd_em) : fonte.agora) > limiteANPD(incidente.iniciado_em, enviado && incidente.prazo_dias_uteis === 6 ? 6 : enviado && incidente.prazo_dias_uteis === 3 ? 3 : fonte.prazoDias ?? 3) },
+    anpd: { enviado, enviado_em: incidente.enviado_anpd_em, prazoDias: enviado && incidente.prazo_dias_uteis === 6 ? 6 as const : enviado && incidente.prazo_dias_uteis === 3 ? 3 as const : fonte.prazoDias ?? 3, prazo_vencido: (incidente.enviado_anpd_em ? Date.parse(incidente.enviado_anpd_em) : fonte.agora) > limiteANPD(incidente.data_conhecimento, enviado && incidente.prazo_dias_uteis === 6 ? 6 : enviado && incidente.prazo_dias_uteis === 3 ? 3 : fonte.prazoDias ?? 3) },
     assinaturas: { dpo: !!(fonte.assinaturas['PI-04-DPO'] || fonte.assinaturas['PI-04']), diretoria: !!(fonte.assinaturas['PI-04-DIR'] || fonte.assinaturas['PI-04']) },
     lotes: { total: fonte.lotes.length, abertos: fonte.lotes.filter(l => !l.hash_sha256 && l.mes_referencia < atual) },
     podeEncerrar: correcoes.length === 0,

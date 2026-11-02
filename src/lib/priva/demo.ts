@@ -162,7 +162,7 @@ export const DEMO_ROWS: {
     hash_sha256: "5e1f".padEnd(64, "b"),
   }],
   incidentes_seguranca: [{
-    id: "demo-inc", empresa_cnpj: DEMO_CNPJ, iniciado_em: ts, passos: [true, true, true, true, true, true],
+    id: "demo-inc", empresa_cnpj: DEMO_CNPJ, iniciado_em: ts, data_conhecimento: ts, data_ocorrencia: "2026-09-30T22:00:00.000Z", passos: [true, true, true, true, true, true],
     comunicacao: { natureza: 'Ransomware no servidor de arquivos', natureza_principal: vincularNatureza(PADRAO_RANSOMWARE) ?? null,
       naturezas_secundarias: [], categorias: ['Nome', 'CPF', 'Dados bancários'],
       categorias_vinculadas: vincularCategorias(['Nome', 'CPF', 'Dados bancários'], categoriasDoROT(DEMO_ROT[0])),

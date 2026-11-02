@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { carregarEstadoIncidente, type FonteIncidente } from '@/lib/priva/estadoIncidente';
 import { montarChecklist } from '@/lib/priva/pendencias';
 import { calcularProximoPasso } from '@/lib/priva/proximoPasso';
-const fonte = (): FonteIncidente => ({ incidentes: [{ id: 'a54ac7', passos: [true,true,true,true,true,true], iniciado_em: '2026-10-29T12:00:00Z', enviado_anpd_em: null, encerrado_em: null }], lotes: [{ mes_referencia: '2026-10', hash_sha256: 'hash' }], assinaturas: {}, agora: Date.parse('2026-10-29T15:00:00Z') });
+const fonte = (): FonteIncidente => ({ incidentes: [{ id: 'a54ac7', passos: [true,true,true,true,true,true], iniciado_em: '2026-10-29T12:00:00Z', data_conhecimento: '2026-10-29T12:00:00Z', enviado_anpd_em: null, encerrado_em: null }], lotes: [{ mes_referencia: '2026-10', hash_sha256: 'hash' }], assinaturas: {}, agora: Date.parse('2026-10-29T15:00:00Z') });
 describe('fonte única do incidente', () => {
   it('seis booleanos sem envio são cinco etapas e não autorizam encerramento', () => {
     const f = fonte();

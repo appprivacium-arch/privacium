@@ -8,8 +8,10 @@ const sessionText = process.env['LOVABLE_BROWSER_SUPABASE_SESSION_JSON'];
 const url = import.meta.env['VITE_SUPABASE_URL'];
 const key = import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'];
 const CNPJ_TESTE = '98765432000198';
+// Achado 3: a remoção é exclusiva do Administrador; a linha é criada e lida pelo DPO da empresa de teste.
+const adminText = process.env['TEST_ADMIN_SESSION_JSON'];
 
-describe.skipIf(!sessionText || !url || !key)('remover_registro_de_teste autenticado no banco', () => {
+describe.skipIf(!sessionText || !adminText || !url || !key)('remover_registro_de_teste autenticado no banco', () => {
   it('exige justificativa, marca origem TESTE, tira do dossiê e audita com hash', async () => {
     if (!sessionText) throw new Error('Sessão ausente');
     const session = JSON.parse(sessionText) as { access_token: string };
@@ -29,16 +31,22 @@ describe.skipIf(!sessionText || !url || !key)('remover_registro_de_teste autenti
     const rotId = ins.data!.id as string;
     const codigo = ins.data!.codigo as string;
 
+    const admin = createClient(url!, key!, { auth: { persistSession: false }, global: { headers: { Authorization: `Bearer ${(JSON.parse(adminText!) as { access_token: string }).access_token}` } } });
+
+    // O DPO não remove registros de teste
+    const peloDpo = await db.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'justificativa longa o bastante' });
+    expect(peloDpo.error?.message).toContain('ADMIN_SISTEMA');
+
     // Justificativa obrigatória
-    const semJust = await db.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'curta' });
+    const semJust = await admin.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'curta' });
     expect(semJust.error?.message).toContain('justificativa');
 
     // Linha inexistente
-    const inexistente = await db.rpc('remover_registro_de_teste', { _rot_id: '00000000-0000-0000-0000-000000000000', _justificativa: 'justificativa longa o bastante' });
+    const inexistente = await admin.rpc('remover_registro_de_teste', { _rot_id: '00000000-0000-0000-0000-000000000000', _justificativa: 'justificativa longa o bastante' });
     expect(inexistente.error?.message).toContain('não encontrada');
 
     // Remoção auditada
-    const r = await db.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'Linha descartável criada pelo teste automatizado de remoção de registros de teste.' });
+    const r = await admin.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'Linha descartável criada pelo teste automatizado de remoção de registros de teste.' });
     expect(r.error).toBeNull();
     const dados = r.data as { codigo: string; hash: string; removida_por: string };
     expect(dados.codigo).toBe(codigo);
@@ -48,13 +56,13 @@ describe.skipIf(!sessionText || !url || !key)('remover_registro_de_teste autenti
     expect(linha.data?.origem).toBe('TESTE');
     expect(linha.data?.removida_do_dossie).toBe(true);
 
-    const trilha = await db.from('trilha_auditoria_sistema').select('op, detail, hash').eq('cnpj', CNPJ_TESTE).eq('target', 'registro_operacoes').like('detail', `Remoção de registro de teste%${codigo}%`).order('seq', { ascending: false }).limit(1).single();
+    const trilha = await admin.from('trilha_auditoria_sistema').select('op, detail, hash').eq('cnpj', CNPJ_TESTE).eq('target', 'registro_operacoes').like('detail', `Remoção de registro de teste%${codigo}%`).order('seq', { ascending: false }).limit(1).single();
     expect(trilha.error).toBeNull();
     expect(trilha.data?.detail).toContain('justificativa');
     expect(trilha.data?.hash).toBe(dados.hash);
 
     // Segunda remoção é recusada
-    const deNovo = await db.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'tentativa repetida de remoção' });
+    const deNovo = await admin.rpc('remover_registro_de_teste', { _rot_id: rotId, _justificativa: 'tentativa repetida de remoção' });
     expect(deNovo.error?.message).toContain('já está fora do dossiê');
 
     // Ninguém altera origem/removida_do_dossie por fora da operação auditada

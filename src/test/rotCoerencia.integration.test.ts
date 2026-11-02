@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { describe, expect, it } from "vitest";
 const sessionText = process.env["LOVABLE_BROWSER_SUPABASE_SESSION_JSON"];
+const adminText = process.env["TEST_ADMIN_SESSION_JSON"];
 const url = import.meta.env["VITE_SUPABASE_URL"];
 const key = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
-describe.skipIf(!sessionText || !url || !key)("ROT: coerência no banco, somente empresa de teste", () => {
+describe.skipIf(!sessionText || !adminText || !url || !key)("ROT: coerência no banco, somente empresa de teste", () => {
   it("recusa destino antes da escolha e permite destino após declaração auditada", async () => {
     if (!sessionText) throw new Error("Sessão ausente");
     const token = (JSON.parse(sessionText) as { access_token: string }).access_token;
     const db = createClient(url, key, { auth: { persistSession: false }, global: { headers: { Authorization: `Bearer ${token}` } } });
+    // Achado 3: limpeza pela operação auditada exclusiva do Administrador
+    const admin = createClient(url, key, { auth: { persistSession: false }, global: { headers: { Authorization: `Bearer ${(JSON.parse(adminText!) as { access_token: string }).access_token}` } } });
     const ids: string[] = [];
     const base = {
       empresa_cnpj: "98765432000198", setor: "TI", area_setor: "Tecnologia da Informação › Suporte",
@@ -45,7 +48,7 @@ describe.skipIf(!sessionText || !url || !key)("ROT: coerência no banco, somente
       expect(lido.data?.produtos_tratamento).toEqual([{ nome: "Relatório receptor", destino }]);
     } finally {
       for (const id of ids.reverse()) {
-        const limpeza = await db.rpc("remover_registro_de_teste", { _rot_id: id, _justificativa: "Fim de teste automatizado de coerência, exclusivamente na empresa de teste" });
+        const limpeza = await admin.rpc("remover_registro_de_teste", { _rot_id: id, _justificativa: "Fim de teste automatizado de coerência, exclusivamente na empresa de teste" });
         expect(limpeza.error).toBeNull();
       }
     }

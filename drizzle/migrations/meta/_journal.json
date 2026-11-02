@@ -463,6 +463,13 @@
       "when": 1793659116910,
       "tag": "0065_rot_diff_granular_trilha",
       "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "7",
+      "when": 1793661517712,
+      "tag": "0066_empresas_nome_fantasia",
+      "breakpoints": true
     }
   ]
 }

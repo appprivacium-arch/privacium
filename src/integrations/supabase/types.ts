@@ -221,6 +221,7 @@ export type Database = {
           cnpj: string
           data_cadastro: string
           id: string
+          nome_fantasia: string | null
           plano_assinatura: string
           razao_social: string
           status: string
@@ -229,6 +230,7 @@ export type Database = {
           cnpj: string
           data_cadastro?: string
           id?: string
+          nome_fantasia?: string | null
           plano_assinatura?: string
           razao_social?: string
           status?: string
@@ -237,6 +239,7 @@ export type Database = {
           cnpj?: string
           data_cadastro?: string
           id?: string
+          nome_fantasia?: string | null
           plano_assinatura?: string
           razao_social?: string
           status?: string

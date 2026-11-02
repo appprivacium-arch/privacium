@@ -236,6 +236,13 @@ Procedimento em caso de falha de sincronização após tornar o repositório pri
 
 Índice confirmado: empresas_cnpj_key — UNIQUE B-tree em public.empresas(cnpj).
 
+#### Cadastro inicial da Privacium — decisão de identificação (02/11/2026)
+
+- CNPJ: 11325048000196. O cartão informado pelo usuário traz a razão social TRANSROTA LOGISTICA DE TRANSPORTE E DISTRIBUICAO LTDA e CNAE 49.30-2-02.
+- Decisão posterior expressa: gravar PRIVACIUM TECNOLOGIA EM PRIVACIDADE como razão social e nome fantasia. A razão social escolhida diverge do cartão informado; não representa validação cadastral oficial. Criação ainda depende da confirmação do e-mail do novo DPO.
+- `empresas.nome_fantasia` é texto opcional, separado da razão social; sincronização na criação lê `workspace_empresa.data.nome_fantasia`. Não existe coluna dedicada a CNAE no cadastro atual.
+- Conta técnica dpo@privacium.com.br não identifica, por si só, a encarregada legal. Simone de Carvalho foi escolhida como encarregada externa com permuta de serviços; cadastro ainda não efetuado, data de indicação pendente. Contratação externa não comprova automaticamente ausência de conflito de interesse.
+
 ### 10.5. Nomenclatura canônica
 Termo adotado: "Encarregado (DPO)". Base primária: LGPD art. 5º, VIII. Escopo: interface, relatórios e documentação. Identificadores de schema (DPO_OPERACIONAL, enums, has_role()) permanecem inalterados.
 

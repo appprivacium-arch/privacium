@@ -1,6 +1,6 @@
 import { respostaHerdada } from "@/lib/priva/ciclo";
 import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Question } from "./data";
 import { DEMO_CPF, DEMO_QUESTIONS, demoAnswers } from "./demo";

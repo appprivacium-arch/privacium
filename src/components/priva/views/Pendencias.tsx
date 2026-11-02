@@ -42,7 +42,7 @@ export function Pendencias() {
         )}
         <ul className="divide-y">
           {ordenadas.map((p) => {
-            const d = destino(p);
+            const d = destinoPendencia(p);
             return (
               <li key={`${p.bloco}-${p.id}`} className="flex flex-wrap items-center gap-3 py-3" data-testid={`pendencia-${p.id}`}>
                 {bloqueante(p) ? <AlertTriangle className="h-4 w-4 shrink-0 text-destructive" /> : <ListChecks className="h-4 w-4 shrink-0 text-muted-foreground" />}
@@ -53,7 +53,7 @@ export function Pendencias() {
                 </div>
                 <Tag tone={TOM[p.estado]}>{ROTULO[p.estado]}</Tag>
                 <Tag tone={bloqueante(p) ? "destructive" : "muted"}>{bloqueante(p) ? "Bloqueante" : "Normal"}</Tag>
-                <AppLink to={d.to} {...(d.params ? { params: d.params } : {})} {...(d.hash ? { hash: d.hash } : {})} className="flex items-center gap-1 text-xs text-primary hover:underline" data-testid={`atalho-${p.id}`}>
+                <AppLink to={d.to} {...(d.params ? { params: d.params } : {})} {...(d.search ? { search: d.search } : {})} {...(d.hash ? { hash: d.hash } : {})} className="flex items-center gap-1 text-xs text-primary hover:underline" data-testid={`atalho-${p.id}`}>
                   {p.acao} <ArrowRight className="h-3 w-3" />
                 </AppLink>
               </li>

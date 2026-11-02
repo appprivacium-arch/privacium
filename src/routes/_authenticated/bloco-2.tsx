@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { validarBuscaFoco } from "@/lib/priva/pendenciasEmpresa";
 import { Bloco2 } from "@/components/priva/views/Bloco2";
 import { BlockGate } from "@/components/priva/ui";
 
 export const Route = createFileRoute("/_authenticated/bloco-2")({
+  validateSearch: validarBuscaFoco,
   head: () => ({
     meta: [
       { title: "Bloco 2 · Registro de Operações de Tratamento — Privacium" },

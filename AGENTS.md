@@ -33,5 +33,4 @@
 - AppShell has sticky AvisoModoDemo, wrapping navigation and a shared 404. Why: clarity and routing integrity.
 - Tenant tables require restrictive company policies beyond role checks; only admins change company linkage and audit writes use RPCs. Why: prevent cross-company access.
 - Glossary terms and dashboard indicators come from one shared glossary module. Why: no bare acronyms; every metric shows definition, formula and action.
-- PI-05 uses static mitigation; dosimetria.ts owns the fine simulator, which stays disabled (notice + literal Res. 4/2023 art. 13) until percentages are verified. Why: no unverified legal percentage may reach users; never AI.
-- Public client build vars (VITE_ backend URL + publishable key only) live in the versioned `publico.env`, read by vite.config.ts with a strict no-fallback build guard; never put privileged keys there. Why: the publish builder receives neither `.env` (gitignored) nor env vars, and the managed `.gitignore` ignores `.env.*`.
+- Public client build vars (VITE_ URL + publishable key only) live in versioned `publico.env`; vite.config.ts reads it with a no-fallback guard. Why: publish builder gets no `.env`/env vars and `.env.*` is gitignored.

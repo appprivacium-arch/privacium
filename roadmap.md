@@ -121,5 +121,5 @@
 - [ ] Passo 6.2 criar workspace inicial da Privacium e verificar empresa, CORE, 50.000 tokens e vínculo exclusivo do novo DPO.
 - [ ] Passo 6.3 preencher declaração ME — bloqueado pelos critérios e confirmação da conta; registrar Simone/autonomia só após respostas e criação da empresa, CPF/data em aberto; não assinar em nome do DPO.
 - [ ] Passo 6.4 reportar seis provas de isolamento/criação e existência de nome fantasia/CNAE; não cadastrar ROT, membros, terceiros ou identificadores reais.
-- [ ] Passo 6: responder novas seis perguntas, incluindo existência de ato de indicação como produto do Bloco 1; CPF/data em aberto, autonomia não equivale a ato assinado.
+- [x] Passo 6: conferir novas seis perguntas; ato específico de indicação ainda ausente, contato consta em PI-01/PI-02/PI-04 e PDF, CPF/data em aberto.
 - [x] Passo 6: adicionar nome_fantasia em empresas e sincronização; documentar razão social escolhida diferente do cartão CNPJ.

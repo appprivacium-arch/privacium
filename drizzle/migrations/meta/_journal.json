@@ -414,6 +414,13 @@
       "when": 1793648941609,
       "tag": "0058_auditar_cargos_fora_do_app",
       "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1793648956595,
+      "tag": "0059_auditar_cargos_search_path",
+      "breakpoints": true
     }
   ]
 }

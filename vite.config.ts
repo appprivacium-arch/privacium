@@ -16,13 +16,13 @@ function lerEnvPublico(caminho: string): Record<string, string> {
   const saida: Record<string, string> = {};
   for (const linha of readFileSync(caminho, "utf8").split(/\r?\n/)) {
     const m = linha.match(/^\s*(VITE_[A-Z0-9_]+)\s*=\s*"?([^"]*)"?\s*$/);
-    if (m) saida[m[1]] = m[2];
+    if (m?.[1]) saida[m[1]] = m[2] ?? "";
   }
   return saida;
 }
 const env = lerEnvPublico("publico.env");
-const SUPABASE_URL = env.VITE_SUPABASE_URL;
-const SUPABASE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_URL = env["VITE_SUPABASE_URL"];
+const SUPABASE_KEY = env["VITE_SUPABASE_PUBLISHABLE_KEY"];
 
 // Trava estrita, sem fallback: sem o arquivo ou sem as variáveis o build falha.
 if (!SUPABASE_URL || !SUPABASE_KEY) {
@@ -32,8 +32,8 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 }
 
 // Expõe ao carregador de ambiente do Vite, que monta o objeto import.meta.env do cliente.
-process.env.VITE_SUPABASE_URL = SUPABASE_URL;
-process.env.VITE_SUPABASE_PUBLISHABLE_KEY = SUPABASE_KEY;
+process.env["VITE_SUPABASE_URL"] = SUPABASE_URL;
+process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] = SUPABASE_KEY;
 
 const digest = createHash("sha256");
 function fingerprint(dir: string) {

@@ -216,10 +216,14 @@ Sequência obrigatória:
 
 Em caso de falha no passo 4: ajustar o escopo do app no GitHub (adicionar o repositório à seleção do app, sem reinstalar) — nunca reconectar, conforme 10.3. Registrar o conteúdo de "Repository access" e a mensagem de erro exata.
 
+Registro de execução (02/11/2026):
+- Passo 1 — concluído: o repositório leumasamil/privacium passou a ser privado em 02/11/2026.
+- Passo 2 — concluído: o app lovable.dev foi verificado no GitHub, com acesso confirmado a leumasamil/privacium (Repository access: Only select repositories, 1 repositório selecionado).
+
 Pendências restantes:
 | # | Item | Urgência |
 |---|---|---|
-| 1 | Tornar repositório privado no GitHub | 🟡 Execução manual |
-| 2 | Verificar escopo do app Lovable | 🟡 Após o passo 1 |
-| 3 | Teste de sync com alteração posterior | 🟡 Após o passo 1 |
+| 1 | Tornar repositório privado no GitHub | ✅ Concluído em 02/11/2026 |
+| 2 | Verificar escopo do app Lovable | ✅ Concluído em 02/11/2026 (Only select repositories, 1 selecionado) |
+| 3 | Teste de sync com alteração posterior | 🟡 Em execução — esta alteração é posterior à mudança de visibilidade; confirmar o commit no GitHub |
 | 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Registrada como pendência (10.5) |

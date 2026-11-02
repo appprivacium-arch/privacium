@@ -145,3 +145,46 @@ de proteção de dados. Fonte: https://www.in.gov.br/en/web/dou/-/resolucao-cd/a
 Texto literal: “II - aufiram receita bruta superior ao limite estabelecido no art. 3º, II,
 da Lei Complementar nº 123, de 2006 ou, no caso de startups, no art. 4º, § 1º, I, da Lei
 Complementar nº 182, de 2021; ou”.
+
+## 10. GOVERNANÇA DE CÓDIGO E PROPRIEDADE INTELECTUAL
+
+### 10.1. Regime de licenciamento
+| Campo | Valor |
+|---|---|
+| Regime | Proprietário (Closed Source / All Rights Reserved) |
+| Visibilidade | Repositório privado no GitHub |
+| Justificativa | Proteção de segredo de negócio e da esteira determinística de governança LGPD/ANPD |
+| Reversibilidade | Total — pode ser aberto futuramente com a licença que for decidida |
+
+Estado anterior: repositório público sem arquivo LICENSE (direitos reservados por padrão, mas código visível — situação ambígua).
+
+Alternativas descartadas:
+| Alternativa | Motivo |
+|---|---|
+| AGPL 3.0 | Exigiria abertura forçada do backend por ser serviço de rede; contaminação de licença |
+| MIT | Irreversível; entrega o código a concorrentes |
+
+### 10.2. Pendências de segurança do repositório
+| Item | Status |
+|---|---|
+| Tornar repositório privado no GitHub | Decidido — execução manual pendente |
+| Confirmar escopo do app Lovable no GitHub | Pendente — após a mudança de visibilidade |
+| .env no histórico do Git | Encerrado — risco zero confirmado (apenas chaves públicas de bootstrap) |
+
+Item removido: "Senha do banco exposta no chat". No Lovable Cloud não existe senha estática de banco (postgres://user:password@...) nem chave de serviço exposta ao cliente. O frontend usa exclusivamente a chave pública (VITE_SUPABASE_PUBLISHABLE_KEY), protegida por RLS e pelas funções SECURITY DEFINER com guarda de tenant (migrações 0054 e 0055). Nenhuma credencial externa pessoal foi colada no chat. A pendência refletia suposição padrão de banco autogerenciado e não se aplica a esta arquitetura.
+
+### 10.3. Nota operacional — integração Lovable ↔ GitHub
+O Lovable opera via GitHub App com escopo autorizado na conta/organização e suporta nativamente repositórios privados. Após a mudança de visibilidade: em GitHub → Settings → Applications → Lovable, confirmar que o repositório leumasamil/privacium permanece selecionado caso a instalação use "Only select repositories". Em falha de sincronização, reconectar a conta do GitHub nas configurações do projeto no Lovable. Validar com um commit simples.
+
+### 10.4. Estado do hardening de banco (manter atualizado)
+| Função | Guarda | Status |
+|---|---|---|
+| assinar_etapa_rot | minha_empresa_cnpj() | OK |
+| registrar_uso_ia | minha_empresa_cnpj() | OK |
+| revelar_documento_membro | minha_empresa_cnpj() + guarda de empresa órfã | OK |
+| cnpj_liberado | coalesce(..., false) — kill-switch fail-closed | OK |
+
+Índice confirmado: empresas_cnpj_key — UNIQUE B-tree em public.empresas(cnpj).
+
+### 10.5. Nomenclatura canônica
+Termo adotado: "Encarregado (DPO)". Base: LGPD art. 5º, VIII, e Resolução CD/ANPD nº 18/2024. Escopo: interface, relatórios e documentação. Identificadores de schema (DPO_OPERACIONAL, enums, has_role()) permanecem inalterados.

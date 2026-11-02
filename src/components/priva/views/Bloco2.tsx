@@ -172,7 +172,7 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
           <table className="w-full min-w-[2400px] text-xs">
             <thead>
               <tr className="border-b text-left">
-                {HEADS.map((h, i) => <th key={h} className={cn("px-2 py-2 font-mono font-medium uppercase tracking-wider text-muted-foreground", h === ROTULO_PRT && "min-w-80")}>{NUMS[i]}{h}{h === ROTULO_PRT && <span className="mt-1 block font-sans text-[10px] font-normal normal-case tracking-normal" data-testid="nota-prt-coluna">{NOTA_PRT}</span>}{h === "Finalidade Específica" && <span className="mt-1 block font-sans text-[10px] font-normal normal-case tracking-normal" data-testid="contador-finalidades">{contadorPadronizadas(rows)}</span>}</th>)}
+                {HEADS.map((h, i) => <th key={h} className={cn(i === 0 && "sticky left-0 z-10 border-r bg-card", "px-2 py-2 font-mono font-medium uppercase tracking-wider text-muted-foreground", h === ROTULO_PRT && "min-w-80")}>{NUMS[i]}{h}{h === ROTULO_PRT && <span className="mt-1 block font-sans text-[10px] font-normal normal-case tracking-normal" data-testid="nota-prt-coluna">{NOTA_PRT}</span>}{h === "Finalidade Específica" && <span className="mt-1 block font-sans text-[10px] font-normal normal-case tracking-normal" data-testid="contador-finalidades">{contadorPadronizadas(rows)}</span>}</th>)}
                 <th />
               </tr>
             </thead>
@@ -184,8 +184,12 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
                 const origemNaoLocalizada = origemExcluida?.includes("não localizada");
                 return (
                   <tr id={`rot-${r.id}`} key={r.id} className={cn("scroll-mt-6 border-b align-top", risk && "border-l-4 border-l-destructive bg-destructive/15")}>
-                    <td className="px-2 py-2 font-mono font-semibold text-primary">
+                    <td className="sticky left-0 z-10 border-r bg-card px-2 py-2 font-mono font-semibold text-primary">
                       {r.codigo}
+                      {canEdit && <Button size="sm" variant="default" className="mt-2 flex h-7 w-full gap-1 font-sans" aria-label={`Editar ${r.codigo}`} data-testid={`editar-${r.codigo}`} onClick={() => {
+                        const { id, codigo: _c, criado_por: _p, criado_em: _e, atualizado_em: _a, excluido_em: _x, excluido_por: _xp, motivo_exclusao: _xm, ...form } = r;
+                        setEdit({ id, form: normalizeHipoteses(form) });
+                      }}><Pencil className="h-3 w-3" />Editar</Button>}
                       {origemExcluida && <Button variant="ghost" size="sm" className="mt-2 h-auto whitespace-normal text-warning-foreground" onClick={() => document.querySelector(`[data-testid="origem-${origemNaoLocalizada ? "nao-localizada" : "excluida"}-${r.codigo}"]`)?.scrollIntoView({ block: "center", inline: "center" })}><AlertTriangle className="h-3 w-3" />Ver alerta do insumo</Button>}
                       {risk && <p className="mt-1 flex items-center gap-1 text-[10px] font-semibold uppercase text-destructive"><AlertTriangle className="h-3 w-3" /> Alerta crítico</p>}
                     </td>
@@ -221,10 +225,6 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
                     <td className="px-2 py-2">{r.infraestrutura}<BadgeFornecedorROT processoId={r.id} /></td>
                     <td className="whitespace-nowrap px-2 py-2">
                       {canEdit && <>
-                        <button aria-label="Editar" className="mr-2" onClick={() => {
-                          const { id, codigo: _c, criado_por: _p, criado_em: _e, atualizado_em: _a, excluido_em: _x, excluido_por: _xp, motivo_exclusao: _xm, ...form } = r;
-                          setEdit({ id, form: normalizeHipoteses(form) });
-                        }}><Pencil className="h-3 w-3 text-muted-foreground" /></button>
                         <button aria-label="Excluir" onClick={() => void remove(r)}><Trash2 className="h-3 w-3 text-muted-foreground" /></button>
                       </>}
                       <AssinaturasRot r={r} onAssinar={(etapa) => void assinar(r, etapa)} />

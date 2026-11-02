@@ -470,6 +470,13 @@
       "when": 1793661517712,
       "tag": "0066_empresas_nome_fantasia",
       "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1793661691248,
+      "tag": "0067_empresas_nome_fantasia_default",
+      "breakpoints": true
     }
   ]
 }

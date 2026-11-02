@@ -5,20 +5,21 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { loadEnv } from "vite";
+import { parse } from "dotenv";
 import { createHash } from "node:crypto";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
-// Variáveis PÚBLICAS do cliente lidas do .env.production versionado (nunca valores literais aqui).
-const env = loadEnv("production", process.cwd(), "VITE_");
+// Variáveis PÚBLICAS do cliente lidas do arquivo versionado publico.env (nunca valores literais aqui).
+// O nome não segue o padrão .env.* porque o .gitignore gerenciado ignora esse padrão.
+const env = existsSync("publico.env") ? parse(readFileSync("publico.env")) : {};
 const SUPABASE_URL = env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-// Trava estrita, sem fallback: sem as variáveis o build falha.
+// Trava estrita, sem fallback: sem o arquivo ou sem as variáveis o build falha.
 if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error(
-    "BUILD ERROR: VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY ausentes em .env.production.",
+    "BUILD ERROR: VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY ausentes em publico.env.",
   );
 }
 

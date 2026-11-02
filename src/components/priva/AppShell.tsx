@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { FollowUpBanner, FollowUpBell } from "@/components/priva/FollowUp";
 import { ProximoPasso } from "@/components/priva/ProximoPasso";
+import { useFocoPendencia } from "@/lib/priva/useFocoPendencia";
 import { AvisoModoDemo } from "@/components/priva/AvisoModoDemo";
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';

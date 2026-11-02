@@ -108,3 +108,12 @@
 - [x] Verificar contagens, chancela e alcance real da migração 0052 sem alterar dados reais.
 - [x] Testar, publicar e entregar provas públicas com limites explícitos (PI-02 global mantém falhas impeditivas de Marketing).
 - [x] Correção C1: data de conhecimento informada, prazo contado dela, testes e registro no blueprint.
+
+## Três ajustes (02/11)
+- [x] Etapa 1 encerrar_incidente na trilha
+- [x] Etapa 2 Kanban somente leitura para não-DPO
+- [x] Etapa 3 Identidade/Princípios no topo do blueprint + AGENTS.md + memória
+- [x] Etapa 4 Regra unificada de trilha na seção 2
+- [x] Etapa 5 Diff granular + botão Editar fixo
+- [ ] Etapa 6 Princípio 4 no blueprint — aguarda aval do usuário após relatório
+- [ ] Passo 6 criar empresa Privacium — bloqueado até aval

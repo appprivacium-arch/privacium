@@ -442,6 +442,13 @@
       "when": 1793658914562,
       "tag": "0062_encerrar_incidente_trilha",
       "breakpoints": true
+    },
+    {
+      "idx": 63,
+      "version": "7",
+      "when": 1793659017795,
+      "tag": "0063_trilha_acoes_encerramento_diff",
+      "breakpoints": true
     }
   ]
 }

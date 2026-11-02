@@ -174,7 +174,13 @@ Alternativas descartadas:
 Item removido: "Senha do banco exposta no chat". No Lovable Cloud não existe senha estática de banco (postgres://user:password@...) nem chave de serviço exposta ao cliente. O frontend usa exclusivamente a chave pública (VITE_SUPABASE_PUBLISHABLE_KEY), protegida por RLS e pelas funções SECURITY DEFINER com guarda de tenant (migrações 0054 e 0055). Nenhuma credencial externa pessoal foi colada no chat. A pendência refletia suposição padrão de banco autogerenciado e não se aplica a esta arquitetura.
 
 ### 10.3. Nota operacional — integração Lovable ↔ GitHub
-O Lovable opera via GitHub App com escopo autorizado na conta/organização e suporta nativamente repositórios privados. Após a mudança de visibilidade: em GitHub → Settings → Applications → Lovable, confirmar que o repositório leumasamil/privacium permanece selecionado caso a instalação use "Only select repositories". Em falha de sincronização, reconectar a conta do GitHub nas configurações do projeto no Lovable. Validar com um commit simples.
+O Lovable opera via GitHub App com escopo autorizado na conta/organização e suporta nativamente repositórios privados.
+
+Procedimento em caso de falha de sincronização após tornar o repositório privado:
+1. NÃO reconectar o app do Lovable. Reconectar cria um repositório novo e perde o histórico.
+2. Verificar primeiro em GitHub → Settings → Applications → Lovable se o repositório leumasamil/privacium continua autorizado.
+3. Se estiver fora do escopo, adicionar o repositório à seleção do app — sem reinstalar.
+4. Só considerar reconexão se o acesso do app estiver íntegro e a sincronização continuar falhando, ciente de que isso implica repositório novo.
 
 ### 10.4. Estado do hardening de banco (manter atualizado)
 | Função | Guarda | Status |
@@ -187,4 +193,22 @@ O Lovable opera via GitHub App com escopo autorizado na conta/organização e su
 Índice confirmado: empresas_cnpj_key — UNIQUE B-tree em public.empresas(cnpj).
 
 ### 10.5. Nomenclatura canônica
-Termo adotado: "Encarregado (DPO)". Base: LGPD art. 5º, VIII, e Resolução CD/ANPD nº 18/2024. Escopo: interface, relatórios e documentação. Identificadores de schema (DPO_OPERACIONAL, enums, has_role()) permanecem inalterados.
+Termo adotado: "Encarregado (DPO)". Base primária: LGPD art. 5º, VIII. Escopo: interface, relatórios e documentação. Identificadores de schema (DPO_OPERACIONAL, enums, has_role()) permanecem inalterados.
+
+Pendência de verificação documental (aberta, não é fato consolidado):
+| Item | Status |
+|---|---|
+| Resolução CD/ANPD nº 18/2024 — termo "Encarregado" | Pendente de verificação na fonte oficial (seção 9) |
+
+Nota: se a verificação falhar ou a numeração estiver incorreta, a nomenclatura "Encarregado (DPO)" continua válida pela LGPD art. 5º, VIII, que é a base primária e não depende da resolução. A resolução é reforço, não fundamento.
+
+### 10.6. Procedimento de validação pós-mudança de visibilidade
+Após tornar o repositório privado, fazer uma alteração pequena e verificável no projeto e confirmar que o commit aparece no GitHub. Se aparecer, a sincronização está íntegra. Se não aparecer, seguir a seção 10.3 antes de qualquer outra ação.
+
+| # | Ação | Onde |
+|---|---|---|
+| 1 | Tornar repositório privado | GitHub → Settings → Danger Zone → Change visibility |
+| 2 | Verificar escopo do app | GitHub → Settings → Applications → Lovable |
+| 3 | Testar sincronização | Alteração pequena + conferir commit no GitHub |
+
+Em caso de falha, registrar o conteúdo de "Repository access" e a mensagem de erro exata.

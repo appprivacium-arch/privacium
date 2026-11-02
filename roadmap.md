@@ -115,5 +115,5 @@
 - [x] Etapa 3 Identidade/Princípios no topo do blueprint + AGENTS.md + memória
 - [x] Etapa 4 Regra unificada de trilha na seção 2
 - [x] Etapa 5 Diff granular + botão Editar fixo
-- [ ] Etapa 6 Princípio 4 no blueprint — aguarda aval do usuário após relatório
+- [x] Etapa 6 Princípio 4 no blueprint
 - [ ] Passo 6 criar empresa Privacium — bloqueado até aval

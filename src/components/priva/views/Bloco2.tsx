@@ -94,9 +94,12 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
       : await supabase.from("registro_operacoes").insert(payload).select("id, codigo").single();
     if (error) { toast.error(error.message); return; }
     const rotId = edit.id ?? data.id;
-    log(edit.id ? "UPDATE" : "INSERT", "registro_operacoes", `Processo ${data.codigo}`);
-    for (const a of alertasCoerencia(form)) log("INSERT", "registro_operacoes", `Alerta de coerência dado × hipótese em ${data.codigo}: ${a}`);
-    if (alertaFinalidadeOperador(edit.form)) log("INSERT", "registro_operacoes", `Alerta em ${data.codigo}: ${ALERTA_FINALIDADE_OPERADOR}`);
+    // Edição: o trigger do banco grava o diff campo a campo e nada grava quando nada mudou.
+    if (!edit.id) {
+      log("INSERT", "registro_operacoes", `Processo ${data.codigo}`);
+      for (const a of alertasCoerencia(form)) log("INSERT", "registro_operacoes", `Alerta de coerência dado × hipótese em ${data.codigo}: ${a}`);
+      if (alertaFinalidadeOperador(edit.form)) log("INSERT", "registro_operacoes", `Alerta em ${data.codigo}: ${ALERTA_FINALIDADE_OPERADOR}`);
+    }
     // Destino INTERNO de cada PRT: cria a linha receptora no ROT do setor de destino, com origem rastreada.
     let mudou = false;
     const atualizados: ProdutoTratamento[] = [];
@@ -173,7 +176,7 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
             <thead>
               <tr className="border-b text-left">
                 {HEADS.map((h, i) => <th key={h} className={cn(i === 0 && "sticky left-0 z-10 border-r bg-card", "px-2 py-2 font-mono font-medium uppercase tracking-wider text-muted-foreground", h === ROTULO_PRT && "min-w-80")}>{NUMS[i]}{h}{h === ROTULO_PRT && <span className="mt-1 block font-sans text-[10px] font-normal normal-case tracking-normal" data-testid="nota-prt-coluna">{NOTA_PRT}</span>}{h === "Finalidade Específica" && <span className="mt-1 block font-sans text-[10px] font-normal normal-case tracking-normal" data-testid="contador-finalidades">{contadorPadronizadas(rows)}</span>}</th>)}
-                <th />
+                <th className="sticky right-0 z-10 border-l bg-card px-2 py-2 font-mono font-medium uppercase tracking-wider text-muted-foreground">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -189,7 +192,7 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
                       {canEdit && <Button size="sm" variant="default" className="mt-2 flex h-7 w-full gap-1 font-sans" aria-label={`Editar ${r.codigo}`} data-testid={`editar-${r.codigo}`} onClick={() => {
                         const { id, codigo: _c, criado_por: _p, criado_em: _e, atualizado_em: _a, excluido_em: _x, excluido_por: _xp, motivo_exclusao: _xm, ...form } = r;
                         setEdit({ id, form: normalizeHipoteses(form) });
-                      }}><Pencil className="h-3 w-3" />Editar</Button>}
+                      }}><Pencil className="h-3 w-3" />Editar processo</Button>}
                       {origemExcluida && <Button variant="ghost" size="sm" className="mt-2 h-auto whitespace-normal text-warning-foreground" onClick={() => document.querySelector(`[data-testid="origem-${origemNaoLocalizada ? "nao-localizada" : "excluida"}-${r.codigo}"]`)?.scrollIntoView({ block: "center", inline: "center" })}><AlertTriangle className="h-3 w-3" />Ver alerta do insumo</Button>}
                       {risk && <p className="mt-1 flex items-center gap-1 text-[10px] font-semibold uppercase text-destructive"><AlertTriangle className="h-3 w-3" /> Alerta crítico</p>}
                     </td>
@@ -223,8 +226,12 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
                     <td className="px-2 py-2">{r.meio_fornecimento ?? "—"}</td>
                     <td className="px-2 py-2"><Tags items={r.salvaguardas} /></td>
                     <td className="px-2 py-2">{r.infraestrutura}<BadgeFornecedorROT processoId={r.id} /></td>
-                    <td className="whitespace-nowrap px-2 py-2">
+                    <td className="sticky right-0 z-10 whitespace-nowrap border-l bg-card px-2 py-2">
                       {canEdit && <>
+                        <Button size="sm" variant="outline" className="mb-2 mr-2 h-7 gap-1" aria-label={`Editar processo ${r.codigo}`} data-testid={`editar-fixo-${r.codigo}`} onClick={() => {
+                          const { id, codigo: _c, criado_por: _p, criado_em: _e, atualizado_em: _a, excluido_em: _x, excluido_por: _xp, motivo_exclusao: _xm, ...form } = r;
+                          setEdit({ id, form: normalizeHipoteses(form) });
+                        }}><Pencil className="h-3 w-3" />Editar processo</Button>
                         <button aria-label="Excluir" onClick={() => void remove(r)}><Trash2 className="h-3 w-3 text-muted-foreground" /></button>
                       </>}
                       <AssinaturasRot r={r} onAssinar={(etapa) => void assinar(r, etapa)} />

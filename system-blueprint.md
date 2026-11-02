@@ -15,7 +15,7 @@ Dogfooding não é marketing: é a condição de credibilidade.
 1. **Ausência de dado não é afirmação de fato.** Toda tela que consome dado restrito distingue três estados: "não há", "não posso ver" e "erro ao carregar". Nunca exibir "pendente" quando a leitura foi negada.
 2. **Bloqueio na interface não é bloqueio.** Toda regra de acesso existe na policy do banco. A interface é camada de conveniência; o banco é camada de controle.
 3. **Ler e alterar são permissões distintas.** SELECT e UPDATE têm policies separadas. Quem precisa ver não precisa poder alterar.
-4. **[RESERVADO — entra após comprovação do diff granular e do botão de edição proeminente no ROT.]**
+4. **Registro que não pode ser editado não é registro.** O art. 37 exige registro atualizado. Toda linha do ROT é editável, com trilha de quem alterou, quando, qual campo e qual o valor anterior. Salvar sem alterar nada não grava linha. (Comprovado: trilha seq 1580; botão "Editar processo" na primeira coluna e na coluna de ações fixa à direita.)
 5. **Trilha registra fatos, não intenções.** Grava o que revela dado pessoal ou altera estado. Não grava o que apenas navega. (Regra Unificada de Trilha, seção 2.)
 6. **Pseudonimização não é anonimização.** Dado pseudonimizado continua sendo dado pessoal para a LGPD. Nunca chamar de anônimo ou sintético o que é reversível.
 7. **Super-admin é decisão de contrato, não de código.** Qualquer bypass de ADMIN_SISTEMA em tabela com dado pessoal precisa de justificativa documentada e registro na trilha.

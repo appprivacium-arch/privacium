@@ -1647,6 +1647,7 @@ export type Database = {
         Args: { _cnpj: string }
         Returns: boolean
       }
+      ip_confiavel_requisicao: { Args: never; Returns: string }
       limite_anpd_uteis: {
         Args: { _dias: number; _inicio: string }
         Returns: string
@@ -1716,7 +1717,10 @@ export type Database = {
         Args: { _concluida?: boolean; _etapa: number; _incidente: string }
         Returns: undefined
       }
-      registrar_falha_login: { Args: { _email: string }; Returns: undefined }
+      registrar_falha_login: {
+        Args: { _email: string; _ip: string }
+        Returns: boolean
+      }
       registrar_trilha: {
         Args: {
           _cnpj: string

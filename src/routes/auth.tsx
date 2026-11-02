@@ -1,4 +1,5 @@
 import { PrivaciumLogo } from "@/components/priva/Logo";
+import { registrarFalhaLogin } from "@/lib/falhaLogin.functions";
 import { createFileRoute, Link, useNavigate, useHydrated } from "@tanstack/react-router";
 import { safeAuthPath, isLoginSessionEvent } from '@/lib/priva/authNavigation';
 import '@lovable.dev/cloud-auth-js/styles.css';
@@ -69,7 +70,7 @@ function AuthPage() {
     if (mode === "in") {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        void supabase.rpc("registrar_falha_login", { _email: email });
+        void registrarFalhaLogin({ data: { email } }).catch(() => undefined);
         // Não consultar contas anônimas: a dica não confirma a existência de um e-mail.
         setMsg({ tone: "err", text: "E-mail ou senha inválidos, ou e-mail ainda não confirmado. Se esta conta foi criada com Google, use o botão 'Entrar com Google'." });
       }

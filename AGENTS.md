@@ -30,6 +30,6 @@
 - Supplier references persist only in isolated monitor tables; server-only matching follows authenticated tenant/role authorization and a DB cooldown. Decision RPCs audit internal IDs/states only; explicit own-impact confirmation creates a clean incident. Monitor never feeds PI documents, blockers or progress.
 - ANPD has a standalone authenticated incident-ID route (un-nested from Block 4) and shared pending links; risk selections are DB-canonicalized with required case details, while vector suggestions never prove completed actions. Why: reliable crisis navigation, normative traceability and no false evidence.
 - AppShell has sticky AvisoModoDemo, wrapping navigation and a shared 404. Why: clarity and routing integrity.
-- Tenant tables require restrictive company policies beyond role checks; only admins change company linkage and audit writes use RPCs. Why: prevent cross-company access.
+- Tenant tables require restrictive company policies beyond role checks, with no ADMIN bypass on client-data tables (ADMIN reads SaaS metadata and `workspace_empresa`, never edits it; support access only via audited `admin_acesso_suporte`). Why: prevent cross-company access, Achado 3.
 - Glossary terms and dashboard indicators come from one shared glossary module. Why: no bare acronyms; every metric shows definition, formula and action.
 - Public client build vars (VITE_ URL + publishable key only) live in versioned `publico.env`; vite.config.ts reads it with a no-fallback guard. Why: publish builder gets no `.env`/env vars and `.env.*` is gitignored.

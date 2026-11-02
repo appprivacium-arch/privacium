@@ -452,3 +452,11 @@ Pendências restantes:
 | 14 | Divulgação pública efetiva do encarregado (Res. 18/2024, arts. 8º e 9º); a opção "publicar" não alimenta página nenhuma | 🟠 Aberta — lacuna L9 |
 | 15 | Declaração e verificação de conflito de interesse do encarregado (Res. 18/2024, arts. 18 a 21) | 🟡 Aberta — lacuna L10 |
 | 16 | Encarregado pessoa natural × pessoa jurídica, registro de atividades e assistências (arts. 12, 13, 15 e 16); prazo de guarda de 5 anos explícito (art. 10) | 🟡 Aberta — lacunas L11 e L12 |
+
+#### 10.4.1. Achado 3 — Administrador sem acesso aos dados do cliente (02/11/2026, migration 0060)
+- Grupo A (ADMIN mantém acesso): empresas, usuarios, user_roles, profiles, trilha_auditoria_sistema, audit_log, faturamento_saas, metricas_uso_ia, perguntas_diagnostico, question_bank, biblioteca_normativa, incidencia_normativa, workspace_state, salt_empresa (esta sem acesso para ninguém).
+- Grupo B (ADMIN sem bypass em leitura e escrita): registro_operacoes, incidentes_seguranca, solicitacoes_titular, indice_titulares, respostas_diagnostico, ripd_ia, chaves_recuperacao, ativos_seguranca, lotes_pgaudit, ciclos_priva, encarregado_dpo, membros_empresa, monitor_fornecedores, monitor_verificacoes, terceiros_empresa, enquadramentos_agente, workspace_empresa.
+- workspace_empresa: ADMIN lê (suporte) e cadastra empresa nova; não altera (alterar = mudar o resultado da esteira).
+- Decisão: o ADMIN não escreve em nome do cliente. `admin_acesso_suporte(_cnpj, _motivo)` apenas registra na trilha o motivo declarado (mínimo 20 caracteres) e não libera dado nenhum.
+- Teste com conta só ADMIN e sem vínculo: ROT 0, incidentes 0, respostas 0, solicitações 0 (antes 50/2/332/15); workspace_empresa 2 linhas lidas; UPDATE negado (0 linhas); admin_gm_empresas funciona.
+- Pendente (rodada própria): funções privilegiadas que ainda aceitam ADMIN sobre dados do cliente (localizar/indexar_titular, criar/atualizar_solicitacao_titular, revelar_*, encerrar_incidente, enviar_comunicacao_anpd, excluir_linha_rot, assinar_etapa_rot).

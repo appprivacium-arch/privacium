@@ -221,7 +221,8 @@ Registro de execução (02/11/2026):
 - Passo 2 — concluído: o app lovable.dev foi verificado no GitHub, com acesso confirmado a leumasamil/privacium (Repository access: Only select repositories, 1 repositório selecionado).
 
 - Passo 3 — concluído: alteração solicitada no projeto após a mudança de visibilidade.
-- Passo 4 — concluído em 02/11/2026: o commit "Atualizou completed_steps" (informado no GitHub como 2119f4e; na cópia local do Lovable consta como 3119fae — o identificador difere entre as cópias, a mensagem e a data coincidem), gerado após a mudança de visibilidade, apareceu corretamente no GitHub. A sincronização Lovable ↔ GitHub está íntegra com o repositório privado.
+- Passo 4 — concluído em 02/11/2026: o commit "Atualizou completed_steps" (hash único 3119fae, confirmado por acesso direto a github.com/leumasamil/privacium/commit/3119fae, com a mensagem e a data de 02/11/2026), gerado após a mudança de visibilidade, apareceu corretamente no GitHub. A sincronização Lovable ↔ GitHub está íntegra com o repositório privado.
+- Retificação: a divergência de identificador registrada anteriormente está resolvida. O hash alternativo citado antes não existe no repositório (o GitHub retornou 404). Não houve reescrita de histórico nem ambiente distinto: foi um erro de transcrição na leitura da lista de commits, não do Lovable.
 
 ### 10.7. Auditoria de exposição histórica
 
@@ -259,7 +260,7 @@ Pendências restantes:
 |---|---|---|
 | 1 | Tornar repositório privado no GitHub | ✅ Concluído 02/11/2026 |
 | 2 | Verificar escopo do app Lovable | ✅ Concluído 02/11/2026 |
-| 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (2119f4e no GitHub) |
+| 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (3119fae) |
 | 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Pendência aberta (10.5) |
 | 5 | Auditoria do commit "Publicou e removeu hashes" | ✅ Concluída — nenhuma credencial ou dado pessoal (10.7.1) |
 | 6 | Inventário de outros commits com indício de exposição | 🟡 Inventariado (10.7.2) — revisão linha a linha de 4726e8e e ce0eece pendente |

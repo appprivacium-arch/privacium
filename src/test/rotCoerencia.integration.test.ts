@@ -4,7 +4,7 @@ const sessionText = process.env["LOVABLE_BROWSER_SUPABASE_SESSION_JSON"];
 const adminText = process.env["TEST_ADMIN_SESSION_JSON"];
 const url = import.meta.env["VITE_SUPABASE_URL"];
 const key = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
-describe.skipIf(!sessionText || !url || !key)("ROT: coerência no banco, somente empresa de teste", () => {
+describe.skipIf(!sessionText || !adminText || !url || !key)("ROT: coerência no banco, somente empresa de teste", () => {
   it("recusa destino antes da escolha e permite destino após declaração auditada", async () => {
     if (!sessionText) throw new Error("Sessão ausente");
     const token = (JSON.parse(sessionText) as { access_token: string }).access_token;

@@ -407,13 +407,6 @@
       "when": 1793639708142,
       "tag": "0057_restringir_leitura_normativa",
       "breakpoints": true
-    },
-    {
-      "idx": 58,
-      "version": "7",
-      "when": 1793648000000,
-      "tag": "0058_atribuir_admin_samuel",
-      "breakpoints": true
     }
   ]
 }

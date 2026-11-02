@@ -195,12 +195,49 @@ Procedimento em caso de falha de sincronização após tornar o repositório pri
 ### 10.5. Nomenclatura canônica
 Termo adotado: "Encarregado (DPO)". Base primária: LGPD art. 5º, VIII. Escopo: interface, relatórios e documentação. Identificadores de schema (DPO_OPERACIONAL, enums, has_role()) permanecem inalterados.
 
-Pendência de verificação documental (aberta, não é fato consolidado):
-| Item | Status |
-|---|---|
-| Resolução CD/ANPD nº 18/2024 — termo "Encarregado" | Pendente de verificação na fonte oficial (seção 9) |
+Correção de objeto (02/11/2026): a pendência antes registrada como "verificação documental da Res. ANPD 18/2024" confundia duas normas distintas, ambas vigentes:
+| Norma | Data | Objeto |
+|---|---|---|
+| Resolução CD/ANPD nº 18/2024 | 16/07/2024 | Regulamento sobre a atuação do encarregado pelo tratamento de dados pessoais (DPO) |
+| Resolução CD/ANPD nº 15/2024 | 24/04/2024 | Regulamento de Comunicação de Incidente de Segurança |
 
-Nota: se a verificação falhar ou a numeração estiver incorreta, a nomenclatura "Encarregado (DPO)" continua válida pela LGPD art. 5º, VIII, que é a base primária e não depende da resolução. A resolução é reforço, não fundamento.
+Pendências de verificação de conformidade (abertas — estrutura registrada, verificação NÃO executada):
+
+**4a — Módulo Encarregado × Res. CD/ANPD nº 18/2024**
+- Escopo: EncarregadoDPO.tsx, useEncarregado.ts, migration 0017.
+- Dispositivos: arts. 3º, 4º, 8º, 9º, 15, 16 e 18 a 21.
+
+**4b — Formulário de incidente × Res. CD/ANPD nº 15/2024**
+- Escopo: FormularioANPD.tsx, migrations 0018 e 0019.
+- Dispositivos: art. 6º, §2º, incisos I a XII; art. 9º, incisos I a VII; art. 10.
+
+Checklist 4b.1 — campos obrigatórios do art. 6º, §2º (conteúdo de cada inciso a transcrever da fonte oficial na verificação, conforme seção 9):
+| Inciso | Campo | Presente no formulário? | Evidência |
+|---|---|---|---|
+| I | a transcrever | — | — |
+| II | a transcrever | — | — |
+| III | a transcrever | — | — |
+| IV | a transcrever | — | — |
+| V | a transcrever | — | — |
+| VI | a transcrever | — | — |
+| VII | a transcrever | — | — |
+| VIII | a transcrever | — | — |
+| IX | a transcrever | — | — |
+| X | a transcrever | — | — |
+| XI | a transcrever | — | — |
+| XII | a transcrever | — | — |
+
+Divergência a resolver na verificação: a instrução cita "10 campos obrigatórios", mas o escopo indicado é incisos I a XII (12 incisos). A contagem final será fixada pela leitura do texto oficial; nenhum conteúdo de inciso foi preenchido de memória.
+
+Checklist 4b.2 — requisitos sistêmicos:
+| # | Requisito | Status |
+|---|---|---|
+| 1 | Registro do incidente mantido por, no mínimo, 5 anos | Pendente de verificação |
+| 2 | Fluxo de comunicação ao titular | Pendente de verificação |
+| 3 | Prazo em dobro para agente de tratamento de pequeno porte | Pendente de verificação |
+| 4 | Divulgação pública da identidade e contato do encarregado | Pendente de verificação (cruza com 4a) |
+
+Nota: a nomenclatura "Encarregado (DPO)" continua válida pela LGPD art. 5º, VIII, base primária; a Res. 18/2024 é reforço, não fundamento.
 
 ### 10.6. Procedimento de validação pós-mudança de visibilidade
 
@@ -287,7 +324,8 @@ Pendências restantes:
 | 1 | Tornar repositório privado no GitHub | ✅ Concluído 02/11/2026 |
 | 2 | Verificar escopo do app Lovable | ✅ Concluído 02/11/2026 |
 | 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (3119fae) |
-| 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Pendência aberta (10.5) |
+| 4a | Conformidade do módulo Encarregado com a Res. CD/ANPD nº 18/2024 (arts. 3º, 4º, 8º, 9º, 15, 16, 18–21) | 🟢 Pendência aberta (10.5) |
+| 4b | Conformidade do formulário de incidente com a Res. CD/ANPD nº 15/2024 (art. 6º §2º I–XII, art. 9º I–VII, art. 10) | 🟢 Pendência aberta (10.5) |
 | 5 | Auditoria do commit "Publicou e removeu hashes" | ✅ Concluída — nenhuma credencial ou dado pessoal (10.7.1) |
 | 6 | Inventário de outros commits com indício de exposição | ✅ Concluído 02/11/2026 — 4726e8e e ce0eece revisados, sem achados (10.7.3) |
 | 7 | Rotação de credenciais eventualmente expostas | ✅ Concluído 02/11/2026 — varredura limpa, rotação dispensada (10.7.4) |

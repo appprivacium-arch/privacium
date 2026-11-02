@@ -211,31 +211,31 @@ Pendências de verificação de conformidade (abertas — estrutura registrada, 
 - Escopo: FormularioANPD.tsx, migrations 0018 e 0019.
 - Dispositivos: art. 6º, §2º, incisos I a XII; art. 9º, incisos I a VII; art. 10.
 
-Checklist 4b.1 — campos obrigatórios do art. 6º, §2º (conteúdo de cada inciso a transcrever da fonte oficial na verificação, conforme seção 9):
-| Inciso | Campo | Presente no formulário? | Evidência |
+Checklist 4b.1 — campos obrigatórios do art. 6º, §2º da Res. CD/ANPD nº 15/2024 (redação literal confirmada contra o texto oficial; campos de evidência a preencher na verificação):
+| Inciso | Descrição do requisito normativo | Presente no formulário? | Evidência |
 |---|---|---|---|
-| I | a transcrever | — | — |
-| II | a transcrever | — | — |
-| III | a transcrever | — | — |
-| IV | a transcrever | — | — |
-| V | a transcrever | — | — |
-| VI | a transcrever | — | — |
-| VII | a transcrever | — | — |
-| VIII | a transcrever | — | — |
-| IX | a transcrever | — | — |
-| X | a transcrever | — | — |
-| XI | a transcrever | — | — |
-| XII | a transcrever | — | — |
+| I | Descrição da natureza e da categoria de dados pessoais afetados | — | — |
+| II | Número de titulares afetados, discriminando, quando aplicável, o número de crianças, de adolescentes ou de idosos | — | — |
+| III | Medidas técnicas e de segurança utilizadas para a proteção dos dados pessoais, adotadas antes e após o incidente, observados os segredos comercial e industrial | — | — |
+| IV | Riscos relacionados ao incidente com identificação dos possíveis impactos aos titulares | — | — |
+| V | Motivos da demora, no caso de a comunicação não ter sido realizada no prazo previsto no caput | — | — |
+| VI | Medidas que foram ou que serão adotadas para reverter ou mitigar os efeitos do incidente sobre os titulares | — | — |
+| VII | Data da ocorrência do incidente, quando possível determiná-la, e a de seu conhecimento pelo controlador | — | — |
+| VIII | Dados do encarregado ou de quem represente o controlador | — | — |
+| IX | Identificação do controlador e, se for o caso, declaração de que se trata de agente de tratamento de pequeno porte | — | — |
+| X | Identificação do operador, quando aplicável | — | — |
+| XI | Descrição do incidente, incluindo a causa principal, caso seja possível identificá-la | — | — |
+| XII | Total de titulares cujos dados são tratados nas atividades de tratamento afetadas pelo incidente | — | — |
 
-Divergência a resolver na verificação: a instrução cita "10 campos obrigatórios", mas o escopo indicado é incisos I a XII (12 incisos). A contagem final será fixada pela leitura do texto oficial; nenhum conteúdo de inciso foi preenchido de memória.
+Nota: a divergência anterior ("10 vs 12") está resolvida — o art. 6º, §2º da Res. 15/2024 contém exatamente 12 incisos (I a XII), todos transcritos acima da fonte oficial.
 
-Checklist 4b.2 — requisitos sistêmicos:
-| # | Requisito | Status |
-|---|---|---|
-| 1 | Registro do incidente mantido por, no mínimo, 5 anos | Pendente de verificação |
-| 2 | Fluxo de comunicação ao titular | Pendente de verificação |
-| 3 | Prazo em dobro para agente de tratamento de pequeno porte | Pendente de verificação |
-| 4 | Divulgação pública da identidade e contato do encarregado | Pendente de verificação (cruza com 4a) |
+Checklist 4b.2 — requisitos sistêmicos complementares (base legal exata):
+| # | Requisito sistêmico | Dispositivo | Status |
+|---|---|---|---|
+| 1 | Registro interno de incidentes por, no mínimo, 5 anos, inclusive dos não comunicados, contendo os 8 campos mínimos do §1º (incluindo o inciso VIII — motivos da ausência de comunicação) | Art. 10 e §1º, Res. 15/2024 | Pendente de verificação |
+| 2 | Fluxo de comunicação ao titular em até 3 dias úteis do conhecimento, com comunicação direta individualizada em linguagem simples (§§1º e 2º) ou divulgação ampla por no mínimo 3 meses (§3º), e declaração de cumprimento em até 3 dias úteis após o término (§4º) | Art. 9º, §§1º a 4º, Res. 15/2024 | Pendente de verificação |
+| 3 | Cálculo de prazo em dobro para agente de tratamento de pequeno porte: comunicação inicial de 3 para 6 dias úteis e complementação fundamentada de 20 para 40 dias úteis, estendido à comunicação ao titular pelo art. 2º da Res. 15/2024 (alteração do art. 14, II da Res. CD/ANPD nº 2/2022) | Art. 6º, §8º e art. 2º, Res. 15/2024 | Pendente de verificação |
+| 4 | Divulgação pública da identidade e contato do encarregado em local de destaque e fácil acesso no sítio eletrônico (nome completo, se pessoa natural, ou razão social com nome do responsável técnico, se PJ, e canal funcional direto) | Art. 9º, Res. 18/2024 | Pendente de verificação (cruza com 4a) |
 
 Nota: a nomenclatura "Encarregado (DPO)" continua válida pela LGPD art. 5º, VIII, base primária; a Res. 18/2024 é reforço, não fundamento.
 

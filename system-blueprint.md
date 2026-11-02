@@ -325,7 +325,7 @@ Pendências restantes:
 | 2 | Verificar escopo do app Lovable | ✅ Concluído 02/11/2026 |
 | 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (3119fae) |
 | 4a | Conformidade do módulo Encarregado com a Res. CD/ANPD nº 18/2024 (arts. 3º, 4º, 8º, 9º, 15, 16, 18–21) | 🟢 Pendência aberta (10.5) |
-| 4b | Conformidade do formulário de incidente com a Res. CD/ANPD nº 15/2024 (art. 6º §2º I–XII, art. 9º I–VII, art. 10) | 🟢 Pendência aberta (10.5) |
+| 4b | Conformidade do formulário de incidentes e fluxos sistêmicos com a Res. CD/ANPD nº 15/2024 (art. 6º §2º I–XII, art. 9º §§1º–4º, art. 10 §1º I–VIII, prazo em dobro art. 6º §8º) | 🟢 Pendência aberta (10.5) |
 | 5 | Auditoria do commit "Publicou e removeu hashes" | ✅ Concluída — nenhuma credencial ou dado pessoal (10.7.1) |
 | 6 | Inventário de outros commits com indício de exposição | ✅ Concluído 02/11/2026 — 4726e8e e ce0eece revisados, sem achados (10.7.3) |
 | 7 | Rotação de credenciais eventualmente expostas | ✅ Concluído 02/11/2026 — varredura limpa, rotação dispensada (10.7.4) |

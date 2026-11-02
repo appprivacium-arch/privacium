@@ -400,6 +400,13 @@
       "when": 1793637815321,
       "tag": "0056_correcao_c1_data_conhecimento_incidente",
       "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "7",
+      "when": 1793639708142,
+      "tag": "0057_restringir_leitura_normativa",
+      "breakpoints": true
     }
   ]
 }

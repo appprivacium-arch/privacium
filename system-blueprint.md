@@ -220,10 +220,47 @@ Registro de execução (02/11/2026):
 - Passo 1 — concluído: o repositório leumasamil/privacium passou a ser privado em 02/11/2026.
 - Passo 2 — concluído: o app lovable.dev foi verificado no GitHub, com acesso confirmado a leumasamil/privacium (Repository access: Only select repositories, 1 repositório selecionado).
 
+- Passo 3 — concluído: alteração solicitada no projeto após a mudança de visibilidade.
+- Passo 4 — concluído em 02/11/2026: o commit "Atualizou completed_steps" (informado no GitHub como 2119f4e; na cópia local do Lovable consta como 3119fae — o identificador difere entre as cópias, a mensagem e a data coincidem), gerado após a mudança de visibilidade, apareceu corretamente no GitHub. A sincronização Lovable ↔ GitHub está íntegra com o repositório privado.
+
+### 10.7. Auditoria de exposição histórica
+
+Contexto: o repositório leumasamil/privacium permaneceu público até 02/11/2026. Todo o histórico de commits anterior a essa data esteve exposto. Tornar o repositório privado não apaga o que já foi commitado — o conteúdo permanece recuperável em qualquer commit do histórico.
+
+Regra de tratamento: qualquer credencial encontrada no histórico é considerada comprometida, independentemente de ter sido removida depois. A ação correta é rotação (revogar e gerar nova), não apenas remoção do arquivo. Valores de credenciais nunca são reproduzidos neste documento — apenas tipo, localização e, se necessário, os 4 primeiros caracteres.
+
+Procedimento: (1) inspecionar o diff completo; (2) classificar cada item em (a) credencial/segredo, (b) dado pessoal ou dado de cliente, (c) configuração interna sem sensibilidade, (d) código sem sensibilidade; (3) para itens (a)/(b), registrar arquivo, linha, tipo e se o valor ainda está ativo.
+
+#### 10.7.1. Commit sob suspeita — "Publicou e removeu hashes" (01/11/2026)
+Identificador: o hash informado (28f0aa2) não existe no histórico. Os commits com essa mensagem são 28f2aa2 (merge, 01/11/2026 06:46 UTC) e 9861b49 (cópia equivalente em outra branch).
+
+Diff de 28f2aa2 (3 arquivos, 13 inserções, 10 remoções):
+| Arquivo | Conteúdo | Categoria |
+|---|---|---|
+| src/lib/priva/demo.ts | Linha cenográfica PRIVA-JURIDICO-001 da demonstração pública ganhou etapa "Eliminar" e decisão de continuação do receptor (dados fictícios) | (d) código sem sensibilidade |
+| src/test/membrosRot.test.ts | Ajuste de teste para receptor com decisão registrada | (d) |
+| src/test/rotCoerencia.test.ts | Ajuste de teste de coerência Financeiro/Jurídico | (d) |
+
+Resultado: nenhum item de categoria (a) ou (b). A palavra "hashes" refere-se a hashes SHA-256 cenográficos de assinaturas da demonstração (removidos no commit anterior e4e5a2a, "Removed synthetic hashes in CT"), não a credenciais. Nenhuma rotação necessária.
+
+#### 10.7.2. Inventário complementar (apenas inventário — nenhuma ação corretiva)
+Critério: mensagens com hash/secret/key/token/senha/password/credencial/env/config, ou commits que adicionam/removem .env, .env.local, secrets.*, credentials.*.
+| Commit | Data | Mensagem | Achado |
+|---|---|---|---|
+| 9861b49 / 28f2aa2 | 01/11/2026 | Publicou e removeu hashes | Ver 10.7.1 — (d) |
+| 3922901 / e4e5a2a | 01/11/2026 | Removed synthetic hashes in CT | Guarda de build contra assinaturas pré-chanceladas na demo; hashes cenográficos — (d) |
+| f9b306e / 94a14f4 | 01/11/2026 | Changes | Criação de .env.example (modelo sem valores) — (c) |
+| 4726e8e / 51d4599 | 30/10/2026 | Corrigiu provação do Envio 1 | Casou por palavra-chave; sem arquivos sensíveis — a confirmar no item 6 |
+| ce0eece / 0f3937a | 29/10/2026 | Apertou botão de envio | Casou por palavra-chave; sem arquivos sensíveis — a confirmar no item 6 |
+| 8fd234e | 22/10/2026 | Changes | Adicionou .env (6 variáveis: URL, ID do projeto e chave pública de bootstrap) e supabase/config.toml — (c), já classificado como risco zero em 10.2 |
+
 Pendências restantes:
 | # | Item | Urgência |
 |---|---|---|
-| 1 | Tornar repositório privado no GitHub | ✅ Concluído em 02/11/2026 |
-| 2 | Verificar escopo do app Lovable | ✅ Concluído em 02/11/2026 (Only select repositories, 1 selecionado) |
-| 3 | Teste de sync com alteração posterior | 🟡 Em execução — esta alteração é posterior à mudança de visibilidade; confirmar o commit no GitHub |
-| 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Registrada como pendência (10.5) |
+| 1 | Tornar repositório privado no GitHub | ✅ Concluído 02/11/2026 |
+| 2 | Verificar escopo do app Lovable | ✅ Concluído 02/11/2026 |
+| 3 | Teste de sync com alteração posterior | ✅ Concluído — commit "Atualizou completed_steps" (2119f4e no GitHub) |
+| 4 | Verificação documental da Res. ANPD 18/2024 | 🟢 Pendência aberta (10.5) |
+| 5 | Auditoria do commit "Publicou e removeu hashes" | ✅ Concluída — nenhuma credencial ou dado pessoal (10.7.1) |
+| 6 | Inventário de outros commits com indício de exposição | 🟡 Inventariado (10.7.2) — revisão linha a linha de 4726e8e e ce0eece pendente |
+| 7 | Rotação de credenciais eventualmente expostas | 🟢 Não necessária até o momento — nenhuma credencial encontrada |

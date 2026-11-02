@@ -1,20 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, ArrowRight, CheckCircle2, ListChecks } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import type { Database } from "@/integrations/supabase/types";
 import { AppLink } from "@/components/priva/AppLink";
 import { PageHeader, Panel, Tag } from "@/components/priva/ui";
-import { usePriva, isUnlocked } from "@/lib/priva/store";
-import { useCnpjRows } from "@/lib/priva/useCnpjRows";
-import { useQuestions, useRespostas } from "@/lib/priva/questions";
-import { DEMO_ATIVOS, DEMO_ROT } from "@/lib/priva/demo";
-import { montarChecklist, ordenar, pendenciasBloco5, pendenciasKanban, type Pendencia, type Estado } from "@/lib/priva/pendencias";
-import { sugestaoMitigacao, type RiscoId } from "@/lib/privacium/bibliotecaMitigacao";
-import { useEnquadramento } from '@/lib/priva/useEnquadramento';
-import { prazoPorPorte } from '@/lib/priva/enquadramento';
-
-type Rot = Database["public"]["Tables"]["registro_operacoes"]["Row"];
-type Ativo = Database["public"]["Tables"]["ativos_seguranca"]["Row"];
+import type { Pendencia, Estado } from "@/lib/priva/pendencias";
+import { destinoPendencia } from "@/lib/priva/pendenciasEmpresa";
+import { usePendenciasEmpresa } from "@/lib/priva/usePendenciasEmpresa";
 
 const TOM: Record<Estado, "destructive" | "warning" | "success" | "muted"> = {
   critico: "destructive", atencao: "warning", andamento: "warning", pendente: "muted", bloqueado: "muted", ok: "success",
@@ -27,68 +16,11 @@ const BLOCO_NOME: Record<number, string> = { 0: "Kanban 5W2H", 1: "Bloco 1 · Di
 /** Severidade: pendência vencida ou que trava o ciclo é bloqueante. */
 const bloqueante = (p: Pendencia) => p.estado === "critico" || p.estado === "bloqueado";
 
-type RotaBloco = "/kanban" | "/bloco-1" | "/bloco-2" | "/bloco-3" | "/bloco-4" | "/bloco-5" | "/bloco-4/anpd/$incidenteId";
-function destino(p: Pendencia): { to: RotaBloco; hash?: string; params?: { incidenteId: string } } {
-  if (p.bloco === 0) return { to: "/kanban", hash: p.ancora };
-  // Pendência de comunicação vai direto ao formulário ANPD do incidente (no demo público, o AppLink reescreve para aba=anpd).
-  if (p.bloco === 4 && p.ancora === "anpd" && p.incidenteId) return { to: "/bloco-4/anpd/$incidenteId", params: { incidenteId: p.incidenteId } };
-  return { to: `/bloco-${p.bloco}` as RotaBloco, hash: p.ancora };
-}
-
-/** Dashboard transversal: tudo que falta no ciclo, da mesma fonte de estado dos blocos. */
+/** Dashboard transversal: tudo que falta no ciclo, da fonte única usePendenciasEmpresa. */
 export function Pendencias() {
-  const enquadramento = useEnquadramento();
-  const { cnpj, signatures, kanban, demo } = usePriva();
-  const questions = useQuestions();
-  const answers = useRespostas(cnpj);
-  const lotes = useCnpjRows("lotes_pgaudit", cnpj, "mes_referencia");
-  const incidentes = useCnpjRows("incidentes_seguranca", cnpj, "iniciado_em");
-  const ripd = useCnpjRows("ripd_ia", cnpj, "atualizado_em");
-
-  const { data: rot = [] } = useQuery({
-    queryKey: ["registro_operacoes", cnpj, demo],
-    enabled: !!cnpj,
-    queryFn: async (): Promise<Rot[]> => {
-      if (demo) return DEMO_ROT.filter((r) => !r.excluido_em);
-      const { data, error } = await supabase.from("registro_operacoes").select("*").eq("empresa_cnpj", cnpj ?? "").is("excluido_em", null);
-      if (error) throw error;
-      return data;
-    },
-  });
-  const { data: ativos = [] } = useQuery({
-    queryKey: ["ativos_seguranca", cnpj, demo],
-    enabled: !!cnpj,
-    queryFn: async (): Promise<Ativo[]> => {
-      if (demo) return DEMO_ATIVOS;
-      const { data, error } = await supabase.from("ativos_seguranca").select("*").eq("empresa_cnpj", cnpj ?? "");
-      if (error) throw error;
-      return data;
-    },
-  });
+  const { cnpj, abertas, ordenadas, porBloco } = usePendenciasEmpresa();
 
   if (!cnpj) return <Panel title="Dashboard · Pendências"><p className="text-sm text-muted-foreground">Selecione um CNPJ no menu lateral.</p></Panel>;
-
-  const endpoints = ativos.filter((a) => a.tipo === "ENDPOINT");
-  const cofres = ativos.filter((a) => a.tipo === "COFRE");
-  const salvo = ripd.rows[0];
-  const riscosSalvos = (salvo?.riscos ?? {}) as Record<string, { mitig?: string }>;
-  const riscos = (["vazamento", "vies", "injecao"] as RiscoId[]).map((id) => {
-    const sug = sugestaoMitigacao(id, signatures);
-    return { label: id, mitig: riscosSalvos[id]?.mitig?.trim() ? riscosSalvos[id]!.mitig! : "texto" in sug ? sug.texto : "" };
-  });
-
-  const grupos: { n: number; itens: Pendencia[] }[] = [];
-  if (isUnlocked(signatures, 1)) grupos.push({ n: 1, itens: montarChecklist({ n: 1, perguntas: questions.length, respondidas: Object.keys(answers).length, naos: Object.values(answers).filter((v) => !v).length }, signatures) });
-  if (isUnlocked(signatures, 2)) grupos.push({ n: 2, itens: montarChecklist({ n: 2, rot: rot as never }, signatures) });
-  if (isUnlocked(signatures, 3)) grupos.push({ n: 3, itens: montarChecklist({ n: 3, endpoints, cofres, chaves: demo ? null : null }, signatures) });
-  if (isUnlocked(signatures, 4)) grupos.push({ n: 4, itens: montarChecklist({ n: 4, lotes: lotes.rows, incidentes: incidentes.rows, agora: Date.now(), prazoDias: prazoPorPorte(enquadramento.porte) }, signatures) });
-  if (isUnlocked(signatures, 5)) grupos.push({ n: 5, itens: pendenciasBloco5({ sistema: salvo?.sistema_avaliado ?? "", escudo: salvo?.escudo_digital ?? "", riscos }, signatures) });
-  grupos.push({ n: 0, itens: pendenciasKanban(kanban) });
-
-  const todas = grupos.flatMap((g) => g.itens);
-  const abertas = todas.filter((p) => p.estado !== "ok");
-  const ordenadas = ordenar(abertas);
-  const porBloco = grupos.map((g) => ({ n: g.n, abertas: g.itens.filter((p) => p.estado !== "ok").length }));
 
   return (
     <div className="space-y-6">

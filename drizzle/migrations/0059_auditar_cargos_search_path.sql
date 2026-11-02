@@ -1,0 +1,1 @@
+ALTER FUNCTION public.auditar_user_roles_sem_sessao() SET search_path = public, extensions;

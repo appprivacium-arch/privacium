@@ -410,6 +410,8 @@ export type Database = {
           comunicacao: Json
           comunicacao_atrasada: boolean
           criado_por: string | null
+          data_conhecimento: string
+          data_ocorrencia: string | null
           empresa_cnpj: string
           encerrado_em: string | null
           enviado_anpd_em: string | null
@@ -424,6 +426,8 @@ export type Database = {
           comunicacao?: Json
           comunicacao_atrasada?: boolean
           criado_por?: string | null
+          data_conhecimento: string
+          data_ocorrencia?: string | null
           empresa_cnpj: string
           encerrado_em?: string | null
           enviado_anpd_em?: string | null
@@ -438,6 +442,8 @@ export type Database = {
           comunicacao?: Json
           comunicacao_atrasada?: boolean
           criado_por?: string | null
+          data_conhecimento?: string
+          data_ocorrencia?: string | null
           empresa_cnpj?: string
           encerrado_em?: string | null
           enviado_anpd_em?: string | null

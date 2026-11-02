@@ -2,6 +2,7 @@ import { FERIADOS_NACIONAIS, FONTE_FERIADOS } from '@/lib/priva/feriados';
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
 import { FormularioANPD } from "@/components/priva/FormularioANPD";
 import { restanteANPD } from "@/lib/priva/anpd";
+import { DeclararIncidente } from "@/components/priva/DeclararIncidente";
 import { SLA_MS } from "@/lib/priva/dosimetria";
 import { linhasNaturezas } from "@/lib/priva/naturezasIncidente";
 import { linhasRiscos } from '@/lib/priva/riscosIncidente';
@@ -208,6 +209,7 @@ function CriseRansomware({ cnpj, ativo, estado, canEdit, refresh }: { cnpj: stri
   const [now, setNow] = useState(Date.now());
   const [busy, setBusy] = useState(false);
   const [bloqueios, setBloqueios] = useState<string[]>([]);
+  const [declarando, setDeclarando] = useState(false);
   const stepsRef = useRef<HTMLOListElement>(null);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
 
@@ -252,12 +254,13 @@ function CriseRansomware({ cnpj, ativo, estado, canEdit, refresh }: { cnpj: stri
     finally { setBusy(false); }
   };
   const encerramento = estado && canEdit ? <EncerrarIncidente estado={estado} busy={busy} onClick={() => void encerrar()} /> : null;
-  const declarar = async () => {
+  const declarar = async (datas: { conhecimento: string; ocorrencia: string | null }) => {
     if (demo) return avisarAcaoDemo();
     if (!canEdit || busy) return;
-    const { error } = await supabase.from("incidentes_seguranca").insert({ empresa_cnpj: cnpj });
-    if (error) { toast.error("Falha ao declarar."); return; }
-    log("INSERT", "incidentes_seguranca", `Incidente de ransomware declarado · prazo de ${dias} dias úteis iniciado`);
+    const { error } = await supabase.from("incidentes_seguranca").insert({ empresa_cnpj: cnpj, data_conhecimento: datas.conhecimento, data_ocorrencia: datas.ocorrencia });
+    if (error) { toast.error(/futura|ocorr/i.test(error.message) ? "Datas inválidas: confira conhecimento e ocorrência." : "Falha ao declarar."); return; }
+    log("INSERT", "incidentes_seguranca", `Incidente de ransomware declarado · conhecimento em ${new Date(datas.conhecimento).toLocaleString("pt-BR")} · prazo de ${dias} dias úteis contado dessa data`);
+    setDeclarando(false);
     refresh();
     qc.invalidateQueries({ queryKey: ["pendencias"] });
   };
@@ -271,7 +274,8 @@ function CriseRansomware({ cnpj, ativo, estado, canEdit, refresh }: { cnpj: stri
   return (
     <Panel id="incidentes" title="Gerenciamento de Crise Cibernética · Ransomware" action={canEdit && (ativo
       ? encerramento
-      : <Button size="sm" variant="outline" onClick={declarar}>Declarar incidente</Button>)}>
+      : <Button size="sm" variant="outline" onClick={() => demo ? avisarAcaoDemo() : setDeclarando(true)}>Declarar incidente</Button>)}>
+      {!ativo && declarando && canEdit && <DeclararIncidente dias={dias} onCancel={() => setDeclarando(false)} onConfirm={(d) => void declarar(d)} />}
       {ativo && <div className="mb-3 flex flex-wrap items-center justify-between gap-3"><p className="text-sm">Incidente ativo: <span className="font-mono font-semibold text-primary">#{ref}</span></p>{!ativo.enviado_anpd_em && <div><Button variant="outline" asChild><Link to={demo ? "/demo" : "/bloco-4/anpd/$incidenteId"} search={demo ? { aba: "anpd" } : {}} params={{ incidenteId: ativo.id }}>Abrir formulário ANPD</Link></Button>{!passos.slice(0, 5).every(Boolean) && <p className="mt-1 text-xs text-atencao">Conclua as etapas {passos.slice(0, 5).map((p, i) => p ? null : i + 1).filter(Boolean).join(", ")} para comunicar.</p>}</div>}</div>}
 
       {estado && <div id="encerramento" aria-live="polite" className="mb-4 space-y-2">

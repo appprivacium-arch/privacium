@@ -24,7 +24,7 @@ const TOM: Record<Passo["tipo"], { caixa: string; icone: React.ReactNode; rotulo
 export function ProximoPasso() {
   const enquadramento = useEnquadramento();
   const location = useLocation();
-  const { cnpj, signatures, roles, kanban, log, publicDemo, demo } = usePriva();
+  const { cnpj, signatures, roles, role, kanban, log, publicDemo, demo } = usePriva();
   const pathname = publicDemo ? `/${String((location.search as { aba?: string }).aba ?? 'painel')}` : location.pathname;
   const m = pathname.match(/^\/bloco-(\d)/);
   const blocoTela = m ? Number(m[1]) : Math.min(blocoCorrente(signatures), 5);
@@ -32,6 +32,8 @@ export function ProximoPasso() {
   const { itensDoBloco } = usePendenciasEmpresa();
   const doBloco = itensDoBloco(blocoBase);
   if (!cnpj || pathname.startsWith("/manual") || pathname.startsWith("/membros")) return null;
+  // Administrador não lê dados do cliente (Achado 3): não exibir condução derivada de dados vazios.
+  if (!demo && role === "ADMIN_SISTEMA") return null;
   if (!demo && !enquadramento.vigente) return <section className="mb-6 flex flex-wrap items-center justify-between gap-3 border-l-4 border-pendencia p-4"><p className="text-sm">Assine a declaração de enquadramento do agente para continuar o ciclo.</p><Button asChild><Link to="/bloco-1" hash="enquadramento">Assinar enquadramento</Link></Button></section>;
 
   let itens = doBloco ?? [];

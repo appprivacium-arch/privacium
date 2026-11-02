@@ -4,6 +4,7 @@ import { PageHeader, Panel, Tag } from "@/components/priva/ui";
 import type { Pendencia, Estado } from "@/lib/priva/pendencias";
 import { destinoPendencia } from "@/lib/priva/pendenciasEmpresa";
 import { usePendenciasEmpresa } from "@/lib/priva/usePendenciasEmpresa";
+import { usePriva } from "@/lib/priva/store";
 
 const TOM: Record<Estado, "destructive" | "warning" | "success" | "muted"> = {
   critico: "destructive", atencao: "warning", andamento: "warning", pendente: "muted", bloqueado: "muted", ok: "success",
@@ -19,8 +20,10 @@ const bloqueante = (p: Pendencia) => p.estado === "critico" || p.estado === "blo
 /** Dashboard transversal: tudo que falta no ciclo, da fonte única usePendenciasEmpresa. */
 export function Pendencias() {
   const { cnpj, abertas, ordenadas, porBloco } = usePendenciasEmpresa();
+  const { role, demo } = usePriva();
 
   if (!cnpj) return <Panel title="Dashboard · Pendências"><p className="text-sm text-muted-foreground">Selecione um CNPJ no menu lateral.</p></Panel>;
+  if (role === "ADMIN_SISTEMA" && !demo) return <Panel title="Dashboard · Pendências"><p className="text-sm text-muted-foreground">As pendências são calculadas a partir dos dados de conformidade do cliente, que o Administrador não acessa. Consulte o grau de maturidade agregado no Painel.</p></Panel>;
 
   return (
     <div className="space-y-6">

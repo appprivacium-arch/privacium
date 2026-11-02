@@ -34,6 +34,7 @@ export function canAccess(role: Role, path: string) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const enquadramento = useEnquadramento();
+  useFocoPendencia();
   const { role, roles, setRole, set, enterprise, signatures, reset, ready, email, cnpj, empresas, selectEmpresa, createEmpresa, log, demo, publicDemo, setDemo } = usePriva();
   const [demoAsk, setDemoAsk] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);

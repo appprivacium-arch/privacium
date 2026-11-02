@@ -5,14 +5,22 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { parse } from "dotenv";
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
 // Variáveis PÚBLICAS do cliente lidas do arquivo versionado publico.env (nunca valores literais aqui).
 // O nome não segue o padrão .env.* porque o .gitignore gerenciado ignora esse padrão.
-const env = existsSync("publico.env") ? parse(readFileSync("publico.env")) : {};
+function lerEnvPublico(caminho: string): Record<string, string> {
+  if (!existsSync(caminho)) return {};
+  const saida: Record<string, string> = {};
+  for (const linha of readFileSync(caminho, "utf8").split(/\r?\n/)) {
+    const m = linha.match(/^\s*(VITE_[A-Z0-9_]+)\s*=\s*"?([^"]*)"?\s*$/);
+    if (m) saida[m[1]] = m[2];
+  }
+  return saida;
+}
+const env = lerEnvPublico("publico.env");
 const SUPABASE_URL = env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY;
 

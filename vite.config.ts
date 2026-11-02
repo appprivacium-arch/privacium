@@ -31,6 +31,10 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   );
 }
 
+// Expõe ao carregador de ambiente do Vite, que monta o objeto import.meta.env do cliente.
+process.env.VITE_SUPABASE_URL = SUPABASE_URL;
+process.env.VITE_SUPABASE_PUBLISHABLE_KEY = SUPABASE_KEY;
+
 const digest = createHash("sha256");
 function fingerprint(dir: string) {
   for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
@@ -50,8 +54,6 @@ export default defineConfig({
       __PRIVACIUM_BUILD__: JSON.stringify({ id: digest.digest("hex"), builtAt: new Date().toISOString(), baseCommit }),
       "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(SUPABASE_URL),
       "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(SUPABASE_KEY),
-      "import.meta.env['VITE_SUPABASE_URL']": JSON.stringify(SUPABASE_URL),
-      "import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY']": JSON.stringify(SUPABASE_KEY),
     },
   },
   tanstackStart: {

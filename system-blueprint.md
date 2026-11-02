@@ -203,12 +203,15 @@ Pendência de verificação documental (aberta, não é fato consolidado):
 Nota: se a verificação falhar ou a numeração estiver incorreta, a nomenclatura "Encarregado (DPO)" continua válida pela LGPD art. 5º, VIII, que é a base primária e não depende da resolução. A resolução é reforço, não fundamento.
 
 ### 10.6. Procedimento de validação pós-mudança de visibilidade
-Após tornar o repositório privado, fazer uma alteração pequena e verificável no projeto e confirmar que o commit aparece no GitHub. Se aparecer, a sincronização está íntegra. Se não aparecer, seguir a seção 10.3 antes de qualquer outra ação.
 
+Correção de sequência: o teste proposto anteriormente não é válido. A alteração registrada na seção 10 ocorreu antes da mudança de visibilidade do repositório e, portanto, prova apenas que a sincronização funcionava com o repositório público. O protocolo válido exige uma alteração posterior à mudança de visibilidade.
+
+Sequência obrigatória:
 | # | Ação | Onde |
 |---|---|---|
-| 1 | Tornar repositório privado | GitHub → Settings → Danger Zone → Change visibility |
-| 2 | Verificar escopo do app | GitHub → Settings → Applications → Lovable |
-| 3 | Testar sincronização | Alteração pequena + conferir commit no GitHub |
+| 1 | Tornar o repositório privado (ação do usuário) | GitHub → Settings → Danger Zone → Change visibility |
+| 2 | Verificar se leumasamil/privacium permanece autorizado | GitHub → Settings → Applications → Lovable |
+| 3 | Solicitar uma alteração pequena e verificável no projeto, já com o repositório privado | Lovable |
+| 4 | Confirmar que o commit correspondente aparece no GitHub | GitHub → histórico de commits |
 
-Em caso de falha, registrar o conteúdo de "Repository access" e a mensagem de erro exata.
+Em caso de falha no passo 4: ajustar o escopo do app no GitHub (adicionar o repositório à seleção do app, sem reinstalar) — nunca reconectar, conforme 10.3. Registrar o conteúdo de "Repository access" e a mensagem de erro exata.

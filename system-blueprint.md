@@ -329,6 +329,30 @@ Método: leitura do código atual (FormularioANPD.tsx, anpd.ts, estadoIncidente.
 | L11 | Sem tipo PN/PJ, idioma, registro de atividades e assistências | Res. 18/2024, arts. 12, 13, 15 e 16 |
 | L12 | Guarda de 5 anos não formalizada | Res. 15/2024, art. 10 |
 
+#### 10.5.1. Verificação no banco em funcionamento e correção C1 (02/11/2026)
+
+**Verificação no banco em funcionamento (antes da C1).** Leitura direta do catálogo do banco (funções, gatilhos, restrições e colunas), não dos arquivos de migration. Resultado: nenhuma divergência entre banco e migrations.
+| Função | Nome real no banco | Comportamento observado |
+|---|---|---|
+| Encerramento | `encerrar_incidente` (RPC) + gatilho `validar_e_auditar_incidente` | Ambos recusam encerrar sem `enviado_anpd_em` ("Formulário ANPD não enviado"); a etapa 06 exige comunicação validada. Não há caminho para incidente não comunicado (lacuna L2, item 9 — fora do escopo da C1). |
+| Cálculo de prazo | **Duas** funções: gatilho `fixar_prazo_incidente` e RPC `enviar_comunicacao_anpd` (esta em dois pontos: flag `comunicacao_atrasada` e evento `DESCUMPRIMENTO_SLA` na trilha) | Ambas contavam o prazo de `iniciado_em` (default `now()` = clique em "Declarar incidente"). Prazo em dobro aplicado à ANPD via `prazo_agente_anpd` (6 dias úteis se o último enquadramento vigente for PEQUENO, senão 3). |
+| Registro | Tabela `incidentes_seguranca` (12 colunas) | Sem campo para os motivos da ausência de comunicação (art. 10, §1º, VIII). |
+
+**Correção C1 executada (migration 0056_correcao_c1_data_conhecimento_incidente).**
+- Novas colunas: `data_conhecimento timestamptz NOT NULL` **sem default** (inserção sem o campo falha — confirmado: "violates not-null constraint") e `data_ocorrencia timestamptz NULL`.
+- Backfill: registros legados receberam `data_conhecimento = iniciado_em` só como compatibilidade, antes do NOT NULL.
+- Regras: CHECK `incidentes_seguranca_conhecimento_apos_ocorrencia` (conhecimento ≥ ocorrência); gatilho `validar_datas_incidente` recusa datas futuras (feito por gatilho porque CHECK não aceita relógio) e impede mudar as datas depois da comunicação à ANPD.
+- As **duas** funções de prazo (`fixar_prazo_incidente` e `enviar_comunicacao_anpd`) passaram a usar `data_conhecimento`; mantidos `prazo_agente_anpd` (3/6) e `limite_anpd_uteis` (feriados). A comunicação gravada passa a conter `data_conhecimento` e `data_ocorrencia` (art. 6º, §2º, VII).
+- Tela do Bloco 4: "Declarar incidente" abre campos de data do conhecimento (obrigatório) e da ocorrência (opcional), mostra o prazo calculado da data informada e alerta quando ela já está fora do prazo. Contadores, pendências e estado do incidente usam `data_conhecimento`.
+- Testes (`correcao-c1-prazo-conhecimento.test.ts`, 9 aprovados): conhecimento hoje → 3 dias úteis; há 5 dias úteis → atrasado; pequeno porte → 6 dias úteis; futura → rejeitada; anterior à ocorrência → rejeitada; e no banco, com sessão real e CNPJ de teste, as três recusas (sem data, futura, anterior à ocorrência) — nenhuma linha gravada.
+- Fora do escopo, sem alteração: encerramento (C2) e comunicação ao titular (C3).
+
+**Regra a partir da C1 — distinção dos dois campos.**
+| Campo | Natureza | Uso |
+|---|---|---|
+| `iniciado_em` | Registro de auditoria: momento da criação do registro no sistema | Só auditoria e ordenação. **Nenhum cálculo de prazo pode usá-lo.** |
+| `data_conhecimento` | Base legal do prazo (Res. CD/ANPD nº 15/2024, art. 6º, §1º) | Único marco de contagem do prazo, no banco e na tela. |
+
 ### 10.6. Procedimento de validação pós-mudança de visibilidade
 
 Correção de sequência: o teste proposto anteriormente não é válido. A alteração registrada na seção 10 ocorreu antes da mudança de visibilidade do repositório e, portanto, prova apenas que a sincronização funcionava com o repositório público. O protocolo válido exige uma alteração posterior à mudança de visibilidade.
@@ -421,7 +445,7 @@ Pendências restantes:
 | 7 | Rotação de credenciais eventualmente expostas | ✅ Concluído 02/11/2026 — varredura limpa, rotação dispensada (10.7.4) |
 | 8 | Fluxo de comunicação ao titular (Res. 15/2024, art. 9º, incisos I–VII, §§1º–4º e prazo de 3 dias úteis) | 🔴 Aberta — lacuna L1 (10.5.A) |
 | 9 | Registro de incidente não comunicado com motivos da ausência (art. 10, §1º, VIII); hoje o encerramento exige envio à ANPD | 🔴 Aberta — lacuna L2 |
-| 10 | Data de conhecimento e data da ocorrência informadas pelo controlador; prazo contado do conhecimento (art. 6º, caput e §2º, VII) | 🔴 Aberta — lacuna L3 |
+| 10 | Data de conhecimento e data da ocorrência informadas pelo controlador; prazo contado do conhecimento (art. 6º, caput e §2º, VII) | ✅ Concluída em 02/11/2026 — correção C1, migration 0056 (10.5.1) |
 | 11 | Campos da comunicação: motivos da demora (V), operador (X), total de titulares das atividades (XII), causa principal (XI), titulares vulneráveis (II), medidas antes × após × mitigação (III/VI) | 🟠 Aberta — lacunas L4 a L6 |
 | 12 | Complementação fundamentada em 20 dias úteis, 40 para pequeno porte (art. 6º, §3º e §8º) | 🟠 Aberta — lacuna L7 |
 | 13 | Ato formal de indicação do encarregado e substituto (Res. 18/2024, arts. 3º e 4º) | 🟠 Aberta — lacuna L8 |

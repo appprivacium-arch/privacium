@@ -12,7 +12,7 @@ describe.skipIf(!sessionText || !url || !key)('authenticated incident permission
     const company = await client.from('workspace_empresa').select('cnpj').limit(1).single();
     expect(company.error).toBeNull();
     if (!company.data) throw new Error('No authorized company for integration test');
-    const inserted = await client.from('incidentes_seguranca').insert({ empresa_cnpj: company.data.cnpj }).select('id').single();
+    const inserted = await client.from('incidentes_seguranca').insert({ empresa_cnpj: company.data.cnpj, data_conhecimento: new Date().toISOString() }).select('id').single();
     expect(inserted.error).toBeNull();
     if (!inserted.data) throw new Error('Incident declaration failed');
     const id = inserted.data.id;

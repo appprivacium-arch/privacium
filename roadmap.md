@@ -107,3 +107,4 @@
 - [x] Identificar a entrega na interface, distinguir origem ausente e excluída e corrigir estados pendentes.
 - [x] Verificar contagens, chancela e alcance real da migração 0052 sem alterar dados reais.
 - [x] Testar, publicar e entregar provas públicas com limites explícitos (PI-02 global mantém falhas impeditivas de Marketing).
+- [x] Correção C1: data de conhecimento informada, prazo contado dela, testes e registro no blueprint.

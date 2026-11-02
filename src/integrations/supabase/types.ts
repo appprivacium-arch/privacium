@@ -1435,6 +1435,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_acesso_suporte: {
+        Args: { _cnpj: string; _motivo: string }
+        Returns: undefined
+      }
       admin_gm_empresas: {
         Args: never
         Returns: {

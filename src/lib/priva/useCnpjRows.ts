@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
@@ -11,6 +11,7 @@ type Row<K extends T> = Database["public"]["Tables"][K]["Row"];
 /** Lê as linhas de uma tabela vinculadas ao CNPJ ativo, com atualização em tempo real. */
 export function useCnpjRows<K extends T>(table: K, cnpj: string | null, order: string) {
   const qc = useQueryClient();
+  const instancia = useId();
   const { demo, demoSessao } = usePriva();
   const key = [table, cnpj] as const;
   const q = useQuery({
@@ -25,11 +26,11 @@ export function useCnpjRows<K extends T>(table: K, cnpj: string | null, order: s
   });
   useEffect(() => {
     if (!cnpj || demo) return;
-    const ch = supabase.channel(`${table}_${cnpj}`)
+    const ch = supabase.channel(`${table}_${cnpj}_${instancia}`)
       .on("postgres_changes", { event: "*", schema: "public", table, filter: `empresa_cnpj=eq.${cnpj}` }, () => void qc.invalidateQueries({ queryKey: [table, cnpj] }))
       .subscribe();
     return () => { void supabase.removeChannel(ch); };
-  }, [table, cnpj, qc, demo]);
+  }, [table, cnpj, qc, demo, instancia]);
   if (demo) {
     // O Dashboard lê a mesma fonte do Bloco 4: seed cenográfico + sessão simulada em memória.
     const rows = table === "incidentes_seguranca" ? DEMO_ROWS.incidentes_seguranca.map(i => aplicarSessaoDemo(i, demoSessao)) : DEMO_ROWS[table];

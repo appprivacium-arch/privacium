@@ -4,10 +4,10 @@ import { ArrowRight, CheckCircle2, Hourglass, Lock, Navigation } from "lucide-re
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { usePriva, isUnlocked } from "@/lib/priva/store";
-import { montarChecklist, pendenciasKanban } from "@/lib/priva/pendencias";
+import { pendenciasKanban } from "@/lib/priva/pendencias";
 import { blocoCorrente, calcularProximoPasso, type Passo } from "@/lib/priva/proximoPasso";
 import { cn } from "@/lib/utils";
-import { useDadosBloco } from "./TelaBloqueio";
+import { usePendenciasEmpresa } from "@/lib/priva/usePendenciasEmpresa";
 import { LinkPendencia } from './LinkPendencia';
 import { FornecedoresProximoPasso } from './AlertaFornecedorVazado';
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
@@ -29,16 +29,17 @@ export function ProximoPasso() {
   const m = pathname.match(/^\/bloco-(\d)/);
   const blocoTela = m ? Number(m[1]) : Math.min(blocoCorrente(signatures), 5);
   const blocoBase = isUnlocked(signatures, blocoTela) ? blocoTela : blocoTela - 1;
-  const { data } = useDadosBloco(blocoBase, cnpj);
+  const { itensDoBloco } = usePendenciasEmpresa();
+  const doBloco = itensDoBloco(blocoBase);
   if (!cnpj || pathname.startsWith("/manual") || pathname.startsWith("/membros")) return null;
   if (!demo && !enquadramento.vigente) return <section className="mb-6 flex flex-wrap items-center justify-between gap-3 border-l-4 border-pendencia p-4"><p className="text-sm">Assine a declaração de enquadramento do agente para continuar o ciclo.</p><Button asChild><Link to="/bloco-1" hash="enquadramento">Assinar enquadramento</Link></Button></section>;
 
-  let itens = data ? montarChecklist(data, signatures) : [];
+  let itens = doBloco ?? [];
   if (pathname.startsWith("/kanban")) {
     const k = pendenciasKanban(kanban).filter((p) => p.estado !== "ok");
     if (k.length) itens = k;
   }
-  if (!data && !itens.length) return null;
+  if (!doBloco && !itens.length) return null;
   const passo = calcularProximoPasso({ blocoTela, blocoBase, itens, roles });
   const t = TOM[passo.tipo];
   const naMesmaTela = pathname === passo.link.to;
@@ -66,7 +67,7 @@ export function ProximoPasso() {
       {passo.tipo === "aguardando" ? (
         <Button variant="outline" onClick={() => { if (demo) return avisarAcaoDemo(); log("INSERT", "solicitacao_assinatura", `Solicitada ação de ${passo.pendencia?.responsavel}: ${passo.pendencia?.titulo}`); toast.success("Solicitação registrada na trilha de auditoria."); }}>{passo.botao}</Button>
       ) : (
-        <Button className="h-auto min-h-9 max-w-full whitespace-normal text-left" asChild>{passo.pendencia ? <LinkPendencia item={passo.pendencia} onClick={ir}>{passo.botao} <ArrowRight className="h-4 w-4" /></LinkPendencia> : <Link to={passo.link.to as "/painel"} {...(passo.link.hash ? { hash: passo.link.hash } : {})} onClick={ir}>{passo.botao} <ArrowRight className="h-4 w-4" /></Link>}</Button>
+        <Button className="h-auto min-h-9 max-w-full whitespace-normal text-left" asChild>{passo.pendencia ? <LinkPendencia item={passo.pendencia}>{passo.botao} <ArrowRight className="h-4 w-4" /></LinkPendencia> : <Link to={passo.link.to as "/painel"} {...(passo.link.hash ? { hash: passo.link.hash } : {})} onClick={ir}>{passo.botao} <ArrowRight className="h-4 w-4" /></Link>}</Button>
       )}
     </section>
     <FornecedoresProximoPasso />

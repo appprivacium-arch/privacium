@@ -121,3 +121,5 @@
 - [ ] Passo 6.2 criar workspace inicial da Privacium e verificar empresa, CORE, 50.000 tokens e vínculo exclusivo do novo DPO.
 - [ ] Passo 6.3 preencher declaração ME e contato contato@privacium.com.br — bloqueado pelos critérios de enquadramento, nome do encarregado e confirmação da conta; não assinar em nome do DPO.
 - [ ] Passo 6.4 reportar seis provas de isolamento/criação e existência de nome fantasia/CNAE; não cadastrar ROT, membros, terceiros ou identificadores reais.
+- [ ] Passo 6: responder seis perguntas sobre encarregada legal separada da conta técnica antes de registrar Simone; data de indicação pendente.
+- [ ] Passo 6: adicionar nome_fantasia em empresas e sincronização; documentar razão social escolhida diferente do cartão CNPJ.

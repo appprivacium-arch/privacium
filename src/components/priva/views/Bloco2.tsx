@@ -94,9 +94,12 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
       : await supabase.from("registro_operacoes").insert(payload).select("id, codigo").single();
     if (error) { toast.error(error.message); return; }
     const rotId = edit.id ?? data.id;
-    log(edit.id ? "UPDATE" : "INSERT", "registro_operacoes", `Processo ${data.codigo}`);
-    for (const a of alertasCoerencia(form)) log("INSERT", "registro_operacoes", `Alerta de coerência dado × hipótese em ${data.codigo}: ${a}`);
-    if (alertaFinalidadeOperador(edit.form)) log("INSERT", "registro_operacoes", `Alerta em ${data.codigo}: ${ALERTA_FINALIDADE_OPERADOR}`);
+    // Edição: o trigger do banco grava o diff campo a campo e nada grava quando nada mudou.
+    if (!edit.id) {
+      log("INSERT", "registro_operacoes", `Processo ${data.codigo}`);
+      for (const a of alertasCoerencia(form)) log("INSERT", "registro_operacoes", `Alerta de coerência dado × hipótese em ${data.codigo}: ${a}`);
+      if (alertaFinalidadeOperador(edit.form)) log("INSERT", "registro_operacoes", `Alerta em ${data.codigo}: ${ALERTA_FINALIDADE_OPERADOR}`);
+    }
     // Destino INTERNO de cada PRT: cria a linha receptora no ROT do setor de destino, com origem rastreada.
     let mudou = false;
     const atualizados: ProdutoTratamento[] = [];

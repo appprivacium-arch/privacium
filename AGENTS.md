@@ -9,6 +9,14 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
+- Princípios invioláveis (versão completa no topo de `system-blueprint.md`, leia antes de alterar):
+  1. Ausência de dado não é fato: distinguir "não há", "não posso ver" e "erro ao carregar".
+  2. Bloqueio na interface não é bloqueio: toda regra de acesso vive na policy do banco.
+  3. Ler e alterar são permissões distintas (SELECT e UPDATE separados).
+  4. [Reservado até comprovar diff granular e edição proeminente no ROT.]
+  5. Trilha registra fatos: grava revelação de dado pessoal e alteração de estado; nunca navegação.
+  6. Pseudonimização não é anonimização.
+  7. Bypass de ADMIN_SISTEMA em dado pessoal exige justificativa documentada e trilha.
 - Brand: Privacium (privacium.com.br), never "PRIVA 2EC". Demo embeds a build-time source fingerprint, not a claimed deployment commit; why: delivery verification.
 - Titular lookup/requests use isolated tables and tenant-authorized audited RPCs, never workspace JSON; why: protect identifiers.
 - Subdirectories have their own AGENTS.md (e.g. src/lib/priva); read it before changing files there.

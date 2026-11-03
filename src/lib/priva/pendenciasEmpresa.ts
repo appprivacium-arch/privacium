@@ -20,8 +20,8 @@ export type FontesPendencias = {
   agora: number;
   ripd: { sistema: string; escudo: string; riscos: { label: string; mitig: string }[] };
   /** undefined = não lido (sem pendência falsa); null = sem ato. */
-  ato?: AtoFonte;
-  publicarContato?: boolean | null;
+  ato?: AtoFonte | undefined;
+  publicarContato?: boolean | null | undefined;
   kanban: { id: string; what: string; who: string; when: string; column: string }[];
 };
 

@@ -123,6 +123,7 @@ export const DEMO_PUBLIC_SIGNATURES = Object.fromEntries(Object.entries(DEMO_SIG
 export const DEMO_DPO: Database['public']['Tables']['encarregado_dpo']['Row'] = {
   empresa_cnpj: DEMO_CNPJ, nome: 'Encarregado Cenográfico', email: 'dpo@cenografica.com.br',
   telefone: null, endereco: null, publicar_contato: false, atualizado_em: ts,
+  natureza_relacao: null, declaracao_autonomia: null, declaracao_assinada_em: null, conflito_declarado: null, ato_indicacao_id: null,
 };
 const etapasDemo = [1, 2, 3, 4, 5, 6].map(numero => ({ numero, concluida: true }));
 const evidenciasDemo = [

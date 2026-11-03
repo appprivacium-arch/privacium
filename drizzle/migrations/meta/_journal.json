@@ -498,6 +498,27 @@
       "when": 1793711957951,
       "tag": "0070_ato_indicacao_voluntaria_art20",
       "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "7",
+      "when": 1793724315737,
+      "tag": "0071_estruturas_aditivas_pecas_evidencias",
+      "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "7",
+      "when": 1793724340655,
+      "tag": "0072_trilha_acao_ddl",
+      "breakpoints": true
+    },
+    {
+      "idx": 73,
+      "version": "7",
+      "when": 1793724360725,
+      "tag": "0073_trilha_op_ddl",
+      "breakpoints": true
     }
   ]
 }

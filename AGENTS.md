@@ -38,3 +38,4 @@
 - Tenant tables require restrictive company policies beyond role checks, with no ADMIN bypass on client-data tables (ADMIN reads SaaS metadata and `workspace_empresa`, never edits it; support access only via audited `admin_acesso_suporte`). Why: prevent cross-company access, Achado 3.
 - Glossary terms and dashboard indicators come from one shared glossary module. Why: no bare acronyms; every metric shows definition, formula and action.
 - Public client build vars (VITE_ URL + publishable key only) live in versioned `publico.env`; vite.config.ts reads it with a no-fallback guard. Why: publish builder gets no `.env`/env vars and `.env.*` is gitignored.
+- Peças/evidências/não conformidades/ações (+ pivôs rot_pecas, rot_evidencias) são tabelas aditivas por empresa_cnpj, sem DELETE (exclusão lógica), com diff auditado por trigger e eventos sem sessão via `registrar_trilha_sistema`; why: evidência forense sem tocar o ROT.

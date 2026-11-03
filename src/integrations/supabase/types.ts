@@ -14,6 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
+      acoes: {
+        Row: {
+          atualizado_em: string
+          codigo: string
+          concluida_em: string | null
+          criado_em: string
+          criado_por: string | null
+          empresa_cnpj: string
+          evidencia_id: string | null
+          excluido_em: string | null
+          excluido_por: string | null
+          how_metodo: string
+          how_much_estimativa: string | null
+          id: string
+          motivo_exclusao: string | null
+          nao_conformidade_id: string
+          status: string
+          what_descricao: string
+          when_prazo: string
+          where_local: string | null
+          who_responsavel: string
+          why_justificativa: string
+        }
+        Insert: {
+          atualizado_em?: string
+          codigo: string
+          concluida_em?: string | null
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj: string
+          evidencia_id?: string | null
+          excluido_em?: string | null
+          excluido_por?: string | null
+          how_metodo: string
+          how_much_estimativa?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          nao_conformidade_id: string
+          status?: string
+          what_descricao: string
+          when_prazo: string
+          where_local?: string | null
+          who_responsavel: string
+          why_justificativa: string
+        }
+        Update: {
+          atualizado_em?: string
+          codigo?: string
+          concluida_em?: string | null
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj?: string
+          evidencia_id?: string | null
+          excluido_em?: string | null
+          excluido_por?: string | null
+          how_metodo?: string
+          how_much_estimativa?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          nao_conformidade_id?: string
+          status?: string
+          what_descricao?: string
+          when_prazo?: string
+          where_local?: string | null
+          who_responsavel?: string
+          why_justificativa?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "acoes_evidencia_id_fkey"
+            columns: ["evidencia_id"]
+            isOneToOne: false
+            referencedRelation: "evidencias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "acoes_nao_conformidade_id_fkey"
+            columns: ["nao_conformidade_id"]
+            isOneToOne: false
+            referencedRelation: "nao_conformidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ativos_seguranca: {
         Row: {
           atualizado_em: string
@@ -425,6 +509,86 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "empresas"
             referencedColumns: ["cnpj"]
+          },
+        ]
+      }
+      evidencias: {
+        Row: {
+          atualizado_em: string
+          codigo: string
+          criado_em: string
+          criado_por: string | null
+          criterio_obtencao: string
+          dispositivo_citado: string
+          dispositivo_texto: string
+          empresa_cnpj: string
+          evidencia_normativa_verificada: boolean
+          excluido_em: string | null
+          excluido_por: string | null
+          fonte_oficial_url: string | null
+          hash_arquivo: string | null
+          id: string
+          motivo_exclusao: string | null
+          nome: string
+          obrigatoriedade: string
+          obtida_em: string | null
+          obtida_por: string | null
+          peca_id: string
+          status: string
+        }
+        Insert: {
+          atualizado_em?: string
+          codigo: string
+          criado_em?: string
+          criado_por?: string | null
+          criterio_obtencao: string
+          dispositivo_citado: string
+          dispositivo_texto: string
+          empresa_cnpj: string
+          evidencia_normativa_verificada?: boolean
+          excluido_em?: string | null
+          excluido_por?: string | null
+          fonte_oficial_url?: string | null
+          hash_arquivo?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          nome: string
+          obrigatoriedade: string
+          obtida_em?: string | null
+          obtida_por?: string | null
+          peca_id: string
+          status?: string
+        }
+        Update: {
+          atualizado_em?: string
+          codigo?: string
+          criado_em?: string
+          criado_por?: string | null
+          criterio_obtencao?: string
+          dispositivo_citado?: string
+          dispositivo_texto?: string
+          empresa_cnpj?: string
+          evidencia_normativa_verificada?: boolean
+          excluido_em?: string | null
+          excluido_por?: string | null
+          fonte_oficial_url?: string | null
+          hash_arquivo?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          nome?: string
+          obrigatoriedade?: string
+          obtida_em?: string | null
+          obtida_por?: string | null
+          peca_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evidencias_peca_id_fkey"
+            columns: ["peca_id"]
+            isOneToOne: false
+            referencedRelation: "pecas"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -869,6 +1033,131 @@ export type Database = {
           },
         ]
       }
+      nao_conformidades: {
+        Row: {
+          atualizado_em: string
+          criado_por: string | null
+          descricao: string
+          detectada_em: string
+          dispositivo_violado: string
+          empresa_cnpj: string
+          evidencia_id: string | null
+          excluido_em: string | null
+          excluido_por: string | null
+          gravidade: string
+          id: string
+          motivo_exclusao: string | null
+          origem: string
+          resolvida_em: string | null
+          status: string
+        }
+        Insert: {
+          atualizado_em?: string
+          criado_por?: string | null
+          descricao: string
+          detectada_em?: string
+          dispositivo_violado: string
+          empresa_cnpj: string
+          evidencia_id?: string | null
+          excluido_em?: string | null
+          excluido_por?: string | null
+          gravidade: string
+          id?: string
+          motivo_exclusao?: string | null
+          origem: string
+          resolvida_em?: string | null
+          status?: string
+        }
+        Update: {
+          atualizado_em?: string
+          criado_por?: string | null
+          descricao?: string
+          detectada_em?: string
+          dispositivo_violado?: string
+          empresa_cnpj?: string
+          evidencia_id?: string | null
+          excluido_em?: string | null
+          excluido_por?: string | null
+          gravidade?: string
+          id?: string
+          motivo_exclusao?: string | null
+          origem?: string
+          resolvida_em?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nao_conformidades_evidencia_id_fkey"
+            columns: ["evidencia_id"]
+            isOneToOne: false
+            referencedRelation: "evidencias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pecas: {
+        Row: {
+          atualizado_em: string
+          chancelada_em: string | null
+          chancelada_por: string | null
+          codigo: string
+          criado_em: string
+          criado_por: string | null
+          descricao: string | null
+          empresa_cnpj: string
+          excluido_em: string | null
+          excluido_por: string | null
+          funcao_prohatoria: string | null
+          hash_chancela: string | null
+          id: string
+          motivo_exclusao: string | null
+          nome: string
+          ordem: number
+          produto_codigo: string
+          status: string
+        }
+        Insert: {
+          atualizado_em?: string
+          chancelada_em?: string | null
+          chancelada_por?: string | null
+          codigo: string
+          criado_em?: string
+          criado_por?: string | null
+          descricao?: string | null
+          empresa_cnpj: string
+          excluido_em?: string | null
+          excluido_por?: string | null
+          funcao_prohatoria?: string | null
+          hash_chancela?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          nome: string
+          ordem: number
+          produto_codigo: string
+          status?: string
+        }
+        Update: {
+          atualizado_em?: string
+          chancelada_em?: string | null
+          chancelada_por?: string | null
+          codigo?: string
+          criado_em?: string
+          criado_por?: string | null
+          descricao?: string | null
+          empresa_cnpj?: string
+          excluido_em?: string | null
+          excluido_por?: string | null
+          funcao_prohatoria?: string | null
+          hash_chancela?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          nome?: string
+          ordem?: number
+          produto_codigo?: string
+          status?: string
+        }
+        Relationships: []
+      }
       perguntas_diagnostico: {
         Row: {
           enunciado: string
@@ -1156,6 +1445,108 @@ export type Database = {
           sistema_avaliado?: string
         }
         Relationships: []
+      }
+      rot_evidencias: {
+        Row: {
+          criado_em: string
+          criado_por: string | null
+          empresa_cnpj: string
+          evidencia_id: string
+          excluido_em: string | null
+          excluido_por: string | null
+          id: string
+          motivo_exclusao: string | null
+          processo_rot_id: string
+        }
+        Insert: {
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj: string
+          evidencia_id: string
+          excluido_em?: string | null
+          excluido_por?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          processo_rot_id: string
+        }
+        Update: {
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj?: string
+          evidencia_id?: string
+          excluido_em?: string | null
+          excluido_por?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          processo_rot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rot_evidencias_evidencia_id_fkey"
+            columns: ["evidencia_id"]
+            isOneToOne: false
+            referencedRelation: "evidencias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rot_evidencias_processo_rot_id_fkey"
+            columns: ["processo_rot_id"]
+            isOneToOne: false
+            referencedRelation: "registro_operacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rot_pecas: {
+        Row: {
+          criado_em: string
+          criado_por: string | null
+          empresa_cnpj: string
+          excluido_em: string | null
+          excluido_por: string | null
+          id: string
+          motivo_exclusao: string | null
+          peca_id: string
+          processo_rot_id: string
+        }
+        Insert: {
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj: string
+          excluido_em?: string | null
+          excluido_por?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          peca_id: string
+          processo_rot_id: string
+        }
+        Update: {
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj?: string
+          excluido_em?: string | null
+          excluido_por?: string | null
+          id?: string
+          motivo_exclusao?: string | null
+          peca_id?: string
+          processo_rot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rot_pecas_peca_id_fkey"
+            columns: ["peca_id"]
+            isOneToOne: false
+            referencedRelation: "pecas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rot_pecas_processo_rot_id_fkey"
+            columns: ["processo_rot_id"]
+            isOneToOne: false
+            referencedRelation: "registro_operacoes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       salt_empresa: {
         Row: {
@@ -1722,6 +2113,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      auditar_diff_generico: {
+        Args: { _new: Json; _old: Json; _op: string; _tabela: string }
+        Returns: undefined
+      }
       autorizar_titulares: { Args: { _empresa: string }; Returns: string }
       avaliar_fornecedor: {
         Args: {
@@ -1951,6 +2346,16 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      registrar_trilha_sistema: {
+        Args: {
+          _cnpj: string
+          _detail: string
+          _op: string
+          _tabela: string
+          _target: string
+        }
+        Returns: undefined
       }
       registrar_uso_ia: {
         Args: { _bloqueios: number; _cnpj: string; _tokens: number }

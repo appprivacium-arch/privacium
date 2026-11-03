@@ -1,6 +1,7 @@
 import type { Signature } from "./store";
 import type { RotInput } from "./rot";
 import type { IncidenteFonte } from "./estadoIncidente";
+import { pendenciasEncarregado, type AtoFonte } from "./atoIndicacao";
 import { montarChecklist, ordenar, pendenciasBloco5, pendenciasKanban, type Pendencia } from "./pendencias";
 
 /** Fontes já lidas do CNPJ ativo. A montagem é pura: mesma entrada, mesma lista, mesma ordem. */
@@ -18,6 +19,9 @@ export type FontesPendencias = {
   prazoDias: 3 | 6;
   agora: number;
   ripd: { sistema: string; escudo: string; riscos: { label: string; mitig: string }[] };
+  /** undefined = não lido (sem pendência falsa); null = sem ato. */
+  ato?: AtoFonte;
+  publicarContato?: boolean | null;
   kanban: { id: string; what: string; who: string; when: string; column: string }[];
 };
 
@@ -28,7 +32,7 @@ export function agruparPendencias(f: FontesPendencias) {
   const lib = (n: number) => f.liberados.includes(n);
   const s = f.signatures;
   const grupos: GrupoPendencias[] = [];
-  if (lib(1)) grupos.push({ n: 1, itens: montarChecklist({ n: 1, perguntas: f.perguntas, respondidas: Object.keys(f.respostas).length, naos: Object.values(f.respostas).filter((v) => !v).length }, s) });
+  if (lib(1)) grupos.push({ n: 1, itens: montarChecklist({ n: 1, perguntas: f.perguntas, respondidas: Object.keys(f.respostas).length, naos: Object.values(f.respostas).filter((v) => !v).length }, s).concat(pendenciasEncarregado(f.ato, f.publicarContato)) });
   if (lib(2)) grupos.push({ n: 2, itens: montarChecklist({ n: 2, rot: f.rot }, s) });
   if (lib(3)) grupos.push({ n: 3, itens: montarChecklist({ n: 3, endpoints: f.endpoints, cofres: f.cofres, chaves: null }, s) });
   if (lib(4)) grupos.push({ n: 4, itens: montarChecklist({ n: 4, lotes: f.lotes, incidentes: f.incidentes, agora: f.agora, prazoDias: f.prazoDias }, s) });

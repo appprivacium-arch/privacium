@@ -40,6 +40,7 @@ Dogfooding não é marketing: é a condição de credibilidade.
 1. Toda afirmação de conformidade precisa de evidência reproduzível: a consulta executada e o resultado colado.
 2. "Auditoria executada" não é auditoria.
 3. Lição só se escreve sobre o que foi resolvido. Problema em aberto é pendência, não aprendizado.
+4. Governança da trilha: Eventos de trilha com autor 'sistema:<papel>' são fatos de engenharia — criação de estrutura, execução de migration, seed controlado — e NÃO são prova de ação de usuário. A trilha distingue, pelo campo de autor, o fato operacional (assinado por auth.uid()) do fato de sistema (assinado por current_user via função interna no schema private). Nenhum relatório de conformidade pode tratar evento 'sistema:*' como ação humana. A função private.registrar_trilha_sistema é acessível somente a postgres e service_role, com asserção interna que recusa qualquer outro papel.
 
 ## 0. Identidade da Marca
 

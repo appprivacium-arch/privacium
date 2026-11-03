@@ -519,6 +519,13 @@
       "when": 1793724360725,
       "tag": "0073_trilha_op_ddl",
       "breakpoints": true
+    },
+    {
+      "idx": 74,
+      "version": "7",
+      "when": 1793725293877,
+      "tag": "0074_trilha_sistema_schema_private",
+      "breakpoints": true
     }
   ]
 }

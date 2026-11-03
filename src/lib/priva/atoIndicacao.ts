@@ -19,8 +19,8 @@ export function estadoAto(ato: AtoFonte): EstadoAto {
 }
 
 /** Contato do encarregado só entra em documento gerado se o controlador autorizou a publicação. */
-export function contatoPublicavel<T extends { publicar_contato: boolean }>(c: T | null | undefined): T | null {
-  return c && c.publicar_contato ? c : null;
+export function contatoPublicavel<T extends { publicar_contato: boolean } | null | undefined>(c: T): NonNullable<T> | null {
+  return c && c.publicar_contato ? (c as NonNullable<T>) : null;
 }
 
 /** Pendências do encarregado (Bloco 1). `null` = não foi possível ler: não gera pendência falsa. */

@@ -511,3 +511,7 @@ Pendências restantes:
 - Decisão: o ADMIN não escreve em nome do cliente. `admin_acesso_suporte(_cnpj, _motivo)` apenas registra na trilha o motivo declarado (mínimo 20 caracteres) e não libera dado nenhum.
 - Teste com conta só ADMIN e sem vínculo: ROT 0, incidentes 0, respostas 0, solicitações 0 (antes 50/2/332/15); workspace_empresa 2 linhas lidas; UPDATE negado (0 linhas); admin_gm_empresas funciona.
 - Pendente (rodada própria): funções privilegiadas que ainda aceitam ADMIN sobre dados do cliente (localizar/indexar_titular, criar/atualizar_solicitacao_titular, revelar_*, encerrar_incidente, enviar_comunicacao_anpd, excluir_linha_rot, assinar_etapa_rot).
+
+## Ato de indicação do encarregado (art. 41)
+- Ato assinado pelo controlador (Diretoria), data e hash SHA-256 gerados no servidor; declaração de autonomia e ausência de conflito assinada pelo próprio encarregado, vinculada ao ato. Nova indicação substitui o ato anterior, que fica como histórico.
+- `publicar_contato = false`: o contato não aparece nos documentos gerados (PI-01, PI-02, PI-04). O formulário de comunicação à ANPD continua levando o contato, pois comunicar à autoridade não é publicar.

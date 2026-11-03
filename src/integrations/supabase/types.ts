@@ -80,6 +80,7 @@ export type Database = {
           conflito_declarado: boolean | null
           declaracao_assinada_em: string | null
           declaracao_assinada_por: string | null
+          declaracao_conflito_texto: string | null
           declaracao_hash: string | null
           declaracao_texto: string | null
           email_publicado: string
@@ -87,6 +88,7 @@ export type Database = {
           escopo: string[]
           hash_sha256: string
           id: string
+          indicacao_voluntaria: boolean | null
           mandato_ate: string | null
           natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
           nome: string
@@ -98,6 +100,7 @@ export type Database = {
           conflito_declarado?: boolean | null
           declaracao_assinada_em?: string | null
           declaracao_assinada_por?: string | null
+          declaracao_conflito_texto?: string | null
           declaracao_hash?: string | null
           declaracao_texto?: string | null
           email_publicado: string
@@ -105,6 +108,7 @@ export type Database = {
           escopo: string[]
           hash_sha256: string
           id?: string
+          indicacao_voluntaria?: boolean | null
           mandato_ate?: string | null
           natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
           nome: string
@@ -116,6 +120,7 @@ export type Database = {
           conflito_declarado?: boolean | null
           declaracao_assinada_em?: string | null
           declaracao_assinada_por?: string | null
+          declaracao_conflito_texto?: string | null
           declaracao_hash?: string | null
           declaracao_texto?: string | null
           email_publicado?: string
@@ -123,6 +128,7 @@ export type Database = {
           escopo?: string[]
           hash_sha256?: string
           id?: string
+          indicacao_voluntaria?: boolean | null
           mandato_ate?: string | null
           natureza_relacao?: Database["public"]["Enums"]["natureza_relacao_encarregado"]
           nome?: string
@@ -1576,6 +1582,7 @@ export type Database = {
           conflito_declarado: boolean | null
           declaracao_assinada_em: string | null
           declaracao_assinada_por: string | null
+          declaracao_conflito_texto: string | null
           declaracao_hash: string | null
           declaracao_texto: string | null
           email_publicado: string
@@ -1583,6 +1590,7 @@ export type Database = {
           escopo: string[]
           hash_sha256: string
           id: string
+          indicacao_voluntaria: boolean | null
           mandato_ate: string | null
           natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
           nome: string
@@ -1595,33 +1603,70 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      assinar_declaracao_encarregado: {
-        Args: { _ato_id: string; _conflito: boolean; _texto: string }
-        Returns: {
-          assinado_em: string
-          assinado_por: string
-          conflito_declarado: boolean | null
-          declaracao_assinada_em: string | null
-          declaracao_assinada_por: string | null
-          declaracao_hash: string | null
-          declaracao_texto: string | null
-          email_publicado: string
-          empresa_cnpj: string
-          escopo: string[]
-          hash_sha256: string
-          id: string
-          mandato_ate: string | null
-          natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
-          nome: string
-          substituido_em: string | null
-        }
-        SetofOptions: {
-          from: "*"
-          to: "atos_indicacao_encarregado"
-          isOneToOne: true
-          isSetofReturn: false
-        }
-      }
+      assinar_declaracao_encarregado:
+        | {
+            Args: { _ato_id: string; _conflito: boolean; _texto: string }
+            Returns: {
+              assinado_em: string
+              assinado_por: string
+              conflito_declarado: boolean | null
+              declaracao_assinada_em: string | null
+              declaracao_assinada_por: string | null
+              declaracao_conflito_texto: string | null
+              declaracao_hash: string | null
+              declaracao_texto: string | null
+              email_publicado: string
+              empresa_cnpj: string
+              escopo: string[]
+              hash_sha256: string
+              id: string
+              indicacao_voluntaria: boolean | null
+              mandato_ate: string | null
+              natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+              nome: string
+              substituido_em: string | null
+            }
+            SetofOptions: {
+              from: "*"
+              to: "atos_indicacao_encarregado"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+        | {
+            Args: {
+              _ato_id: string
+              _conflito: boolean
+              _texto: string
+              _texto_conflito: string
+            }
+            Returns: {
+              assinado_em: string
+              assinado_por: string
+              conflito_declarado: boolean | null
+              declaracao_assinada_em: string | null
+              declaracao_assinada_por: string | null
+              declaracao_conflito_texto: string | null
+              declaracao_hash: string | null
+              declaracao_texto: string | null
+              email_publicado: string
+              empresa_cnpj: string
+              escopo: string[]
+              hash_sha256: string
+              id: string
+              indicacao_voluntaria: boolean | null
+              mandato_ate: string | null
+              natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+              nome: string
+              substituido_em: string | null
+            }
+            SetofOptions: {
+              from: "*"
+              to: "atos_indicacao_encarregado"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
       assinar_enquadramento: {
         Args: { _cnpj: string; _criterios: Json }
         Returns: {

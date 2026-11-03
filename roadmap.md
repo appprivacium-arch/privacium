@@ -125,3 +125,6 @@
 - [x] Passo 6: adicionar nome_fantasia em empresas e sincronização; documentar razão social escolhida diferente do cartão CNPJ.
 - [x] Passo 6 · Ações 1–3: ato de indicação (Bloco 1), publicar_contato opção (a), campos novos do encarregado.
 - [ ] Passo 6 · Ação 4: registrar Simone — aguarda a empresa existir (depende da confirmação do e-mail do DPO).
+- [x] Ato: indicação voluntária (Res. 2/2022 art. 11 §2º), citação art. 3º Res. 18/2024, declaração de conflito separada (art. 20).
+- [x] Conta samuel@privacium.com.br criada só com C_SUITE (trilha seq 1679).
+- [ ] Confirmar e-mails de samuel@ e dpo@ e vincular ambos à Privacium em Membros — bloqueado pelo clique dos destinatários.

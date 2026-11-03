@@ -1,3 +1,5 @@
+import { useAtoIndicacao } from "./useAtoIndicacao";
+import { useEncarregado } from "./useEncarregado";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
@@ -45,6 +47,8 @@ export function usePendenciasEmpresa() {
     },
   });
 
+  const ato = useAtoIndicacao();
+  const encarregado = useEncarregado();
   const salvo = ripd.rows[0];
   const riscosSalvos = (salvo?.riscos ?? {}) as Record<string, { mitig?: string }>;
   const riscos = (["vazamento", "vies", "injecao"] as RiscoId[]).map((id) => {
@@ -65,6 +69,8 @@ export function usePendenciasEmpresa() {
     prazoDias: prazoPorPorte(enquadramento.porte),
     agora: Date.now(),
     ripd: { sistema: salvo?.sistema_avaliado ?? "", escudo: salvo?.escudo_digital ?? "", riscos },
+    ato: ato.isSuccess ? (ato.data ?? null) : undefined,
+    publicarContato: encarregado.isSuccess ? (encarregado.data ? encarregado.data.publicar_contato : null) : undefined,
     kanban,
   });
   return { cnpj, ...r, itensDoBloco: (n: number) => r.grupos.find((g) => g.n === n)?.itens ?? null };

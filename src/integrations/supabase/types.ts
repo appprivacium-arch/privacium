@@ -73,6 +73,71 @@ export type Database = {
           },
         ]
       }
+      atos_indicacao_encarregado: {
+        Row: {
+          assinado_em: string
+          assinado_por: string
+          conflito_declarado: boolean | null
+          declaracao_assinada_em: string | null
+          declaracao_assinada_por: string | null
+          declaracao_hash: string | null
+          declaracao_texto: string | null
+          email_publicado: string
+          empresa_cnpj: string
+          escopo: string[]
+          hash_sha256: string
+          id: string
+          mandato_ate: string | null
+          natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+          nome: string
+          substituido_em: string | null
+        }
+        Insert: {
+          assinado_em?: string
+          assinado_por: string
+          conflito_declarado?: boolean | null
+          declaracao_assinada_em?: string | null
+          declaracao_assinada_por?: string | null
+          declaracao_hash?: string | null
+          declaracao_texto?: string | null
+          email_publicado: string
+          empresa_cnpj: string
+          escopo: string[]
+          hash_sha256: string
+          id?: string
+          mandato_ate?: string | null
+          natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+          nome: string
+          substituido_em?: string | null
+        }
+        Update: {
+          assinado_em?: string
+          assinado_por?: string
+          conflito_declarado?: boolean | null
+          declaracao_assinada_em?: string | null
+          declaracao_assinada_por?: string | null
+          declaracao_hash?: string | null
+          declaracao_texto?: string | null
+          email_publicado?: string
+          empresa_cnpj?: string
+          escopo?: string[]
+          hash_sha256?: string
+          id?: string
+          mandato_ate?: string | null
+          natureza_relacao?: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+          nome?: string
+          substituido_em?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "atos_indicacao_encarregado_empresa_cnpj_fkey"
+            columns: ["empresa_cnpj"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["cnpj"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           detail: string
@@ -248,33 +313,61 @@ export type Database = {
       }
       encarregado_dpo: {
         Row: {
+          ato_indicacao_id: string | null
           atualizado_em: string
+          conflito_declarado: boolean | null
+          declaracao_assinada_em: string | null
+          declaracao_autonomia: string | null
           email: string
           empresa_cnpj: string
           endereco: string | null
+          natureza_relacao:
+            | Database["public"]["Enums"]["natureza_relacao_encarregado"]
+            | null
           nome: string
           publicar_contato: boolean
           telefone: string | null
         }
         Insert: {
+          ato_indicacao_id?: string | null
           atualizado_em?: string
+          conflito_declarado?: boolean | null
+          declaracao_assinada_em?: string | null
+          declaracao_autonomia?: string | null
           email: string
           empresa_cnpj: string
           endereco?: string | null
+          natureza_relacao?:
+            | Database["public"]["Enums"]["natureza_relacao_encarregado"]
+            | null
           nome: string
           publicar_contato?: boolean
           telefone?: string | null
         }
         Update: {
+          ato_indicacao_id?: string | null
           atualizado_em?: string
+          conflito_declarado?: boolean | null
+          declaracao_assinada_em?: string | null
+          declaracao_autonomia?: string | null
           email?: string
           empresa_cnpj?: string
           endereco?: string | null
+          natureza_relacao?:
+            | Database["public"]["Enums"]["natureza_relacao_encarregado"]
+            | null
           nome?: string
           publicar_contato?: boolean
           telefone?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "encarregado_dpo_ato_indicacao_id_fkey"
+            columns: ["ato_indicacao_id"]
+            isOneToOne: false
+            referencedRelation: "atos_indicacao_encarregado"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "encarregado_dpo_empresa_cnpj_fkey"
             columns: ["empresa_cnpj"]
@@ -1475,6 +1568,60 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      assinar_ato_indicacao: {
+        Args: { _cnpj: string; _dados: Json }
+        Returns: {
+          assinado_em: string
+          assinado_por: string
+          conflito_declarado: boolean | null
+          declaracao_assinada_em: string | null
+          declaracao_assinada_por: string | null
+          declaracao_hash: string | null
+          declaracao_texto: string | null
+          email_publicado: string
+          empresa_cnpj: string
+          escopo: string[]
+          hash_sha256: string
+          id: string
+          mandato_ate: string | null
+          natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+          nome: string
+          substituido_em: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "atos_indicacao_encarregado"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      assinar_declaracao_encarregado: {
+        Args: { _ato_id: string; _conflito: boolean; _texto: string }
+        Returns: {
+          assinado_em: string
+          assinado_por: string
+          conflito_declarado: boolean | null
+          declaracao_assinada_em: string | null
+          declaracao_assinada_por: string | null
+          declaracao_hash: string | null
+          declaracao_texto: string | null
+          email_publicado: string
+          empresa_cnpj: string
+          escopo: string[]
+          hash_sha256: string
+          id: string
+          mandato_ate: string | null
+          natureza_relacao: Database["public"]["Enums"]["natureza_relacao_encarregado"]
+          nome: string
+          substituido_em: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "atos_indicacao_encarregado"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       assinar_enquadramento: {
         Args: { _cnpj: string; _criterios: Json }
         Returns: {
@@ -1827,6 +1974,11 @@ export type Database = {
         | "LEI_ESPECIAL_SETORIAL"
         | "FOMENTO_ECONOMICO"
         | "REFERENCIA_TECNICA"
+      natureza_relacao_encarregado:
+        | "EMPREGADO"
+        | "PRESTADOR"
+        | "PERMUTA"
+        | "OUTRO"
       origem_registro: "REAL" | "TESTE" | "DEMONSTRACAO"
       status_normativo:
         | "VERIFICADA"
@@ -1966,6 +2118,12 @@ export const Constants = {
         "LEI_ESPECIAL_SETORIAL",
         "FOMENTO_ECONOMICO",
         "REFERENCIA_TECNICA",
+      ],
+      natureza_relacao_encarregado: [
+        "EMPREGADO",
+        "PRESTADOR",
+        "PERMUTA",
+        "OUTRO",
       ],
       origem_registro: ["REAL", "TESTE", "DEMONSTRACAO"],
       status_normativo: [

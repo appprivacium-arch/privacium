@@ -14,6 +14,7 @@ import { Masked, PageHeader, Panel, PIOutput, Tag } from "@/components/priva/ui"
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { EnquadramentoAgente } from '../EnquadramentoAgente';
+import { AtoIndicacao } from '../AtoIndicacao';
 import { MembrosEmpresa } from '../MembrosEmpresa';
 import { TerceirosEmpresa } from '../TerceirosEmpresa';
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';
@@ -80,7 +81,7 @@ export function Bloco1() {
   if (!cnpj) return <Panel title="Diagnóstico de entrada"><p className="text-sm text-muted-foreground">Cadastre ou selecione um CNPJ no menu lateral para iniciar o diagnóstico.</p></Panel>;
   if (!loading && !cpf) {
     return (
-      <div className="space-y-6"><EnquadramentoAgente /><Panel title="Identificação do auditor responsável" className="max-w-md">
+      <div className="space-y-6"><EnquadramentoAgente /><AtoIndicacao /><Panel title="Identificação do auditor responsável" className="max-w-md">
         <p className="mb-3 text-sm text-muted-foreground">Cada resposta é amarrada ao CNPJ auditado e ao CPF do auditor. Informe seu CPF para continuar.</p>
         <form className="flex gap-2" onSubmit={async (e) => {
           e.preventDefault();
@@ -102,7 +103,7 @@ export function Bloco1() {
       <PageHeader eyebrow="Bloco 1 · (P) Ciclo Privacium Semestral" title="Preparar a Privacidade">
         Diagnóstico de Entrada pela LGPD. SIM soma o peso de criticidade da pergunta; NÃO soma zero.
       </PageHeader>
-      <EnquadramentoAgente />
+      <EnquadramentoAgente /><AtoIndicacao />
       <MembrosEmpresa />
       <TerceirosEmpresa />
       {AJUDA[1] && <AjudaTarefa {...AJUDA[1]} />}

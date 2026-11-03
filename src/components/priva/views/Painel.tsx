@@ -21,7 +21,7 @@ export function Painel() {
 
 function Index() {
   const enquadramento = useEnquadramento();
-  const { signatures, cnpj, enterprise, audit, kanban, demo } = usePriva();
+  const { signatures, cnpj, enterprise, auditTotal, kanban, demo } = usePriva();
   const answers = useRespostas(cnpj);
   const questions = useQuestions();
   const { gm, score, bankMax } = computeGM(answers, questions);
@@ -36,7 +36,7 @@ function Index() {
         <CardGM gm={gm} />
         <CardScore score={score} max={bankMax} />
         <CardPIs signatures={signatures} enterprise={enterprise} />
-        <CardEventos total={audit.length} />
+        <CardEventos total={auditTotal} />
         <CardAcoes abertas={kanban.filter((k) => k.column !== "done").length} />
       </div>
 

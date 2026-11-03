@@ -14,6 +14,8 @@ import { agruparPendencias } from "./pendenciasEmpresa";
 import type { RotInput } from "./rot";
 
 type Rot = Database["public"]["Tables"]["registro_operacoes"]["Row"];
+/** Só os campos lidos por montarChecklist (Bloco 2): sem as colunas JSONB pesadas. */
+const ROT_CAMPOS = "id,codigo,empresa_cnpj,hipotese_tratamento,hipotese_sensivel,categoria_titulares,dados_sensiveis,justificativa_mitigacao";
 type Ativo = Database["public"]["Tables"]["ativos_seguranca"]["Row"];
 
 /** Fonte única das pendências do CNPJ ativo (dashboard, faixa de próximo passo). */
@@ -31,9 +33,9 @@ export function usePendenciasEmpresa() {
     enabled: !!cnpj,
     queryFn: async (): Promise<Rot[]> => {
       if (demo) return DEMO_ROT.filter((r) => !r.excluido_em);
-      const { data, error } = await supabase.from("registro_operacoes").select("*").eq("empresa_cnpj", cnpj ?? "").is("excluido_em", null);
+      const { data, error } = await supabase.from("registro_operacoes").select(ROT_CAMPOS).eq("empresa_cnpj", cnpj ?? "").is("excluido_em", null);
       if (error) throw error;
-      return data;
+      return data as unknown as Rot[];
     },
   });
   const { data: ativos = [] } = useQuery({
@@ -41,9 +43,9 @@ export function usePendenciasEmpresa() {
     enabled: !!cnpj,
     queryFn: async (): Promise<Ativo[]> => {
       if (demo) return DEMO_ATIVOS;
-      const { data, error } = await supabase.from("ativos_seguranca").select("*").eq("empresa_cnpj", cnpj ?? "");
+      const { data, error } = await supabase.from("ativos_seguranca").select("id,tipo,protegido,hash_integridade").eq("empresa_cnpj", cnpj ?? "");
       if (error) throw error;
-      return data;
+      return data as unknown as Ativo[];
     },
   });
 

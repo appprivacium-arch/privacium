@@ -2347,16 +2347,6 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      registrar_trilha_sistema: {
-        Args: {
-          _cnpj: string
-          _detail: string
-          _op: string
-          _tabela: string
-          _target: string
-        }
-        Returns: undefined
-      }
       registrar_uso_ia: {
         Args: { _bloqueios: number; _cnpj: string; _tokens: number }
         Returns: undefined

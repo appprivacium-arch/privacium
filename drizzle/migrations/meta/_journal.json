@@ -477,6 +477,13 @@
       "when": 1793661691248,
       "tag": "0067_empresas_nome_fantasia_default",
       "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "7",
+      "when": 1793702015083,
+      "tag": "0068_ato_indicacao_encarregado",
+      "breakpoints": true
     }
   ]
 }

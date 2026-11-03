@@ -484,6 +484,13 @@
       "when": 1793702015083,
       "tag": "0068_ato_indicacao_encarregado",
       "breakpoints": true
+    },
+    {
+      "idx": 69,
+      "version": "7",
+      "when": 1793710178562,
+      "tag": "0069_enquadramento_res2_art3_art4",
+      "breakpoints": true
     }
   ]
 }

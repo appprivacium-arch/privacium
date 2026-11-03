@@ -505,6 +505,13 @@
       "when": 1793724315737,
       "tag": "0071_estruturas_aditivas_pecas_evidencias",
       "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "7",
+      "when": 1793724340655,
+      "tag": "0072_trilha_acao_ddl",
+      "breakpoints": true
     }
   ]
 }

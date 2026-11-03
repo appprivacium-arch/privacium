@@ -1,0 +1,2 @@
+ALTER TABLE public.trilha_auditoria_sistema DROP CONSTRAINT trilha_auditoria_sistema_acao_executada_check;
+ALTER TABLE public.trilha_auditoria_sistema ADD CONSTRAINT trilha_auditoria_sistema_acao_executada_check CHECK (acao_executada = ANY (ARRAY['SELECT','INSERT','UPDATE','DELETE','LOGIN_FALHA','COMUNICACAO_ANPD','DESCUMPRIMENTO_SLA','ENCERRAR_INCIDENTE','UPDATE_CAMPO','DDL']));

@@ -137,12 +137,8 @@ export function Bloco1() {
           <div className="ml-auto min-w-48 flex-1">
             <div className="flex justify-between text-xs text-muted-foreground"><span>Progresso</span><span className="font-mono">{answered}/{questions.length}</span></div>
             <div className="mt-1 h-2 rounded-sm bg-muted"><div className={cn("h-2 rounded-sm transition-all", ZONE_BG[zone.tone])} style={{ width: `${questions.length ? (answered / questions.length) * 100 : 0}%` }} /></div>
-            <Button variant="link" size="sm" className="h-auto px-0" onClick={async () => {
-              if (demo) return avisarAcaoDemo();
-              const err = await responder(questions.map((q, i) => ({ pergunta_id: q.id, resposta: (i * 13) % 10 < 6 ? "SIM" : "NÃO" })));
-              if (err) toast.error(err);
-              else log("INSERT", "respostas_diagnostico", "Preenchimento de demonstração");
-            }}>Preencher demonstração</Button>
+            {/* F1.4: só existe no modo demonstração, onde não grava nada (avisarAcaoDemo). Em base real não é renderizado. */}
+            {demo && <Button variant="link" size="sm" className="h-auto px-0" onClick={() => avisarAcaoDemo()}>Preencher demonstração</Button>}
           </div>
         </div>
       </div>

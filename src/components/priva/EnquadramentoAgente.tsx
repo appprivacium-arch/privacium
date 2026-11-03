@@ -13,8 +13,8 @@ import { toast } from 'sonner';
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
 import { CitacoesAgrupadas } from './CitacoesAgrupadas';
 import { BIBLIOTECA_NORMATIVA } from '@/lib/priva/bibliotecaNormativa';
-const inicial: CriteriosPorte = { grupoGrande: false, receitaAcimaTeto: false, tipo: 'ME', titulares: 0, infraLimitada: false, descricaoInfra: '', sensivelLargaEscala: false, altoRisco: false, menoresAltoRisco: false, papelAgente: 'CONTROLADOR' };
-const perguntas = [ ['grupoGrande', 'Faz parte de grupo econômico com receita global acima do teto aplicável?'], ['receitaAcimaTeto', 'Receita bruta anual do agente acima do teto aplicável?'], ['infraLimitada', 'Infraestrutura limitada?'], ['sensivelLargaEscala', 'Dado pessoal sensível em larga escala?'], ['altoRisco', 'Tratamento de alto risco (critério geral e específico do art. 4º)?'], ['menoresAltoRisco', 'Dado pessoal de crianças e adolescentes com perfil de risco alto?'] ] as const;
+const inicial: CriteriosPorte = CRITERIOS_INICIAIS;
+const perguntas = [ ['receitaAcimaTeto', 'Art. 3º, II — receita bruta anual acima do teto (LC 123/2006 ou LC 182/2021)?'], ['grupoGrande', 'Art. 3º, III — pertence a grupo econômico cuja receita global ultrapassa o teto?'] ] as const;
 export function EnquadramentoAgente() {
   const { cnpj, enterprise, demo, roles, refreshAudit, demoPorte, setDemoPorte } = usePriva();
   const e = useEnquadramento();

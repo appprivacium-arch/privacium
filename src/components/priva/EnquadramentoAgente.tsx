@@ -3,24 +3,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Textarea } from '@/components/ui/textarea';
 import { Panel, Tag } from './ui';
 import { usePriva } from '@/lib/priva/store';
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';
-import { calcularPorte, CRITERIOS_DEMO, criteriosSchema, FUNDAMENTO_PORTE, rotuloPorte, travaPorte, type CriteriosPorte } from '@/lib/priva/enquadramento';
+import { altoRiscoArt4, calcularPorte, CRITERIOS_DEMO, CRITERIOS_ESPECIFICOS, CRITERIOS_GERAIS, CRITERIOS_INICIAIS, criteriosSchema, normalizarCriterios, FUNDAMENTO_PORTE, rotuloPorte, travaPorte, type CriteriosPorte } from '@/lib/priva/enquadramento';
 import { FONTE_LGPD, LITERAL_ART5_VI, LITERAL_ART5_VII, PAPEIS_AGENTE, ROTULO_PAPEL } from '@/lib/priva/rot';
 import { toast } from 'sonner';
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
 import { CitacoesAgrupadas } from './CitacoesAgrupadas';
 import { BIBLIOTECA_NORMATIVA } from '@/lib/priva/bibliotecaNormativa';
-const inicial: CriteriosPorte = { grupoGrande: false, receitaAcimaTeto: false, tipo: 'ME', titulares: 0, infraLimitada: false, descricaoInfra: '', sensivelLargaEscala: false, altoRisco: false, menoresAltoRisco: false, papelAgente: 'CONTROLADOR' };
-const perguntas = [ ['grupoGrande', 'Faz parte de grupo econômico com receita global acima do teto aplicável?'], ['receitaAcimaTeto', 'Receita bruta anual do agente acima do teto aplicável?'], ['infraLimitada', 'Infraestrutura limitada?'], ['sensivelLargaEscala', 'Dado pessoal sensível em larga escala?'], ['altoRisco', 'Tratamento de alto risco (critério geral e específico do art. 4º)?'], ['menoresAltoRisco', 'Dado pessoal de crianças e adolescentes com perfil de risco alto?'] ] as const;
+const inicial: CriteriosPorte = CRITERIOS_INICIAIS;
+const perguntas = [ ['receitaAcimaTeto', 'Art. 3º, II — receita bruta anual acima do teto (LC 123/2006 ou LC 182/2021)?'], ['grupoGrande', 'Art. 3º, III — pertence a grupo econômico cuja receita global ultrapassa o teto?'] ] as const;
 export function EnquadramentoAgente() {
   const { cnpj, enterprise, demo, roles, refreshAudit, demoPorte, setDemoPorte } = usePriva();
   const e = useEnquadramento();
   const [c, setC] = useState<CriteriosPorte>(inicial);
   const [erro, setErro] = useState(''); const [busy, setBusy] = useState(false);
-  useEffect(() => { setC(demo ? CRITERIOS_DEMO[demoPorte] : e.declaracao ? e.declaracao.criterios as CriteriosPorte : inicial); setErro(''); }, [cnpj, e.declaracao?.id, demo, demoPorte]);
+  useEffect(() => { setC(demo ? CRITERIOS_DEMO[demoPorte] : e.declaracao ? normalizarCriterios(e.declaracao.criterios) : inicial); setErro(''); }, [cnpj, e.declaracao?.id, demo, demoPorte]);
   const valida = criteriosSchema.safeParse(c);
   const porte = valida.success ? calcularPorte(c) : null;
   const trava = valida.success ? travaPorte(c, enterprise) : null;
@@ -52,7 +51,13 @@ export function EnquadramentoAgente() {
           <p className="text-[11px] text-muted-foreground">Art. 5º, VI: "{LITERAL_ART5_VI}". Art. 5º, VII: "{LITERAL_ART5_VII}". Fonte: {FONTE_LGPD}. O papel escolhido aqui é o padrão herdado por cada linha do ROT (Bloco 2), editável por linha.</p>
         </div>
         {perguntas.map(([k,t]) => <Label key={k} className="flex items-start gap-3 leading-relaxed"><Checkbox checked={c[k]} onCheckedChange={v => setC({ ...c, [k]: v === true })} />{t}</Label>)}
-        {c.infraLimitada && <div className="space-y-1 sm:col-span-2"><Label htmlFor="porte-infra">Descrição da infraestrutura limitada</Label><Textarea id="porte-infra" maxLength={2000} value={c.descricaoInfra} onChange={v => setC({ ...c, descricaoInfra: v.target.value })} /></div>}
+        <fieldset className="space-y-2 sm:col-span-2 rounded-sm border p-3" data-testid="art4-alto-risco"><legend className="px-1 text-sm font-medium">Art. 3º, I e art. 4º — alto risco (exige ao menos um critério geral E um específico)</legend>
+          <p className="text-xs font-medium">Critérios gerais</p>
+          {CRITERIOS_GERAIS.map(([k,t]) => <Label key={k} className="flex items-start gap-3 leading-relaxed"><Checkbox checked={c[k]} onCheckedChange={v => setC({ ...c, [k]: v === true })} />{t}</Label>)}
+          <p className="text-xs font-medium">Critérios específicos</p>
+          {CRITERIOS_ESPECIFICOS.map(([k,t]) => <Label key={k} className="flex items-start gap-3 leading-relaxed"><Checkbox checked={c[k]} onCheckedChange={v => setC({ ...c, [k]: v === true })} />{t}</Label>)}
+          <p className="text-xs" data-testid="resultado-art4">{altoRiscoArt4(c) ? 'Alto risco configurado (geral + específico).' : 'Alto risco não configurado: os critérios do art. 4º são cumulativos.'}</p>
+        </fieldset>
       </div>
       <p className="text-sm" data-testid="resultado-porte"><b>Resultado calculado:</b> {trava ? 'Pequeno porte bloqueado — regime completo obrigatório' : porte ? rotuloPorte(porte) : 'Preencha os critérios.'}</p>
       {(erro || trava) && <p role="alert" className="text-sm text-destructive">{erro || trava}</p>}

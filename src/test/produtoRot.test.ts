@@ -1,6 +1,6 @@
 import { produtosDaLinha } from "@/lib/priva/rot";
 import { describe, expect, it } from "vitest";
-import { criteriosSchema } from "@/lib/priva/enquadramento";
+import { criteriosSchema, normalizarCriterios } from "@/lib/priva/enquadramento";
 import { DEMO_ROT } from "@/lib/priva/demo";
 import { temProcessar } from "@/lib/priva/cicloVida";
 import {
@@ -19,8 +19,8 @@ const base = (p: Partial<RotInput> = {}): RotInput => ({
 describe("papel do agente (item A)", () => {
   it("o enquadramento aceita o papel e aplica CONTROLADOR como padrão em declarações antigas", () => {
     const antiga = { grupoGrande: false, receitaAcimaTeto: false, tipo: "ME", titulares: 800, infraLimitada: false, descricaoInfra: "", sensivelLargaEscala: false, altoRisco: false, menoresAltoRisco: false };
-    expect(criteriosSchema.parse(antiga).papelAgente).toBe("CONTROLADOR");
-    expect(criteriosSchema.parse({ ...antiga, papelAgente: "OPERADOR" }).papelAgente).toBe("OPERADOR");
+    expect(normalizarCriterios(antiga).papelAgente).toBe("CONTROLADOR");
+    expect(normalizarCriterios({ ...antiga, papelAgente: "OPERADOR" }).papelAgente).toBe("OPERADOR");
   });
   it("linha de operador sem contrato com o controlador não salva", () => {
     expect(validateRot(base({ papel_agente: "OPERADOR" }))).toMatch(/contrato com o controlador/);

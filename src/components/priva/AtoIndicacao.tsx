@@ -67,11 +67,11 @@ export function AtoIndicacao() {
         <div><dt className="font-medium">Mandato até</dt><dd>{ato.data.mandato_ate ?? "Sem prazo definido"}</dd></div>
         <div className="md:col-span-2"><dt className="font-medium">Escopo</dt><dd><ul className="list-disc pl-5">{ato.data.escopo.map(e => <li key={e}>{e}</li>)}</ul></dd></div>
         <div className="md:col-span-2 break-all"><dt className="font-medium">Hash SHA-256 do ato</dt><dd className="font-mono text-xs">{ato.data.hash_sha256}</dd></div>
-        {ato.data.declaracao_assinada_em && <div className="md:col-span-2"><dt className="font-medium">Declarações do encarregado ({new Date(ato.data.declaracao_assinada_em).toLocaleString("pt-BR")}) · conflito declarado: {ato.data.conflito_declarado ? "sim" : "não"}</dt><dd className="whitespace-pre-line"><b>Autonomia (art. 3º):</b> {ato.data.declaracao_texto}</dd>{ato.data.declaracao_conflito_texto && <dd className="whitespace-pre-line"><b>Conflito de interesse (art. 20):</b> {ato.data.declaracao_conflito_texto}</dd>}<dd className="break-all font-mono text-xs">{ato.data.declaracao_hash}</dd></div>}
+        {ato.data.declaracao_assinada_em && <div className="md:col-span-2"><dt className="font-medium">Declarações do encarregado ({new Date(ato.data.declaracao_assinada_em).toLocaleString("pt-BR")}) · conflito declarado: {ato.data.conflito_declarado ? "sim" : "não"}</dt><dd className="whitespace-pre-line"><b>Autonomia (arts. 18 e 21, III):</b> {ato.data.declaracao_texto}</dd>{ato.data.declaracao_conflito_texto && <dd className="whitespace-pre-line"><b>Conflito de interesse (art. 20):</b> {ato.data.declaracao_conflito_texto}</dd>}<dd className="break-all font-mono text-xs">{ato.data.declaracao_hash}</dd></div>}
       </dl>}
 
       {estado === "aguarda" && (podeDecl ? <div className="space-y-2 border-t pt-3">
-        <p className="font-medium">1. Declaração de autonomia técnica (Res. CD/ANPD nº 18/2024, art. 3º)</p>
+        <p className="font-medium">1. Declaração de autonomia técnica (Res. CD/ANPD nº 18/2024, arts. 18 e 21, III)</p>
         <Textarea value={texto} onChange={e => setTexto(e.target.value)} rows={4} placeholder="Descreva como a função é exercida com autonomia técnica…" />
         <p className="font-medium">2. Declaração sobre conflito de interesse (Res. CD/ANPD nº 18/2024, art. 20)</p>
         <Textarea value={textoConflito} onChange={e => setTextoConflito(e.target.value)} rows={3} placeholder="Declare outras funções exercidas e se há conflito com as atividades de encarregado…" />

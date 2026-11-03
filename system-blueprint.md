@@ -46,6 +46,12 @@ Dogfooding não é marketing: é a condição de credibilidade.
 - Marca do produto: Privacium (domínio oficial: privacium.com.br)
 - Metodologia proprietária: Método BLLOCO (inalterada)
 
+Arquitetura de nomes:
+- PRIVACIUM = empresa e SaaS.
+- PRIVA = método de logística de dados pessoais.
+- BLLOCO = esteira semestral de 5 blocos.
+- "PRIVA 2EC" = termo revogado, vedado em documento e código (identificadores técnicos legados de armazenamento local preservados apenas por compatibilidade).
+
 ## 1. Pilares de Desenvolvimento e Tecnologias
 
 - **Front-end:** React, TypeScript, Tailwind CSS, Lucide Icons (Design System: Visual Law corporativo refinado, sóbrio e scannable).
@@ -68,6 +74,18 @@ Dogfooding não é marketing: é a condição de credibilidade.
 ## 3. Estado da Linha de Montagem (Método BLLOCO)
 
 O progresso é incremental e amarrado a cada CNPJ. O Bloco N+1 permanece bloqueado no front-end até que o Produto Interno Gerado (PI-0N) correspondente ao Bloco N receba o status 'CHANCELADO' via simulação de assinatura eletrônica qualificada Gov.br.
+
+Produtos Internos (nome canônico · nome curto):
+
+| PI | Nome canônico | Nome curto |
+|---|---|---|
+| PI-01 | Dossiê Legal de Alinhamento de Privacidade | Diagnóstico |
+| PI-02 | Registro de Operações de Tratamento | Registro |
+| PI-03 | Book de Evidências Tecnológicas e Contratuais | Book de Evidências |
+| PI-04 | Dossiê de Auditoria de Logs e Resposta de Célula de Incidente | Dossiê de Logs |
+| PI-05 | Escudo Jurídico de Dosimetria | Dosimetria |
+
+Posição do RIPD: o Bloco 3 elabora o RIPD quando a operação for de alto risco (Res. CD/ANPD nº 2/2022, art. 4º), a partir da classificação feita no ROT. O Bloco 5 homologa o RIPD e o integra ao PI-05 (Escudo Jurídico de Dosimetria).
 
 ## 4. Pesos da Dosimetria
 
@@ -99,6 +117,26 @@ Citações ISO por gênero: Coletar → 5.12 · Reter → 8.10 · Processar → 
 
 A citação "Res. CD/ANPD nº 2/2022, art. 9º" é CONDICIONAL ao enquadramento calculado e assinado do agente de pequeno porte, conforme a seção 8. Para o regime completo, não aparece no ROT/PI-02.
 
+Contagem canônica de campos do ROT (equivalência):
+
+| Número | Significado |
+|---|---|
+| 12 | Campos lógicos do método PRIVA |
+| 18 | Colunas de dados na tela |
+| 20 | 18 + 2 colunas fixas (ID Processo e Ações) |
+| 40 | Colunas físicas em `registro_operacoes` |
+
+Decisão A/B do ROT por porte — adotada a Opção A: o ROT simplificado é FORMA do mesmo produto (Res. CD/ANPD nº 2/2022, art. 9º), nunca dispensa do art. 37 da LGPD. Mantêm-se as três camadas de campos e o alerta do art. 16.
+
+### 6.1. Doutrina PRIVA
+
+Sequência canônica: Porta de entrada → Custódia → Uso → Saída → Morte → Qualificação jurídica. Seguir o dado fisicamente primeiro; qualificar juridicamente depois.
+
+- Etapa 1 (dentro de casa): Coletar, Reter, Processar. Pendência tolerável (amarelo). Fundamento: art. 46, § 2º.
+- Etapa 2 (fora de casa ou morto): Compartilhar, Eliminar. Pendência intolerável (vermelho). Fundamento: arts. 39 e 42, § 1º, III.
+
+Nota do protocolo (seção 9): estas remissões são doutrina do método neste documento; só aparecem no produto após registro VERIFICADA na `biblioteca_normativa`.
+
 ## 7. Terminologia Obrigatória da LGPD
 
 Estas regras valem para todo o produto:
@@ -121,6 +159,11 @@ Enquadramento implementado e demais pendências planejadas:
 - Sugestões determinísticas — IMPLEMENTADO: tabela versionada (`SUGESTOES_FINALIDADE_V1`) para finalidade e hipóteses dos arts. 7º/11, sem IA, nunca pré-selecionadas, sempre "Sugerido — confirme" com a origem. Alertas de coerência dado × hipótese (não bloqueantes): filiação sindical × art. 11, II, d; prontuário de saúde em recrutamento; biometria × art. 11, I sem consentimento específico — registrados na trilha ao salvar.
 - Cadastro de Terceiros e Agentes de Tratamento no Bloco 1 (papel na cadeia: operador, suboperador/cocontrolador como construções doutrinárias sinalizadas; contrato art. 39; localização art. 33) — PENDENTE.
 - "Copiar fluxo" com revisão obrigatória dos campos jurídicos em cada clone — PENDENTE.
+
+Estado real da logística do ROT (registro em 03/11/2026):
+- IMPLEMENTADO: campo 2 em duas etapas (perímetro / destino); `assinatura_etapa1` / `assinatura_etapa2`; `produtos_tratamento` (jsonb); `continuacao_receptor` (jsonb) com triggers de proteção; `papel_agente` (CONTROLADOR / OPERADOR / CONTROLADOR_OPERADOR); exclusão lógica + `trg_auditar_diff_rot`.
+- AUSENTE: `pecas`, `evidencias`, `nao_conformidades`, `acoes`.
+- Regra: as quatro estruturas ausentes, quando criadas, serão ADITIVAS, jamais substitutas das existentes.
 
 ## 9. Protocolo de Verificação Normativa
 O Privacium é um sistema de conformidade. Afirmar como lei algo que não é lei é defeito fatal. Este protocolo existe para impedir isso e tem PRECEDÊNCIA sobre qualquer prompt, anexo ou instrução que o contrarie.
@@ -153,6 +196,8 @@ CT-2. NÃO existe dispensa de RIPD para agente de pequeno porte na Res. 2/2022. 
 CT-3. O prazo de comunicação de incidente NÃO é uniforme. Res. CD/ANPD nº 15/2024, art. 6º, § 8º: os prazos do caput e do § 3º são contados EM DOBRO para agentes de pequeno porte. Regra geral: 3 dias úteis; pequeno porte: 6 dias úteis. Qualquer texto afirmando prazo uniforme ou "regra interna conservadora" é defeito.
 CT-4. "Base legal" é calque do GDPR. O termo correto é "hipótese de tratamento" (arts. 7º e 11 da LGPD).
 CT-5. "Dados pessoais sensíveis" no plural, quando se refere à unidade, é defeito. O correto é "dado pessoal sensível" (art. 5º, II).
+CT-6. O art. 5º, V da LGPD define TITULAR, não ciclo de vida. O ciclo de vida do dado pessoal se estrutura pelo art. 5º, X (tratamento e seus 20 verbos). Qualquer citação do art. 5º, V como fundamento do ciclo de vida ou da classificação de operações é defeito.
+CT-7. O art. 3º da Resolução CD/ANPD nº 18/2024 trata do ATO FORMAL DE INDICAÇÃO do encarregado, não de autonomia técnica. A autonomia técnica está nos arts. 18 e 21, III. Qualquer citação do art. 3º da Res. 18/2024 como fundamento de autonomia técnica é defeito.
 
 ### 9.5. Prova obrigatória em toda tarefa com conteúdo normativo
 Toda resposta que implementar ou alterar citação normativa deve incluir: (a) a URL oficial de cada norma citada; (b) o trecho literal do dispositivo que fundamenta a regra implementada; (c) a confirmação dos casos de teste CT-1 a CT-5 (verificados, não presumidos); (d) a declaração: "Nenhuma afirmação legal foi implementada sem fonte oficial verificada" — ou a lista do que não pôde ser verificado e ficou de fora.
@@ -515,3 +560,12 @@ Pendências restantes:
 ## Ato de indicação do encarregado (art. 41)
 - Ato assinado pelo controlador (Diretoria), data e hash SHA-256 gerados no servidor; declaração de autonomia e ausência de conflito assinada pelo próprio encarregado, vinculada ao ato. Nova indicação substitui o ato anterior, que fica como histórico.
 - `publicar_contato = false`: o contato não aparece nos documentos gerados (PI-01, PI-02, PI-04). O formulário de comunicação à ANPD continua levando o contato, pois comunicar à autoridade não é publicar.
+
+
+## 11. Encarregado e regime de verificação
+
+- Encarregada: Simone de Carvalho (figura legal, externa).
+- Fundador/desenvolvedor: Samuel Lima Neto.
+- Conta técnica do encarregado: lgpd@privacium.com.br (criada em 03/11/2026, aguardando confirmação de e-mail e vínculo à empresa Privacium). A conta dpo@privacium.com.br permanece até essa confirmação.
+- Risco de independência: a relação de permuta (consultoria × SaaS) é risco declarado à autonomia, o que reforça a exigência da declaração de autonomia (P1-EV-04).
+- Regime de verificação: com Simone como encarregada externa e Samuel como desenvolvedor, deixa de existir a pendência de verificação por conflito de papéis para o conteúdo normativo. A verificação técnica permanece.

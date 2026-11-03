@@ -66,6 +66,8 @@ type Ctx = Shared & {
   roles: Role[];
   role: Role;
   audit: AuditEntry[];
+  /** Total de eventos visíveis (COUNT, sem baixar as linhas). */
+  auditTotal: number;
   cnpj: string | null;
   empresas: Empresa[];
   selectEmpresa: (cnpj: string) => void;
@@ -98,7 +100,7 @@ const ROLE_PREF = "priva2ec-active-role";
 const CNPJ_PREF = "priva2ec-active-cnpj";
 const ORDER: Role[] = ["DPO_OPERACIONAL", "ADMIN_SISTEMA", "C_SUITE"];
 
-export function PrivaProvider({ children, initialDemo = false }: { children: ReactNode; initialDemo?: boolean }) {
+export function PrivaProvider({ children, initialDemo = false, initialUser }: { children: ReactNode; initialDemo?: boolean; initialUser?: { id: string; email?: string | null } | null }) {
   const [shared, setShared] = useState<Shared>(initialShared);
   const [ready, setReady] = useState(initialDemo);
   const [userId, setUserId] = useState<string | null>(null);
@@ -106,6 +108,7 @@ export function PrivaProvider({ children, initialDemo = false }: { children: Rea
   const [roles, setRoles] = useState<Role[]>(initialDemo ? ['DPO_OPERACIONAL'] : []);
   const [role, setRoleState] = useState<Role>("DPO_OPERACIONAL");
   const [audit, setAudit] = useState<AuditEntry[]>([]);
+  const [auditTotal, setAuditTotal] = useState(0);
   const [cnpj, setCnpj] = useState<string | null>(null);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [demo, setDemoState] = useState(initialDemo);
@@ -124,8 +127,9 @@ export function PrivaProvider({ children, initialDemo = false }: { children: Rea
 
   const refreshAudit = useCallback(async () => {
     if (initialDemo || demo) return;
-    const { data } = await supabase.from("trilha_auditoria_sistema").select("*").order("seq", { ascending: false }).limit(500);
-    if (data) setAudit(data.reverse() as AuditEntry[]);
+    // Painel só exibe a contagem: HEAD + count=exact, nenhuma linha transferida. A lista completa fica na rota /auditoria.
+    const { count } = await supabase.from("trilha_auditoria_sistema").select("seq", { count: "exact", head: true });
+    if (count !== null) setAuditTotal(count);
   }, [initialDemo, demo]);
 
   const loadEmpresa = async (c: string) => {
@@ -141,11 +145,12 @@ export function PrivaProvider({ children, initialDemo = false }: { children: Rea
     if (initialDemo) return;
     let cancelled = false;
     (async () => {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user || cancelled) return;
-      setUserId(u.user.id);
-      setEmail(u.user.email ?? null);
-      const { data: r } = await supabase.from("user_roles").select("role").eq("user_id", u.user.id);
+      // Usuário já validado pelo beforeLoad de /_authenticated (getUser); só sem ele faz nova chamada.
+      const u = initialUser ?? (await supabase.auth.getUser()).data.user;
+      if (!u || cancelled) return;
+      setUserId(u.id);
+      setEmail(u.email ?? null);
+      const { data: r } = await supabase.from("user_roles").select("role").eq("user_id", u.id);
       const granted = (r ?? []).map((x) => x.role as Role).sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b));
       setRoles(granted);
       const pref = localStorage.getItem(ROLE_PREF) as Role | null;
@@ -197,7 +202,7 @@ export function PrivaProvider({ children, initialDemo = false }: { children: Rea
     if (demo || initialDemo) return;
     void (async () => {
       const { data, error } = await supabase.rpc("registrar_acesso", { _role: roleRef.current, _op: op, _target: target, _detail: detail, _cnpj: cnpjRef.current ?? "", _campo: campo ?? "" });
-      if (!error && data && (roles.includes("ADMIN_SISTEMA") || roles.includes("DPO_OPERACIONAL"))) setAudit((a) => [...a, data as AuditEntry]);
+      if (!error && data && (roles.includes("ADMIN_SISTEMA") || roles.includes("DPO_OPERACIONAL"))) { setAudit((a) => [...a, data as AuditEntry]); setAuditTotal((n) => n + 1); }
     })();
   }, [roles, demo, initialDemo]);
 
@@ -292,14 +297,14 @@ export function PrivaProvider({ children, initialDemo = false }: { children: Rea
   // Em demonstração nada é persistido nem registrado: o estado vive só na memória do navegador.
   const value: Ctx = demo
     ? {
-        ...demoShared, ready, userId: initialDemo ? null : userId, email: initialDemo ? 'dpo@cenografica.com.br' : email, roles: ['DPO_OPERACIONAL'], role: 'DPO_OPERACIONAL', audit: demoEventos as AuditEntry[], cnpj: DEMO_CNPJ,
+        ...demoShared, ready, userId: initialDemo ? null : userId, email: initialDemo ? 'dpo@cenografica.com.br' : email, roles: ['DPO_OPERACIONAL'], role: 'DPO_OPERACIONAL', audit: demoEventos as AuditEntry[], auditTotal: demoEventos.length, cnpj: DEMO_CNPJ,
         empresas: [{ cnpj: DEMO_CNPJ, razao_social: razaoDemo(demoPorte) }], selectEmpresa: noop,
         createEmpresa: async () => "Indisponível no Modo Demonstração.", setRole: noop,
         set: noop, log: noop, sign: async (pi: string) => demoAssinar(pi, "DPO"),
         reset: noop, refreshAudit: async () => undefined, demo, publicDemo: initialDemo, setDemo, demoPorte, setDemoPorte,
         demoSessao, demoEnviarANPD, demoEncerrarIncidente, demoAssinar, demoRegistrarEvento: registrarEventoDemo,
       }
-    : { ...shared, signatures: assinaturasVigentes(shared.signatures, new Date()), ready, userId, email, roles, role, audit, cnpj, empresas, selectEmpresa, createEmpresa, setRole, set, log, sign, reset, refreshAudit, demo, demoPorte, setDemoPorte: noop, publicDemo: false, setDemo, demoSessao: DEMO_SESSAO_INICIAL, demoEnviarANPD: async () => undefined, demoEncerrarIncidente: async () => undefined, demoAssinar: async () => undefined, demoRegistrarEvento: async () => ({ hash: "", ts: "" }) };
+    : { ...shared, signatures: assinaturasVigentes(shared.signatures, new Date()), ready, userId, email, roles, role, audit, auditTotal, cnpj, empresas, selectEmpresa, createEmpresa, setRole, set, log, sign, reset, refreshAudit, demo, demoPorte, setDemoPorte: noop, publicDemo: false, setDemo, demoSessao: DEMO_SESSAO_INICIAL, demoEnviarANPD: async () => undefined, demoEncerrarIncidente: async () => undefined, demoAssinar: async () => undefined, demoRegistrarEvento: async () => ({ hash: "", ts: "" }) };
 
   return (
     <C.Provider value={value}>

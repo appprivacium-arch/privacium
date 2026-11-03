@@ -123,3 +123,5 @@
 - [ ] Passo 6.4 reportar seis provas de isolamento/criação e existência de nome fantasia/CNAE; não cadastrar ROT, membros, terceiros ou identificadores reais.
 - [x] Passo 6: conferir novas seis perguntas; ato específico de indicação ainda ausente, contato consta em PI-01/PI-02/PI-04 e PDF, CPF/data em aberto.
 - [x] Passo 6: adicionar nome_fantasia em empresas e sincronização; documentar razão social escolhida diferente do cartão CNPJ.
+- [x] Passo 6 · Ações 1–3: ato de indicação (Bloco 1), publicar_contato opção (a), campos novos do encarregado.
+- [ ] Passo 6 · Ação 4: registrar Simone — aguarda a empresa existir (depende da confirmação do e-mail do DPO).

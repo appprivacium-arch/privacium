@@ -12,6 +12,7 @@ import { usePriva } from "@/lib/priva/store";
 
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
 const PROVIDERS = ["OpenAI - GPT-4o-mini", "Google Gemini - Pro"] as const;
+// Chave legada de armazenamento local mantida por compatibilidade (termo revogado; não renomear sem migração).
 const URL_KEY = "priva2ec-shield-url";
 
 type Vault = { token: string; original: string }[];

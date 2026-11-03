@@ -93,6 +93,7 @@ type Ctx = Shared & {
 // usem instâncias diferentes do mesmo contexto.
 const g = globalThis as unknown as { __privaCtx?: React.Context<Ctx | null> };
 const C = (g.__privaCtx ??= createContext<Ctx | null>(null));
+// Chaves legadas de armazenamento local mantidas por compatibilidade (termo "PRIVA 2EC" revogado; não renomear sem migração).
 const ROLE_PREF = "priva2ec-active-role";
 const CNPJ_PREF = "priva2ec-active-cnpj";
 const ORDER: Role[] = ["DPO_OPERACIONAL", "ADMIN_SISTEMA", "C_SUITE"];

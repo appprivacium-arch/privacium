@@ -1,3 +1,4 @@
+- [ ] Fase 0.1 v3: instalar somente auditoria de empresa_id em usuarios; conferir nove travas sem alterar vínculos nem consumir seq em testes.
 - [x] Volumetria total na Trilha Forense Master + checar isolamento RLS
 - [x] Cadastrar contato do encarregado por CNPJ com isolamento e auditoria.
 - [x] Completar formulário ANPD, validação, envio simulado e SLA congelado.

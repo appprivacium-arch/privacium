@@ -130,7 +130,7 @@
 - [ ] Confirmar e-mails de samuel@ e dpo@ e vincular ambos à Privacium em Membros — bloqueado pelo clique dos destinatários.
 
 ## Correção autorizada — dois checks + autoria humana
-- [ ] Ampliar os dois CHECKs atomicamente, preservando o baseline.
-- [ ] Criar trilha de usuário com fórmula canônica e trocar somente a chamada de registrar_divergencia.
-- [ ] Registrar divergência fictícia na empresa de teste e apagar somente essa divergência.
-- [ ] Executar verificar_trilha; parar se broken_at não for null; emitir relatório com transcrições e provas.
+- [x] Ampliar os dois CHECKs atomicamente, preservando o baseline.
+- [x] Criar trilha de usuário com fórmula canônica e trocar somente a chamada de registrar_divergencia.
+- [x] Registrar divergência fictícia na empresa de teste e apagar somente essa divergência.
+- [x] Executar verificar_trilha; parar se broken_at não for null; emitir relatório com transcrições e provas.

@@ -139,5 +139,5 @@
 - [x] Preservar as 332 respostas e seus timestamps durante a migração da autoria para UUID.
 - [x] Atualizar somente as duas policies de escrita e o payload do diagnóstico.
 - [x] Verificar paridade, isolamento, testes e verificar_trilha; emitir os 14 itens.
-- [ ] Remover fisicamente usuario_cpf em transação única autorizada e confirmar fingerprints, esquema e trilha.
-- [ ] Corrigir somente a asserção de integridade autorizada, executar suíte e validar escrita reversível, auditor e PDF.
+- [ ] Remover fisicamente usuario_cpf — nova tentativa recusada pela permissão efetiva de alterações incompatíveis; aguarda liberação em Agent permissions.
+- [ ] Correção da asserção de integridade aplicada; validação pós-remoção e escrita reversível aguardam a remoção autorizada.

@@ -3,7 +3,7 @@ import { alertaRetencao, cicloDaLinha, destinoDeclarado, temEtapa2, temProcessar
 import { continuacaoConforme, lerContinuacao } from "./continuacaoReceptor";
 
 export type RotRow = Database["public"]["Tables"]["registro_operacoes"]["Row"];
-export type RotInput = Omit<RotRow, "id" | "codigo" | "criado_por" | "criado_em" | "atualizado_em" | "assinatura_etapa1" | "assinatura_etapa2" | "excluido_em" | "excluido_por" | "motivo_exclusao" | "origem" | "removida_do_dossie" | "continuacao_receptor">;
+export type RotInput = Omit<RotRow, "id" | "codigo" | "criado_por" | "criado_em" | "atualizado_em" | "assinatura_etapa1" | "assinatura_etapa2" | "excluido_em" | "excluido_por" | "motivo_exclusao" | "origem" | "removida_do_dossie" | "continuacao_receptor" | "hipotese_id" | "hipotese_origem_id">;
 
 /** Papel do agente na linha (LGPD art. 5º, VI e VII); o padrão vem do enquadramento do Bloco 1 e é editável por linha. */
 export const PAPEIS_AGENTE = ["CONTROLADOR", "OPERADOR", "CONTROLADOR_OPERADOR"] as const;

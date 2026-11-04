@@ -61,10 +61,33 @@ export function terceiroBloqueado(t: Pick<TerceiroResumo, "contrato_vigente" | "
   return !t || !t.contrato_vigente || !t.clausulas_art39;
 }
 
+export type TipoPessoa = "PJ" | "PF";
+export const ROTULO_TIPO_PESSOA: Record<TipoPessoa, string> = { PJ: "Pessoa jurídica", PF: "Pessoa física" };
+/** Vínculo da pessoa física com o controlador. Empregado não é terceiro; prestador PJ é coberto por pessoa jurídica. */
+export const VINCULOS_PF = [["AUTONOMO", "Autônomo"], ["SOCIO", "Sócio"]] as const;
+
+/** CPF com dígitos verificadores módulo 11. */
+export function cpfValido(v: string): boolean {
+  const d = v.replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+  const dv = (len: number) => { let s = 0; for (let i = 0; i < len; i++) s += Number(d[i]) * (len + 1 - i); const r = (s * 10) % 11; return r === 10 ? 0 : r; };
+  return dv(9) === Number(d[9]) && dv(10) === Number(d[10]);
+}
+/** Máscara de digitação 000.000.000-00. */
+export function formatarCpf(v: string): string {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  return d.replace(/^(\d{3})(\d)/, "$1.$2").replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3").replace(/\.(\d{3})(\d{1,2})$/, ".$1-$2");
+}
+
 /** Validação do cadastro (bloqueante); null quando pode salvar. */
-export function validarTerceiro(t: { razao_social: string; cnpj: string; papel_cadeia: PapelCadeia; operador_principal_id: string | null; contrato_vigente: boolean; data_contrato: string | null; transferencia_internacional: boolean; hipotese_art33: string | null }): string | null {
-  if (!t.razao_social.trim()) return "Informe a razão social do terceiro.";
-  if (t.cnpj.replace(/\D/g, "").length !== 14) return "CNPJ deve ter 14 dígitos.";
+export function validarTerceiro(t: { tipo_pessoa?: TipoPessoa; razao_social: string; cnpj: string; cpf?: string; papel_cadeia: PapelCadeia; operador_principal_id: string | null; contrato_vigente: boolean; data_contrato: string | null; transferencia_internacional: boolean; hipotese_art33: string | null }): string | null {
+  if (t.tipo_pessoa === "PF") {
+    if (!t.razao_social.trim()) return "Informe o nome completo do terceiro.";
+    if (!cpfValido(t.cpf ?? "")) return "CPF inválido (dígito verificador).";
+  } else {
+    if (!t.razao_social.trim()) return "Informe a razão social do terceiro.";
+    if (t.cnpj.replace(/\D/g, "").length !== 14) return "CNPJ deve ter 14 dígitos.";
+  }
   if (t.papel_cadeia === "SUBOPERADOR" && !t.operador_principal_id) return "Suboperador exige vínculo com o operador principal.";
   if (t.contrato_vigente && !t.data_contrato) return "Informe a data do contrato vigente.";
   if (t.transferencia_internacional && !t.hipotese_art33) return "Transferência internacional exige a hipótese do art. 33 selecionada.";

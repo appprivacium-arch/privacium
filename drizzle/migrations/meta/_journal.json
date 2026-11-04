@@ -575,6 +575,13 @@
       "when": 1793801429810,
       "tag": "0081_remocao_cpf_legado_diagnostico",
       "breakpoints": true
+    },
+    {
+      "idx": 82,
+      "version": "7",
+      "when": 1793806695287,
+      "tag": "0082_terceiros_pessoa_fisica",
+      "breakpoints": true
     }
   ]
 }

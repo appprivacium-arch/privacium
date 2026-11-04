@@ -1810,8 +1810,9 @@ export type Database = {
           atualizado_em: string
           checklist_art39: Json
           clausulas_art39: boolean
-          cnpj: string
+          cnpj: string | null
           contrato_vigente: boolean
+          cpf: string | null
           criado_em: string
           data_contrato: string | null
           empresa_id: string
@@ -1821,15 +1822,18 @@ export type Database = {
           operador_principal_id: string | null
           papel_cadeia: string
           razao_social: string
+          tipo_pessoa: string
           transferencia_internacional: boolean
+          vinculo_controlador: string | null
         }
         Insert: {
           ativo?: boolean
           atualizado_em?: string
           checklist_art39?: Json
           clausulas_art39?: boolean
-          cnpj: string
+          cnpj?: string | null
           contrato_vigente?: boolean
+          cpf?: string | null
           criado_em?: string
           data_contrato?: string | null
           empresa_id: string
@@ -1839,15 +1843,18 @@ export type Database = {
           operador_principal_id?: string | null
           papel_cadeia: string
           razao_social: string
+          tipo_pessoa?: string
           transferencia_internacional?: boolean
+          vinculo_controlador?: string | null
         }
         Update: {
           ativo?: boolean
           atualizado_em?: string
           checklist_art39?: Json
           clausulas_art39?: boolean
-          cnpj?: string
+          cnpj?: string | null
           contrato_vigente?: boolean
+          cpf?: string | null
           criado_em?: string
           data_contrato?: string | null
           empresa_id?: string
@@ -1857,7 +1864,9 @@ export type Database = {
           operador_principal_id?: string | null
           papel_cadeia?: string
           razao_social?: string
+          tipo_pessoa?: string
           transferencia_internacional?: boolean
+          vinculo_controlador?: string | null
         }
         Relationships: [
           {

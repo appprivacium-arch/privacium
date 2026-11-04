@@ -9,7 +9,7 @@ import { DEMO_TERCEIROS } from "@/lib/priva/demo";
 import { usePriva } from "@/lib/priva/store";
 import {
   ALERTA_TERCEIRO_SEM_CONTRATO, CHECKLIST_ART39, FONTE_LGPD_PLANALTO, HIPOTESES_ART33, LITERAL_ART33_CAPUT, LITERAL_ART39, LITERAL_ART5_VII, LITERAL_ART5_X,
-  NOTA_SUBOPERADOR, CITACAO_ART42_P1_I, TITULO_CHECKLIST, NOTA_CHECKLIST, PAPEIS_CADEIA, ROTULO_CADEIA, checklistCompleto, terceiroBloqueado, validarTerceiro, type ChecklistArt39, type PapelCadeia,
+  NOTA_SUBOPERADOR, CITACAO_ART42_P1_I, TITULO_CHECKLIST, NOTA_CHECKLIST, PAPEIS_CADEIA, ROTULO_CADEIA, checklistCompleto, terceiroBloqueado, validarTerceiro, formatarCpf, ROTULO_TIPO_PESSOA, VINCULOS_PF, type ChecklistArt39, type PapelCadeia, type TipoPessoa,
 } from "@/lib/priva/terceiros";
 import { Panel, Tag } from "./ui";
 import { Button } from "@/components/ui/button";
@@ -18,8 +18,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
-export type Terceiro = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj">;
-const COLUNAS = "id, empresa_id, razao_social, papel_cadeia, operador_principal_id, contrato_vigente, data_contrato, clausulas_art39, checklist_art39, transferencia_internacional, hipotese_art33, encarregado_contato, ativo, criado_em, atualizado_em";
+export type Terceiro = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj" | "cpf">;
+const COLUNAS = "id, empresa_id, razao_social, papel_cadeia, operador_principal_id, contrato_vigente, data_contrato, clausulas_art39, checklist_art39, transferencia_internacional, hipotese_art33, encarregado_contato, ativo, criado_em, atualizado_em, tipo_pessoa, vinculo_controlador";
 
 /** Terceiros ativos da empresa (sem o CNPJ, que só sai pela função auditada). */
 export function useTerceiros() {
@@ -39,6 +39,7 @@ export function useTerceiros() {
 }
 
 const vazio = {
+  tipo_pessoa: "PJ" as TipoPessoa, cpf: "", vinculo_controlador: null as string | null,
   razao_social: "", cnpj: "", papel_cadeia: "OPERADOR" as PapelCadeia, operador_principal_id: null as string | null, contrato_vigente: false, data_contrato: null as string | null,
   checklist_art39: {} as ChecklistArt39, transferencia_internacional: false, hipotese_art33: null as string | null, encarregado_contato: "",
 };
@@ -69,14 +70,16 @@ export function TerceirosEmpresa() {
     const { data: emp, error: e1 } = await supabase.from("empresas").select("id").eq("cnpj", cnpj ?? "").single();
     if (e1) return toast.error("Empresa não encontrada.");
     const { error } = await supabase.from("terceiros_empresa").insert({
-      empresa_id: emp.id, razao_social: edit.razao_social.trim(), cnpj: edit.cnpj.replace(/\D/g, ""), papel_cadeia: edit.papel_cadeia,
+      empresa_id: emp.id, razao_social: edit.razao_social.trim(), tipo_pessoa: edit.tipo_pessoa,
+      cnpj: edit.tipo_pessoa === "PJ" ? edit.cnpj.replace(/\D/g, "") : null, cpf: edit.tipo_pessoa === "PF" ? edit.cpf.replace(/\D/g, "") : null,
+      vinculo_controlador: edit.tipo_pessoa === "PF" ? edit.vinculo_controlador : null, papel_cadeia: edit.papel_cadeia,
       operador_principal_id: edit.papel_cadeia === "SUBOPERADOR" ? edit.operador_principal_id : null, contrato_vigente: edit.contrato_vigente,
       data_contrato: edit.data_contrato, checklist_art39: edit.checklist_art39, transferencia_internacional: edit.transferencia_internacional,
       hipotese_art33: edit.transferencia_internacional ? edit.hipotese_art33 : null, encarregado_contato: edit.encarregado_contato.trim() || null,
     });
     if (error) return toast.error(error.message);
-    log("INSERT", "terceiros_empresa", `Cadastro do terceiro ${edit.razao_social.trim()} (${ROTULO_CADEIA[edit.papel_cadeia]})`, "cnpj");
-    toast.success("Terceiro cadastrado. O CNPJ fica mascarado e cada revelação é registrada na trilha.");
+    log("INSERT", "terceiros_empresa", `Cadastro do terceiro ${edit.razao_social.trim()} (${ROTULO_TIPO_PESSOA[edit.tipo_pessoa]}, ${ROTULO_CADEIA[edit.papel_cadeia]})`, edit.tipo_pessoa === "PF" ? "cpf" : "cnpj");
+    toast.success("Terceiro cadastrado. O documento fica mascarado e cada revelação é registrada na trilha.");
     setEdit(null);
     void qc.invalidateQueries({ queryKey: ["terceiros_empresa", cnpj] });
   };
@@ -97,7 +100,7 @@ export function TerceirosEmpresa() {
       <Button size="sm" onClick={() => (demo ? avisarAcaoDemo() : setEdit(vazio))}><Plus className="h-4 w-4" /> Novo terceiro</Button>
     )}>
       <div className="mb-4 space-y-1 text-xs text-muted-foreground" data-testid="fundamentos-terceiros">
-        <p>Destinatários externos dos PRT (Bloco 2, Etapa 2). O CNPJ fica mascarado; a leitura é restrita ao encarregado e ao Comitê de Governança, e toda revelação é registrada na trilha. A exclusão é lógica. Este cadastro consta no ROT como operação própria: "gestão de fornecedores com acesso a dados pessoais".</p>
+        <p>Destinatários externos dos PRT (Bloco 2, Etapa 2). O documento (CNPJ ou CPF) fica mascarado; a leitura é restrita ao encarregado e ao Comitê de Governança, e toda revelação é registrada na trilha. A exclusão é lógica. Este cadastro consta no ROT como operação própria: "gestão de fornecedores com acesso a dados pessoais".</p>
         <p>LGPD art. 5º, VII: "{LITERAL_ART5_VII}". Art. 5º, X: "{LITERAL_ART5_X}". Art. 39: "{LITERAL_ART39}" Fonte: <a className="underline" href={FONTE_LGPD_PLANALTO} target="_blank" rel="noreferrer">{FONTE_LGPD_PLANALTO}</a></p>
       </div>
       {!terceiros.length && <p className="text-sm text-muted-foreground">Nenhum terceiro cadastrado.</p>}
@@ -107,12 +110,13 @@ export function TerceirosEmpresa() {
           return (
             <li key={t.id} className="flex flex-wrap items-center gap-2 rounded-sm border bg-background p-3 text-sm" data-testid={`terceiro-${t.id}`}>
               <span className="font-medium">{t.razao_social}</span>
+              <Tag tone="muted">{t.tipo_pessoa === "PF" ? "PF" : "PJ"}</Tag>
               <Tag tone="primary">{ROTULO_CADEIA[t.papel_cadeia as PapelCadeia]}</Tag>
               {principal && <span className="text-xs text-muted-foreground">sob {principal.razao_social}</span>}
               {t.transferencia_internacional && <Tag tone="muted">Transf. internacional · art. 33, {t.hipotese_art33}</Tag>}
               <span className="inline-flex items-center gap-1 font-mono text-xs text-muted-foreground">
-                {revelado[t.id] ?? "**.***.***/****-**"}
-                <button aria-label={revelado[t.id] ? "Ocultar CNPJ" : "Revelar CNPJ"} className="hover:text-primary" onClick={() => void revelar(t)}>
+                {revelado[t.id] ?? (t.tipo_pessoa === "PF" ? "***.***.***-**" : "**.***.***/****-**")}
+                <button aria-label={revelado[t.id] ? "Ocultar documento" : "Revelar documento"} className="hover:text-primary" onClick={() => void revelar(t)}>
                   {revelado[t.id] ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                 </button>
               </span>
@@ -130,8 +134,29 @@ export function TerceirosEmpresa() {
           <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
             <DialogHeader><DialogTitle>Novo terceiro</DialogTitle></DialogHeader>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-1"><Label>Razão social</Label><Input value={edit.razao_social} onChange={(e) => setEdit({ ...edit, razao_social: e.target.value })} /></div>
-              <div className="space-y-1"><Label>CNPJ (mascarado após o cadastro)</Label><Input value={edit.cnpj} placeholder="00.000.000/0000-00" onChange={(e) => setEdit({ ...edit, cnpj: e.target.value })} /></div>
+              <fieldset className="space-y-1 md:col-span-2" data-testid="tipo-pessoa">
+                <legend className="text-sm font-medium">Tipo de pessoa (obrigatório)</legend>
+                <div className="flex gap-2">
+                  {(["PJ", "PF"] as const).map((tp) => (
+                    <Button key={tp} type="button" size="sm" variant={edit.tipo_pessoa === tp ? "default" : "outline"} aria-pressed={edit.tipo_pessoa === tp}
+                      onClick={() => setEdit({ ...edit, tipo_pessoa: tp, cnpj: "", cpf: "", vinculo_controlador: null })}>{ROTULO_TIPO_PESSOA[tp]}</Button>
+                  ))}
+                </div>
+              </fieldset>
+              {edit.tipo_pessoa === "PJ" ? (<>
+                <div className="space-y-1"><Label>Razão social</Label><Input value={edit.razao_social} onChange={(e) => setEdit({ ...edit, razao_social: e.target.value })} /></div>
+                <div className="space-y-1"><Label>CNPJ (mascarado após o cadastro)</Label><Input value={edit.cnpj} placeholder="00.000.000/0000-00" onChange={(e) => setEdit({ ...edit, cnpj: e.target.value })} /></div>
+              </>) : (<>
+                <div className="space-y-1"><Label>Nome completo</Label><Input value={edit.razao_social} onChange={(e) => setEdit({ ...edit, razao_social: e.target.value })} /></div>
+                <div className="space-y-1"><Label>CPF (mascarado após o cadastro)</Label><Input inputMode="numeric" value={edit.cpf} placeholder="000.000.000-00" onChange={(e) => setEdit({ ...edit, cpf: formatarCpf(e.target.value) })} /></div>
+                <div className="space-y-1">
+                  <Label>Vínculo com o controlador (opcional)</Label>
+                  <select aria-label="Vínculo com o controlador" className="w-full rounded-sm border bg-background px-2 py-2 text-sm" value={edit.vinculo_controlador ?? ""} onChange={(e) => setEdit({ ...edit, vinculo_controlador: e.target.value || null })}>
+                    <option value="">Não informado</option>
+                    {VINCULOS_PF.map(([v, r]) => <option key={v} value={v}>{r}</option>)}
+                  </select>
+                </div>
+              </>)}
               <div className="space-y-1">
                 <Label>Papel na cadeia</Label>
                 <select aria-label="Papel na cadeia" className="w-full rounded-sm border bg-background px-2 py-2 text-sm" value={edit.papel_cadeia} onChange={(e) => setEdit({ ...edit, papel_cadeia: e.target.value as PapelCadeia })}>

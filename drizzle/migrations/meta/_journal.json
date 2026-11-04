@@ -589,6 +589,13 @@
       "when": 1793807638705,
       "tag": "0083_terceiros_insert_policy_pf_pj",
       "breakpoints": true
+    },
+    {
+      "idx": 84,
+      "version": "7",
+      "when": 1793836538885,
+      "tag": "0084_auditoria_vinculo_usuario_fase_01_v3",
+      "breakpoints": true
     }
   ]
 }

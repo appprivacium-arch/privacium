@@ -26,12 +26,12 @@ export const mesExtenso = (m: string) => { const [a, mm] = m.split("-"); return 
 
 export const PI_INFO: Record<number, { codigo: string; nome: string; explica: string }> = {
   1: { codigo: "PI-01", nome: "Dossiê Legal de Alinhamento de Privacidade", explica: "É o resultado do diagnóstico de entrada: mostra o Grau de Maturidade da empresa frente à LGPD. Só com esse dossiê assinado o Bloco 2 é liberado." },
-  2: { codigo: "PI-02", nome: "Registro de Operações de Tratamento (ROT)", explica: "É o inventário exigido pelo art. 37 da LGPD: cada processo que trata dado pessoal, com sua hipótese de tratamento. Só com o ROT assinado pelo DPO e pela Diretoria o Bloco 3 é liberado." },
+  2: { codigo: "PI-02", nome: "Registro de Operações de Tratamento (ROT)", explica: "É o inventário exigido pelo art. 37 da LGPD: cada processo que trata dado pessoal, com sua hipótese de tratamento. Só com o ROT assinado pelo encarregado e pela Diretoria o Bloco 3 é liberado." },
   3: { codigo: "PI-03", nome: "Book de Evidências Tecnológicas e Contratuais", explica: "Comprova as salvaguardas do art. 46: computadores criptografados e cofres em nuvem com integridade verificada. Só com esse book assinado o Bloco 4 é liberado." },
   4: { codigo: "PI-04", nome: "Dossiê de Auditoria de Logs e Resposta de Célula", explica: "Comprova que a empresa vigiou acessos e tratou incidentes. Só com esse dossiê assinado o Bloco 5 é liberado." },
 };
 
-/** PI-01 tem assinatura única do DPO; PI-02 a PI-04 exigem DPO + Diretoria. */
+/** PI-01 tem assinatura única do encarregado; PI-02 a PI-04 exigem Encarregado + Diretoria. */
 export const PI_DUPLO: Record<number, boolean> = { 1: false, 2: true, 3: true, 4: true, 5: true };
 
 export type DadosBloco =
@@ -57,10 +57,10 @@ function assinaturas(n: number, sigs: Record<string, Signature>, base: boolean, 
   };
   const exigeBase = ex("DPO_OPERACIONAL");
   if (!PI_DUPLO[n]) {
-    return [{ id: "sig-dpo", titulo: `Assinatura do DPO no ${code}`, exige: exigeBase, responsavel: "DPO_OPERACIONAL", estado: sigs[code] ? "ok" : estadoBase, bloco: n, ancora: "assinatura", acao: `Assinar o ${code}` }];
+    return [{ id: "sig-dpo", titulo: `Assinatura do Encarregado no ${code}`, exige: exigeBase, responsavel: "DPO_OPERACIONAL", estado: sigs[code] ? "ok" : estadoBase, bloco: n, ancora: "assinatura", acao: `Assinar o ${code}` }];
   }
   return [
-    { id: "sig-dpo", titulo: `Assinatura do DPO no ${code}`, exige: exigeBase, responsavel: "DPO_OPERACIONAL", estado: sigs[`${code}-DPO`] || sigs[code] ? "ok" : estadoBase, bloco: n, ancora: "assinatura", acao: `Assinar o ${code} como DPO` },
+    { id: "sig-dpo", titulo: `Assinatura do Encarregado no ${code}`, exige: exigeBase, responsavel: "DPO_OPERACIONAL", estado: sigs[`${code}-DPO`] || sigs[code] ? "ok" : estadoBase, bloco: n, ancora: "assinatura", acao: `Assinar o ${code} como encarregado` },
     { id: "sig-dir", titulo: `Assinatura da Diretoria no ${code}`, exige: ex("C_SUITE"), responsavel: "C_SUITE", estado: sigs[`${code}-DIR`] || sigs[code] ? "ok" : estadoBase, bloco: n, ancora: "assinatura", acao: `Assinar o ${code} como Diretoria` },
   ];
 }

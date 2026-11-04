@@ -28,7 +28,7 @@ export const BIBLIOTECA_TEXTOS: Record<TextoId, TextoModelo> = {
 
 1. É proibido colar dado pessoal (nome, CPF, e-mail, dado bancário) em prompts de serviços de IA externos sem higienização prévia pelo Escudo Digital.
 2. Todo prompt destinado a provedor externo passa pelo proxy de tokenização: o dado pessoal é substituído por tokens sintéticos e a tabela de reversão permanece no endpoint do colaborador.
-3. Dado pessoal sensível (art. 5º, II da LGPD) nunca é enviado a IA externa, mesmo tokenizado, sem autorização escrita do Encarregado (DPO).
+3. Dado pessoal sensível (art. 5º, II da LGPD) nunca é enviado a IA externa, mesmo tokenizado, sem autorização escrita do Encarregado.
 4. O uso de IA em decisões que afetem titulares deve assegurar ao titular o direito de solicitar a revisão das decisões tomadas unicamente com base em tratamento automatizado (art. 20 da LGPD).
 5. Violões desta política são registrados na trilha de auditoria e tratados como incidente pelo Bloco 4.`,
   },
@@ -94,7 +94,7 @@ Responsável: <RESPONSÁVEL>
 Localização/domínio: <LOCALIZAÇÃO>
 Estrutura de pastas: conforme modelo do cenário do ROT
 Hash SHA-256 da estrutura: calculado pela plataforma no ato do cadastro e recalculado a cada alteração
-Chave de recuperação: custodiada offline pelo Encarregado (DPO), fora da nuvem`,
+Chave de recuperação: custodiada offline pelo Encarregado, fora da nuvem`,
   },
   "estrutura-pasta-rot": {
     id: "estrutura-pasta-rot",
@@ -119,12 +119,12 @@ Regra: nenhum documento fora da pasta do seu cenário; a estrutura é selada por
     fonte: "LGPD art. 46 / ISO/IEC 27701",
     corpo: `PI-03: BOOK DE EVIDÊNCIAS TECNOLÓGICAS E CONTRATUAIS (MODELO)
 
-1. Criptografia de endpoint (BitLocker): <N>/<TOTAL> máquinas protegidas, chaves de recuperação custodiadas offline pelo Encarregado (DPO).
+1. Criptografia de endpoint (BitLocker): <N>/<TOTAL> máquinas protegidas, chaves de recuperação custodiadas offline pelo Encarregado.
 2. Cofres em nuvem (Cryptomator, criptografia client-side): <N> cofre(s) catalogado(s), estrutura selada por hash SHA-256.
 3. Escudo Digital de IA: pseudonimização de nomes, CPFs e e-mails por tokens sintéticos antes do envio a provedores externos; tabela de reversão mantida apenas no endpoint.
 4. Contratos: cláusula de proteção de dados aplicada a todo fornecedor que trata dado pessoal.
 
-Assinatura do DPO (Gov.br): ______________________________
+Assinatura do Encarregado (Gov.br): ______________________________
 Assinatura da Diretoria (Gov.br): ______________________________`,
   },
 };
@@ -229,7 +229,7 @@ export function respostasAIA(r: {
       resposta: r.sens_ai
         ? "Titulares de dado pessoal sensível (saúde / rastreamento), conforme categorias ativas no RIPO."
         : r.pessoais
-          ? "Titulares de dados pessoais comuns declarados no RIPO."
+          ? "Titulares declarados no RIPO."
           : "Nenhuma categoria de afetados declarada no RIPO.",
       sugerida,
     },

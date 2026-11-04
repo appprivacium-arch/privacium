@@ -11,15 +11,15 @@ const fmt = (d: Date) => d.toLocaleDateString("pt-BR");
 
 function emails(c: ReturnType<typeof cicloSemestral>) {
   const base = [
-    { para: "DPO", assunto: `Abertura do ${c.rotulo}: iniciar Delta de Riscos no Bloco 1`, quando: c.inicio },
+    { para: "Encarregado", assunto: `Abertura do ${c.rotulo}: iniciar Delta de Riscos no Bloco 1`, quando: c.inicio },
     { para: "C-Suite", assunto: `Calendário de governança do ${c.rotulo}`, quando: c.inicio },
   ];
   if (c.diasRestantes <= 30) base.push(
-    { para: "DPO", assunto: "Faltam 30 dias: revisar ROT e logs forenses", quando: new Date(c.fim.getTime() - 30 * 864e5) },
+    { para: "Encarregado", assunto: "Faltam 30 dias: revisar ROT e logs forenses", quando: new Date(c.fim.getTime() - 30 * 864e5) },
     { para: "C-Suite", assunto: "Faltam 30 dias: validar riscos do semestre", quando: new Date(c.fim.getTime() - 30 * 864e5) },
   );
   if (c.diasRestantes <= 7) base.push(
-    { para: "DPO", assunto: `URGENTE: congelamento do Snapshot em ${fmt(c.congelamento)} e emissão do PI-05`, quando: new Date(c.fim.getTime() - 7 * 864e5) },
+    { para: "Encarregado", assunto: `URGENTE: congelamento do Snapshot em ${fmt(c.congelamento)} e emissão do PI-05`, quando: new Date(c.fim.getTime() - 7 * 864e5) },
     { para: "C-Suite", assunto: "URGENTE: assinatura da Diretoria no PI-05", quando: new Date(c.fim.getTime() - 7 * 864e5) },
   );
   return base.reverse();

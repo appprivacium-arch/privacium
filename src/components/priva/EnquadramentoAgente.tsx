@@ -36,7 +36,7 @@ export function EnquadramentoAgente() {
       if (!valida.success) return setErro(valida.error.issues[0]?.message ?? 'Critérios inválidos');
       if (trava) return setErro(trava);
       setBusy(true); setErro('');
-      try { await e.assinar(c); await refreshAudit(); toast.success('Declaração assinada pelo DPO e registrada na trilha.'); }
+      try { await e.assinar(c); await refreshAudit(); toast.success('Declaração assinada pelo encarregado e registrada na trilha.'); }
       catch (err) { setErro(err instanceof Error ? err.message : 'Não foi possível assinar a declaração.'); }
       finally { setBusy(false); }
     }}>
@@ -62,8 +62,8 @@ export function EnquadramentoAgente() {
       <p className="text-sm" data-testid="resultado-porte"><b>Resultado calculado:</b> {trava ? 'Pequeno porte bloqueado — regime completo obrigatório' : porte ? rotuloPorte(porte) : 'Preencha os critérios.'}</p>
       {(erro || trava) && <p role="alert" className="text-sm text-destructive">{erro || trava}</p>}
       {e.isError && <p role="alert">Não foi possível consultar a declaração vigente.</p>}
-      {e.declaracao && <div className="space-y-1 text-xs"><Tag tone="success">Declaração assinada pelo DPO · PI-01</Tag><p>{new Date(e.declaracao.assinado_em).toLocaleString('pt-BR')}</p><p className="break-all font-mono">SHA-256 {e.declaracao.hash_sha256}</p></div>}
-      <Button type="submit" disabled={!demo && (busy || !roles.includes('DPO_OPERACIONAL'))}>{busy ? 'Registrando…' : e.declaracao ? 'Assinar reenquadramento como DPO (simulado)' : 'Assinar declaração como DPO (simulado)'}</Button>
+      {e.declaracao && <div className="space-y-1 text-xs"><Tag tone="success">Declaração assinada pelo encarregado · PI-01</Tag><p>{new Date(e.declaracao.assinado_em).toLocaleString('pt-BR')}</p><p className="break-all font-mono">SHA-256 {e.declaracao.hash_sha256}</p></div>}
+      <Button type="submit" disabled={!demo && (busy || !roles.includes('DPO_OPERACIONAL'))}>{busy ? 'Registrando…' : e.declaracao ? 'Assinar reenquadramento como encarregado (simulado)' : 'Assinar declaração como encarregado (simulado)'}</Button>
     </form>
   </Panel>;
 }

@@ -614,7 +614,7 @@ function AssinaturasRot({ r, onAssinar }: { r: RotRow; onAssinar: (etapa: 1 | 2)
       )}
     </div>
   );
-  return <>{chip(a1, 1, "Etapa 1 (gestor da área)")}{chip(a2, 2, "Etapa 2 (DPO)")}</>;
+  return <>{chip(a1, 1, "Etapa 1 (gestor da área)")}{chip(a2, 2, "Etapa 2 (Encarregado)")}</>;
 }
 
 function CitacoesCiclo({ ciclo }: { ciclo: CicloVida }) {

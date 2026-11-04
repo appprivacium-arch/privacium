@@ -29,7 +29,7 @@ type Linha = EntradaNormativa & { id: string };
 
 /**
  * Painel "Qualidade normativa" (Transversal): lista as citações da biblioteca
- * normativa por status, com filtro, e permite ao DPO marcar como verificada
+ * normativa por status, com filtro, e permite ao encarregado marcar como verificada
  * informando URL oficial e texto literal. Toda alteração vai para a trilha
  * com hash (RPC verificar_citacao_normativa).
  */

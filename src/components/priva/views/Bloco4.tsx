@@ -46,7 +46,7 @@ type Incidente = Database["public"]["Tables"]["incidentes_seguranca"]["Row"];
 
 const STEPS = [
   { t: "Isolamento", d: "Desconectar da rede os endpoints e segmentos afetados, sem desligar as máquinas." },
-  { t: "Invocação", d: "Acionar a Célula de Resposta (DPO, TI, Jurídico e Diretoria) e abrir o registro do incidente." },
+  { t: "Invocação", d: "Acionar a Célula de Resposta (Encarregado, TI, Jurídico e Diretoria) e abrir o registro do incidente." },
   { t: "Sandbox", d: "Analisar a amostra do ransomware em ambiente isolado e preservar evidências (ISO 27037)." },
   { t: "Descriptografia", d: "Restaurar a partir de backups íntegros ou ferramentas de descriptografia validadas." },
   { t: "Validação", d: "Conferir hashes de integridade dos dados restaurados e encerrar a contenção." },
@@ -141,7 +141,7 @@ function ConsolePgAudit({ cnpj, lotes, incidentes, canEdit, refresh }: { cnpj: s
 
   const gerarPdf = (l: Lote) => {
     if (demo) return avisarAcaoDemo();
-    // Apenas atos da empresa e contato DPO; referências externas nunca entram
+    // Apenas atos da empresa e contato Encarregado; referências externas nunca entram
     // neste dossiê, no PDF ou em seu hash encadeado.
     const doc = new jsPDF();
     doc.setFontSize(14); doc.setFontSize(8); doc.text("Emitido pelo Ecossistema de Governança Privacium", 14, 10); doc.setFontSize(14); doc.text("PI-04: Dossiê de Auditoria de Logs e Resposta de Célula", 14, 18);
@@ -164,11 +164,11 @@ function ConsolePgAudit({ cnpj, lotes, incidentes, canEdit, refresh }: { cnpj: s
       y += 4;
     }
     const contato = encarregado.data;
-    const contatoLinhas = doc.splitTextToSize(contato ? `Encarregado (DPO): ${contato.nome} · ${contato.email}${contato.telefone ? ` · ${contato.telefone}` : ""}${contato.endereco ? ` · ${contato.endereco}` : ""}` : "Encarregado (DPO): Contato não cadastrado", 180) as string[];
+    const contatoLinhas = doc.splitTextToSize(contato ? `Encarregado: ${contato.nome} · ${contato.email}${contato.telefone ? ` · ${contato.telefone}` : ""}${contato.endereco ? ` · ${contato.endereco}` : ""}` : "Encarregado: Contato não cadastrado", 180) as string[];
     if (y + contatoLinhas.length * 4 > 240) { doc.addPage(); y = 20; }
     doc.text(contatoLinhas, 14, y + 4); y += contatoLinhas.length * 4 + 8;
     if (y > 250) { doc.addPage(); y = 20; }
-    doc.text(["", "Assinatura do DPO (Gov.br): ______________________________", "", "Assinatura da Diretoria (Gov.br): ______________________________"], 14, y + 8);
+    doc.text(["", "Assinatura do Encarregado (Gov.br): ______________________________", "", "Assinatura da Diretoria (Gov.br): ______________________________"], 14, y + 8);
     doc.save(`PI-04_${l.mes_referencia}.pdf`);
     log("SELECT", "lotes_pgaudit", `PDF do dossiê ${l.mes_referencia} gerado`);
   };

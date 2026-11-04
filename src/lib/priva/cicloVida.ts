@@ -37,7 +37,7 @@ export const ROTULO_ETAPA2 = "Etapa 2 · Destino dos produtos gerados";
 export const NOTA_ETAPA2_COMPARTILHAR = "o dado sai e continua existindo em outra mão";
 export const NOTA_ETAPA2_ELIMINAR = "o dado deixa de existir (LGPD art. 16)";
 export const NOTA_METODO_CICLO = "Agrupamento do método. Os 20 verbos do art. 5º, X da LGPD permanecem íntegros; a divisão entre perímetro e destino é organizacional, não cria categoria legal nova.";
-export const NOTA_RESPONSAVEL_ETAPAS = "Responsável distinto: a Etapa 1 é assinada pelo gestor da área; a Etapa 2, pelo DPO.";
+export const NOTA_RESPONSAVEL_ETAPAS = "Responsável distinto: a Etapa 1 é assinada pelo gestor da área; a Etapa 2, pelo encarregado.";
 /** Alerta não bloqueante: retenção sem destino declarado (LGPD art. 16). */
 export const ALERTA_RETENCAO = "Dado retido sem destino declarado — art. 16 não comprovado";
 

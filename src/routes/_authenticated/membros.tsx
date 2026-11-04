@@ -5,7 +5,7 @@ import { ROLE_LABEL, type Role } from "@/lib/priva/data";
 import { usePriva } from "@/lib/priva/store";
 import { PageHeader, Panel, Tag } from "@/components/priva/ui";
 import { Checkbox } from "@/components/ui/checkbox";
-import { EncarregadoDPO } from "@/components/priva/EncarregadoDPO";
+import { Encarregado } from '@/components/priva/Encarregado';
 
 export const Route = createFileRoute("/_authenticated/membros")({
   head: () => ({
@@ -63,7 +63,7 @@ function Membros() {
       <PageHeader eyebrow="Painel do Administrador" title="Membros e cargos">
         Novas contas entram sem acesso. Conceda apenas os cargos necessários (need-to-know). Toda concessão é registrada na trilha de auditoria.
       </PageHeader>
-      <EncarregadoDPO />
+      <Encarregado />
       {admin && <Panel title={`${members.length} membros`}>
         <table className="w-full text-sm">
           <thead><tr className="border-b text-left font-mono text-xs uppercase text-muted-foreground"><th className="py-2">Membro</th>{ALL.map((r) => <th key={r}>{ROLE_LABEL[r]}</th>)}<th>Empresa</th><th>Status</th></tr></thead>

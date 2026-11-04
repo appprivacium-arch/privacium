@@ -186,7 +186,7 @@ export function Bloco1() {
       <PIOutput pi="PI-01: Dossiê Legal de Alinhamento de Privacidade" ready={enquadramento.vigente && questions.length > 0 && answered === questions.length} readyHint={`Assine o enquadramento e responda todas as perguntas (${answered}/${questions.length}).`}>
         <h3 className="font-semibold">Declaração de enquadramento do agente</h3>
         <p>{enquadramento.porte ? rotuloPorte(enquadramento.porte) : 'Enquadramento não assinado'} · {FUNDAMENTO_PORTE}</p>
-        {enquadramento.declaracao && <><p>Assinatura do DPO em {new Date(enquadramento.declaracao.assinado_em).toLocaleString('pt-BR')}</p><p className="break-all font-mono">SHA-256 {enquadramento.declaracao.hash_sha256}</p><ul className="list-disc pl-5">{Object.entries(enquadramento.declaracao.criterios as Record<string, unknown>).map(([k,v]) => <li key={k}>{k}: {String(v)}</li>)}</ul></>}
+        {enquadramento.declaracao && <><p>Assinatura do Encarregado em {new Date(enquadramento.declaracao.assinado_em).toLocaleString('pt-BR')}</p><p className="break-all font-mono">SHA-256 {enquadramento.declaracao.hash_sha256}</p><ul className="list-disc pl-5">{Object.entries(enquadramento.declaracao.criterios as Record<string, unknown>).map(([k,v]) => <li key={k}>{k}: {String(v)}</li>)}</ul></>}
         <h3 className="font-semibold">1. Resultado do diagnóstico</h3>
         <p>Empresa: {razao} · CNPJ {maskCNPJ(cnpj)} · Auditor: {email}</p>
         <p>Grau de Maturidade: <b>{gm.toFixed(1)}%</b> ({score}/{bankMax}) — {zone.label}.</p>

@@ -197,7 +197,7 @@ export function validateRot(r: RotInput & { continuacao_receptor?: unknown }): s
   if (!hasSensivel(r) && b) return "Limpe o campo 7B para salvar — ele só se aplica quando o campo 5 tem dado pessoal sensível.";
   if (!r.tempo_retencao.trim()) return "Preencha o campo 8 (Tempo de Retenção) para salvar — informe por quanto tempo o dado pessoal é guardado.";
   if (!r.base_prazo.trim()) return "Preencha o campo 9 (Base do Prazo) para salvar — ele é obrigatório quando o campo 8 está preenchido.";
-  if (isRisky(r) && (r.justificativa_mitigacao ?? "").trim().length < 20) return "Escreva a justificativa das medidas mitigadoras (mínimo 20 caracteres) para salvar — obrigatória em processos com menores ou dado pessoal sensível. Responsável: DPO.";
+  if (isRisky(r) && (r.justificativa_mitigacao ?? "").trim().length < 20) return "Escreva a justificativa das medidas mitigadoras (mínimo 20 caracteres) para salvar — obrigatória em processos com menores ou dado pessoal sensível. Responsável: Encarregado.";
   if (r.papel_agente === "OPERADOR" && !(r.contrato_controlador ?? "").trim()) return "Linha de operador exige o contrato com o controlador (campo 6) — a finalidade do operador é a do contrato (LGPD art. 39).";
   return null;
 }

@@ -4,7 +4,7 @@ import { limiteANPD } from './anpd';
 export const ETAPAS_INCIDENTE = ['Isolamento', 'Invocação', 'Sandbox', 'Descriptografia', 'Validação', 'Comunicação à ANPD'] as const;
 export type IncidenteFonte = {
   id: string; passos: boolean[]; iniciado_em: string;
-  /** Base legal do prazo (Res. 15/2024, art. 6º, §1º). iniciado_em é só auditoria. */
+  /** Termo inicial do prazo (Res. 15/2024, art. 6º, §1º). iniciado_em é só auditoria. */
   data_conhecimento: string; enviado_anpd_em: string | null; encerrado_em: string | null;
   etapas_registro?: unknown;
   prazo_dias_uteis?: number | null;

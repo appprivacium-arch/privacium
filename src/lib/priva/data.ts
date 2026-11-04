@@ -1,7 +1,7 @@
 export type Role = "ADMIN_SISTEMA" | "DPO_OPERACIONAL" | "C_SUITE";
 export const ROLE_LABEL: Record<Role, string> = {
   ADMIN_SISTEMA: "Administrador (SaaS)",
-  DPO_OPERACIONAL: "DPO / Encarregado",
+  DPO_OPERACIONAL: "Encarregado",
   C_SUITE: "C-Suite",
 };
 
@@ -75,7 +75,7 @@ export const KANBAN_COLUMNS: { id: KanbanColumn; label: string; hint: string }[]
   { id: "todo", label: "A Fazer", hint: "" },
   { id: "doing", label: "Em Execução", hint: "Máx. 3 cartões" },
   { id: "third", label: "Pendente com Terceiros", hint: "Cronômetro pausado" },
-  { id: "review", label: "Revisão do DPO/Compliance", hint: "Exige hash SHA-256" },
+  { id: "review", label: "Revisão do encarregado/Compliance", hint: "Exige hash SHA-256" },
   { id: "done", label: "Produto Concluído (PI)", hint: "" },
 ];
 export type KanbanCard = {

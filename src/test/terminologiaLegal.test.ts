@@ -30,6 +30,7 @@ const PROIBIDOS: [string, RegExp][] = [
 const IGNORAR_LINHA = [
   /who: "DPO" \| "DIR"/, /who === "DPO"/, /demoAssinar\([^)]*"DPO"\)/,
   /const PROIBIDOS = \/\(base legal/, // validador que rejeita o termo
+  /\.replace\(\/base legal\/gi, "hipótese de tratamento"\)/, // sanitizador que substitui o termo
 ];
 
 function arquivos(dir: string): string[] {

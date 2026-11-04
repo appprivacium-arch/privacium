@@ -229,7 +229,7 @@ export function respostasAIA(r: {
       resposta: r.sens_ai
         ? "Titulares de dado pessoal sensível (saúde / rastreamento), conforme categorias ativas no RIPO."
         : r.pessoais
-          ? "Titulares de dados pessoais comuns declarados no RIPO."
+          ? "Titulares declarados no RIPO."
           : "Nenhuma categoria de afetados declarada no RIPO.",
       sugerida,
     },

@@ -13,7 +13,7 @@ import { Manual } from '@/components/priva/views/Manual';
 import { Glossario } from '@/components/priva/views/Glossario';
 import { Auditoria } from '@/components/priva/views/Auditoria';
 import { FormularioANPD } from '@/components/priva/FormularioANPD';
-import { EncarregadoDPO } from '@/components/priva/EncarregadoDPO';
+import { Encarregado } from '@/components/priva/Encarregado';
 import { EncerrarIncidente } from '@/components/priva/EncerrarIncidente';
 import { QualidadeNormativa } from '@/components/priva/views/QualidadeNormativa';
 import { SolicitacoesTitular } from '@/components/priva/views/SolicitacoesTitular';
@@ -53,7 +53,7 @@ function DemoConteudo({ aba, cenario }: { aba: string; cenario?: string | undefi
     case 'manual': return <Manual aba="guias" />;
     case 'glossario': return <Glossario />;
     case 'auditoria': return <Auditoria />;
-    case 'encarregado': return <EncarregadoDPO />;
+    case 'encarregado': return <Encarregado />;
     case 'qualidade-normativa': return <QualidadeNormativa />;
     case 'titulares': return <SolicitacoesTitular />;
     case 'anpd': return <DemoANPD />;

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
 const vazio = { nome: "", email: "", telefone: "", endereco: "", publicar_contato: false };
-export function EncarregadoDPO() {
+export function Encarregado() {
   const { cnpj, role, roles, demo } = usePriva();
   const q = useEncarregado();
   const qc = useQueryClient();

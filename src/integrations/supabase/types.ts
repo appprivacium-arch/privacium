@@ -371,6 +371,68 @@ export type Database = {
         }
         Relationships: []
       }
+      divergencia_manual: {
+        Row: {
+          autor_email: string
+          autor_id: string
+          bloco: number
+          criado_em: string
+          empresa_cnpj: string
+          id: string
+          item_manual: string
+          leitura_aplicada: string
+          leitura_correta: string
+          origem_confusao: string
+          resolucao: string | null
+          status: string
+          tratado_em: string | null
+          tratado_por: string | null
+          trecho_normativo: string | null
+        }
+        Insert: {
+          autor_email: string
+          autor_id: string
+          bloco: number
+          criado_em?: string
+          empresa_cnpj: string
+          id?: string
+          item_manual: string
+          leitura_aplicada: string
+          leitura_correta: string
+          origem_confusao: string
+          resolucao?: string | null
+          status?: string
+          tratado_em?: string | null
+          tratado_por?: string | null
+          trecho_normativo?: string | null
+        }
+        Update: {
+          autor_email?: string
+          autor_id?: string
+          bloco?: number
+          criado_em?: string
+          empresa_cnpj?: string
+          id?: string
+          item_manual?: string
+          leitura_aplicada?: string
+          leitura_correta?: string
+          origem_confusao?: string
+          resolucao?: string | null
+          status?: string
+          tratado_em?: string | null
+          tratado_por?: string | null
+          trecho_normativo?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "divergencia_manual_empresa_cnpj_fkey"
+            columns: ["empresa_cnpj"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["cnpj"]
+          },
+        ]
+      }
       empresas: {
         Row: {
           cnpj: string
@@ -2382,6 +2444,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      registrar_divergencia: { Args: { _payload: Json }; Returns: string }
       registrar_etapa_incidente: {
         Args: { _concluida?: boolean; _etapa: number; _incidente: string }
         Returns: undefined

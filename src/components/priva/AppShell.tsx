@@ -2,7 +2,7 @@ import { PrivaciumLogo } from "@/components/priva/Logo";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Lock, CheckCircle2, LayoutDashboard, KanbanSquare, ScrollText, Building2, RotateCcw, LogOut, Users, Presentation, X, BookOpen, BookA, Menu, ListChecks, ShieldCheck } from "lucide-react";
+import { Lock, CheckCircle2, LayoutDashboard, KanbanSquare, ScrollText, Building2, RotateCcw, LogOut, Users, Presentation, X, BookOpen, BookA, Menu, ListChecks, ShieldCheck, MessageSquareWarning } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { BLOCKS, ROLE_LABEL, isValidCNPJ, maskCNPJ, type Role } from "@/lib/priva/data";
 import { usePriva, isUnlocked } from "@/lib/priva/store";
@@ -19,9 +19,9 @@ import { rotuloPorte } from '@/lib/priva/enquadramento';
 import { Tag } from './ui';
 
 const ROLE_ACCESS: Record<Role, string[]> = {
-  ADMIN_SISTEMA: ["/painel", "/auditoria", "/kanban", "/pendencias", "/membros", "/manual", "/glossario", "/qualidade-normativa", "/solicitacoes-titular"],
-  DPO_OPERACIONAL: ["/painel", "/bloco", "/kanban", "/pendencias", "/auditoria", "/enterprise", "/manual", "/membros", "/glossario", "/qualidade-normativa", "/solicitacoes-titular"],
-  C_SUITE: ["/painel", "/enterprise", "/kanban", "/pendencias", "/auditoria", "/manual", "/membros", "/glossario", "/qualidade-normativa"],
+  ADMIN_SISTEMA: ["/painel", "/auditoria", "/kanban", "/pendencias", "/membros", "/manual", "/divergencias", "/glossario", "/qualidade-normativa", "/solicitacoes-titular"],
+  DPO_OPERACIONAL: ["/painel", "/bloco", "/kanban", "/pendencias", "/auditoria", "/enterprise", "/manual", "/divergencias", "/membros", "/glossario", "/qualidade-normativa", "/solicitacoes-titular"],
+  C_SUITE: ["/painel", "/enterprise", "/kanban", "/pendencias", "/auditoria", "/manual", "/divergencias", "/membros", "/glossario", "/qualidade-normativa"],
 };
 const SENSITIVE = [
   { path: "/bloco-2", target: "inventario_dados_pessoais" },
@@ -186,6 +186,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           {item("/qualidade-normativa", "Qualidade normativa", <ShieldCheck className="h-4 w-4" />)}
           {item("/solicitacoes-titular", "Solicitações de titulares", <Users className="h-4 w-4" />)}
           {item("/manual", "Manual de Uso", <BookOpen className="h-4 w-4" />)}
+          {item("/divergencias", "Divergências do Manual", <MessageSquareWarning className="h-4 w-4" />)}
           {item("/glossario", "Glossário", <BookA className="h-4 w-4" />)}
           {publicDemo && item('/encarregado', 'Encarregado', <Users className="h-4 w-4" />)}
           {item("/membros", "Membros e cargos", <Users className="h-4 w-4" />)}

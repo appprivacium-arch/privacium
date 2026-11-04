@@ -20,6 +20,7 @@ import { Route as AuthenticatedBloco2RouteImport } from './routes/_authenticated
 import { Route as AuthenticatedBloco3RouteImport } from './routes/_authenticated/bloco-3'
 import { Route as AuthenticatedBloco4RouteImport } from './routes/_authenticated/bloco-4'
 import { Route as AuthenticatedBloco5RouteImport } from './routes/_authenticated/bloco-5'
+import { Route as AuthenticatedDivergenciasRouteImport } from './routes/_authenticated/divergencias'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedGlossarioRouteImport } from './routes/_authenticated/glossario'
 import { Route as AuthenticatedKanbanRouteImport } from './routes/_authenticated/kanban'
@@ -85,6 +86,12 @@ const AuthenticatedBloco5Route = AuthenticatedBloco5RouteImport.update({
   path: '/bloco-5',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDivergenciasRoute =
+  AuthenticatedDivergenciasRouteImport.update({
+    id: '/divergencias',
+    path: '/divergencias',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEnterpriseRoute = AuthenticatedEnterpriseRouteImport.update({
   id: '/enterprise',
   path: '/enterprise',
@@ -150,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/bloco-3': typeof AuthenticatedBloco3Route
   '/bloco-4': typeof AuthenticatedBloco4Route
   '/bloco-5': typeof AuthenticatedBloco5Route
+  '/divergencias': typeof AuthenticatedDivergenciasRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
   '/glossario': typeof AuthenticatedGlossarioRoute
   '/kanban': typeof AuthenticatedKanbanRoute
@@ -172,6 +180,7 @@ export interface FileRoutesByTo {
   '/bloco-3': typeof AuthenticatedBloco3Route
   '/bloco-4': typeof AuthenticatedBloco4Route
   '/bloco-5': typeof AuthenticatedBloco5Route
+  '/divergencias': typeof AuthenticatedDivergenciasRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
   '/glossario': typeof AuthenticatedGlossarioRoute
   '/kanban': typeof AuthenticatedKanbanRoute
@@ -196,6 +205,7 @@ export interface FileRoutesById {
   '/_authenticated/bloco-3': typeof AuthenticatedBloco3Route
   '/_authenticated/bloco-4': typeof AuthenticatedBloco4Route
   '/_authenticated/bloco-5': typeof AuthenticatedBloco5Route
+  '/_authenticated/divergencias': typeof AuthenticatedDivergenciasRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRoute
   '/_authenticated/glossario': typeof AuthenticatedGlossarioRoute
   '/_authenticated/kanban': typeof AuthenticatedKanbanRoute
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/bloco-3'
     | '/bloco-4'
     | '/bloco-5'
+    | '/divergencias'
     | '/enterprise'
     | '/glossario'
     | '/kanban'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/bloco-3'
     | '/bloco-4'
     | '/bloco-5'
+    | '/divergencias'
     | '/enterprise'
     | '/glossario'
     | '/kanban'
@@ -265,6 +277,7 @@ export interface FileRouteTypes {
     | '/_authenticated/bloco-3'
     | '/_authenticated/bloco-4'
     | '/_authenticated/bloco-5'
+    | '/_authenticated/divergencias'
     | '/_authenticated/enterprise'
     | '/_authenticated/glossario'
     | '/_authenticated/kanban'
@@ -364,6 +377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloco5RouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/divergencias': {
+      id: '/_authenticated/divergencias'
+      path: '/divergencias'
+      fullPath: '/divergencias'
+      preLoaderRoute: typeof AuthenticatedDivergenciasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/enterprise': {
       id: '/_authenticated/enterprise'
       path: '/enterprise'
@@ -444,6 +464,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBloco3Route: typeof AuthenticatedBloco3Route
   AuthenticatedBloco4Route: typeof AuthenticatedBloco4Route
   AuthenticatedBloco5Route: typeof AuthenticatedBloco5Route
+  AuthenticatedDivergenciasRoute: typeof AuthenticatedDivergenciasRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRoute
   AuthenticatedGlossarioRoute: typeof AuthenticatedGlossarioRoute
   AuthenticatedKanbanRoute: typeof AuthenticatedKanbanRoute
@@ -463,6 +484,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBloco3Route: AuthenticatedBloco3Route,
   AuthenticatedBloco4Route: AuthenticatedBloco4Route,
   AuthenticatedBloco5Route: AuthenticatedBloco5Route,
+  AuthenticatedDivergenciasRoute: AuthenticatedDivergenciasRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRoute,
   AuthenticatedGlossarioRoute: AuthenticatedGlossarioRoute,
   AuthenticatedKanbanRoute: AuthenticatedKanbanRoute,

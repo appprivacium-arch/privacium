@@ -561,6 +561,13 @@
       "when": 1793766919116,
       "tag": "0079_diagnostico_autoria_uuid_transicao_aditiva",
       "breakpoints": true
+    },
+    {
+      "idx": 80,
+      "version": "7",
+      "when": 1793766954948,
+      "tag": "0080_diagnostico_autoria_uuid_obrigatoria",
+      "breakpoints": true
     }
   ]
 }

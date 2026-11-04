@@ -1,0 +1,2 @@
+DO $$ BEGIN IF (SELECT count(*) FROM public.respostas_diagnostico) <> 332 OR EXISTS (SELECT 1 FROM public.respostas_diagnostico WHERE usuario_id IS NULL) THEN RAISE EXCEPTION 'Autoria historica incompleta'; END IF; END $$;
+ALTER TABLE public.respostas_diagnostico ALTER COLUMN usuario_id SET NOT NULL;

@@ -1517,7 +1517,7 @@ export type Database = {
           resposta_binaria: string
           timestamp_resposta: string
           usuario_cpf: string | null
-          usuario_id: string | null
+          usuario_id: string
         }
         Insert: {
           empresa_cnpj: string
@@ -1527,7 +1527,7 @@ export type Database = {
           resposta_binaria: string
           timestamp_resposta?: string
           usuario_cpf?: string | null
-          usuario_id?: string | null
+          usuario_id: string
         }
         Update: {
           empresa_cnpj?: string
@@ -1537,7 +1537,7 @@ export type Database = {
           resposta_binaria?: string
           timestamp_resposta?: string
           usuario_cpf?: string | null
-          usuario_id?: string | null
+          usuario_id?: string
         }
         Relationships: [
           {

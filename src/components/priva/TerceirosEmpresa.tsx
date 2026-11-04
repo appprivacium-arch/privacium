@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
-export type Terceiro = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj">;
+export type Terceiro = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj" | "cpf">;
 const COLUNAS = "id, empresa_id, razao_social, papel_cadeia, operador_principal_id, contrato_vigente, data_contrato, clausulas_art39, checklist_art39, transferencia_internacional, hipotese_art33, encarregado_contato, ativo, criado_em, atualizado_em, tipo_pessoa, vinculo_controlador";
 
 /** Terceiros ativos da empresa (sem o CNPJ, que só sai pela função auditada). */

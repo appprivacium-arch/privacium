@@ -110,7 +110,7 @@ export const DEMO_MEMBROS: MembroDemo[] = [
   { id: "demo-mem-3", empresa_id: "demo", nome: "Carla Cenográfica", tipo_documento: "CNPJ", email: "carla@cenografica.com.br", area_setor: "Jurídico › Governança de Privacidade", papel_rac: "A", membro_comite: true, ativo: true, criado_em: ts, atualizado_em: ts },
 ];
 
-type TerceiroDemo = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj">;
+type TerceiroDemo = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj" | "cpf">;
 const checklistOk = { instrucoes: true, proposito: true, metodos: true, duracao: true, deveres: true, vigencia: true, controle: true, responsabilidade: true, seguranca: true, direitos_titular: true };
 /** Terceiros cenográficos: um com contrato completo, um sem cláusulas do art. 39 e um suboperador com transferência internacional. */
 export const DEMO_TERCEIROS: TerceiroDemo[] = [

@@ -134,3 +134,8 @@
 - [x] Criar trilha de usuário com fórmula canônica e trocar somente a chamada de registrar_divergencia.
 - [x] Registrar divergência fictícia na empresa de teste e apagar somente essa divergência.
 - [x] Executar verificar_trilha; parar se broken_at não for null; emitir relatório com transcrições e provas.
+
+## Pseudonimização autorizada — Opção A
+- [ ] Preservar as 332 respostas e seus timestamps durante a migração da autoria para UUID.
+- [ ] Atualizar somente as duas policies de escrita e o payload do diagnóstico.
+- [ ] Verificar paridade, isolamento, testes e verificar_trilha; emitir os 14 itens.

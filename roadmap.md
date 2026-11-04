@@ -128,3 +128,9 @@
 - [x] Ato: indicação voluntária (Res. 2/2022 art. 11 §2º), citação art. 3º Res. 18/2024, declaração de conflito separada (art. 20).
 - [x] Conta samuel@privacium.com.br criada só com C_SUITE (trilha seq 1679).
 - [ ] Confirmar e-mails de samuel@ e dpo@ e vincular ambos à Privacium em Membros — bloqueado pelo clique dos destinatários.
+
+## Correção autorizada — dois checks + autoria humana
+- [x] Ampliar os dois CHECKs atomicamente, preservando o baseline.
+- [x] Criar trilha de usuário com fórmula canônica e trocar somente a chamada de registrar_divergencia.
+- [x] Registrar divergência fictícia na empresa de teste e apagar somente essa divergência.
+- [x] Executar verificar_trilha; parar se broken_at não for null; emitir relatório com transcrições e provas.

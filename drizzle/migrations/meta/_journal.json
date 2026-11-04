@@ -547,6 +547,13 @@
       "when": 1793763360519,
       "tag": "0077_divergencia_manual",
       "breakpoints": true
+    },
+    {
+      "idx": 78,
+      "version": "7",
+      "when": 1793765372420,
+      "tag": "0078_divergencia_dois_checks_autoria_humana",
+      "breakpoints": true
     }
   ]
 }

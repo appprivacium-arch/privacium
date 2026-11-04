@@ -28,12 +28,12 @@ describe("cadeia de custódia", () => {
   });
   it("assinatura da Etapa 2 ausente rompe a cadeia", () => {
     const t = achar("Base de leads");
-    expect(t.status.tipo === "ROMPE" && t.status.motivo).toBe("assinatura da Etapa 2 (DPO) ausente");
+    expect(t.status.tipo === "ROMPE" && t.status.motivo).toBe("assinatura da Etapa 2 (Encarregado) ausente");
   });
   it("linha excluída logicamente aparece no grafo como removida, com data e motivo", () => {
     const t = trilhas.find((x) => x.origem.codigo === "PRIVA-COMERCIAL-002")!;
     expect(t.origem.removido).toBe(true);
-    expect(t.status.tipo === "ROMPE" && t.status.motivo).toBe("excluída logicamente em 12/10/2026 por DPO (cenográfica) — motivo: Processo de cobrança terceirizado e encerrado internamente");
+    expect(t.status.tipo === "ROMPE" && t.status.motivo).toBe("excluída logicamente em 12/10/2026 por Encarregado (cenográfica) — motivo: Processo de cobrança terceirizado e encerrado internamente");
   });
   it("linha excluída sai da planilha mestre e vai para a seção histórica do PI-02", () => {
     expect(linhasAtivas(DEMO_ROT).map((r) => r.codigo)).not.toContain("PRIVA-COMERCIAL-002");
@@ -66,7 +66,7 @@ describe("cadeia de custódia", () => {
     const art43 = BIBLIOTECA_NORMATIVA.find((e) => e.identificador === "art. 43")!;
     const no = DEMO_ROT.find((r) => r.id === "demo-rot-5")!;
     const txt = relatorioProvaCadeia({ noSelecionado: no, trilhas: trilhasDoNo(trilhas, no.id), linhas: DEMO_ROT, incidenteId: "x", art43Literal: art43.texto_literal!, art43Url: art43.url_oficial, geradoEm: "2026-10-30", selecao: { ts: "2026-10-30T12:00:00Z", hash: "abc123" } });
-    expect(txt).toContain("REMOVIDA: excluída logicamente em 12/10/2026 por DPO (cenográfica) — motivo: Processo de cobrança terceirizado e encerrado internamente");
+    expect(txt).toContain("REMOVIDA: excluída logicamente em 12/10/2026 por Encarregado (cenográfica) — motivo: Processo de cobrança terceirizado e encerrado internamente");
     expect(txt).toContain("Seleção do nó registrada na trilha: 2026-10-30T12:00:00Z · SHA-256 abc123");
   });
 });

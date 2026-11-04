@@ -23,7 +23,7 @@ describe('regras da demonstração pública', () => {
     await act(async () => { if (!ctx) return; ctx.set({ signatures: {} }); ctx.log('INSERT', 'test', 'test'); await ctx.refreshAudit(); ctx.reset(); ctx.setRole('ADMIN_SISTEMA'); ctx.selectEmpresa('123'); await ctx.createEmpresa('123', 'Teste'); });
     expect(ctx.signatures['PI-04-DPO']).toBeUndefined();
     await act(async () => { await ctx?.sign('PI-04'); });
-    expect(ctx.signatures['PI-04-DPO']?.by).toContain('DPO Cenográfico');
+    expect(ctx.signatures['PI-04-DPO']?.by).toContain('Encarregado Cenográfico');
     expect(ctx.signatures['PI-04']).toBeUndefined();
     expect(ctx.role).toBe('DPO_OPERACIONAL');
     expect(database.from).not.toHaveBeenCalled(); expect(database.rpc).not.toHaveBeenCalled(); expect(database.channel).not.toHaveBeenCalled();
@@ -59,10 +59,10 @@ describe('regras da demonstração pública', () => {
       'Comunicação à ANPD preparada no formulário assistido.',
     ]);
     expect(state.incidente.id).toBe('demo-inc');
-    expect(state.etapas.itens.slice(0, 5).map(etapa => etapa.responsavel)).toEqual(Array(5).fill('DPO Cenográfico'));
+    expect(state.etapas.itens.slice(0, 5).map(etapa => etapa.responsavel)).toEqual(Array(5).fill('Encarregado Cenográfico'));
     for (const registro of Object.values(registros)) {
       expect(registro.data).toBe('2026-10-01T12:00:00.000Z');
-      expect(registro.responsavel).toBe('DPO Cenográfico');
+      expect(registro.responsavel).toBe('Encarregado Cenográfico');
       expect(registro.evidencia.length).toBeGreaterThan(0);
     }
   });
@@ -107,7 +107,7 @@ describe('circuito do incidente no demo (etapa 06 como consequência)', () => {
     expect(e.etapas.concluidas).toBe(6);
     const sexta = e.etapas.itens[5];
     expect(sexta?.concluida).toBe(true);
-    expect(sexta?.responsavel).toBe('DPO Cenográfico');
+    expect(sexta?.responsavel).toBe('Encarregado Cenográfico');
     expect(sexta?.data).toBe(DEMO_AGORA_ISO);
     expect(e.podeEncerrar).toBe(true);
     expect(e.anpd.prazo_vencido).toBe(false);

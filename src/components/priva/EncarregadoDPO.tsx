@@ -34,7 +34,7 @@ export function EncarregadoDPO() {
     } catch (error) { console.error('Falha ao salvar contato do encarregado', error); toast.error("Não foi possível salvar o encarregado deste CNPJ."); }
     finally { setBusy(false); }
   };
-  return <Panel title="Encarregado (DPO)">
+  return <Panel title="Encarregado">
     <section aria-live="polite" className="mb-4 flex flex-wrap items-center justify-between gap-3 border-l-4 border-andamento-border bg-andamento-bg p-4">
       <div><p className="text-xs font-semibold uppercase">Próximo passo</p><p className="text-sm">{salvo ? "Contato salvo. Retome a comunicação do incidente." : q.data ? "Revise o contato público do encarregado." : "Cadastre o encarregado deste CNPJ."}</p></div>
       {salvo ? <Button asChild><Link to="/bloco-4" hash="anpd">Comunicar à ANPD</Link></Button> : editavel && <Button onClick={() => document.getElementById(!form.nome ? "dpo-nome" : "dpo-email")?.focus()}>Preencher contato</Button>}

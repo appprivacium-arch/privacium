@@ -69,7 +69,7 @@ export function Bloco5() {
     const derivado = derivarRisco(r.id, signatures);
     const sug = sugestaoMitigacao(r.id, signatures);
     const sugDesc = sugestaoDescricao(r.id, signatures);
-    // Texto legado sem marcação é tratado como escrito pelo DPO.
+    // Texto legado sem marcação é tratado como escrito pelo encarregado.
     const manual = v.mitigManual ?? v.mitig.trim().length > 0;
     const manualDesc = v.descManual ?? v.descricao.trim().length > 0;
     const riscoManual = !!v.riscoManual && typeof v.prob === "number" && typeof v.imp === "number";
@@ -77,9 +77,9 @@ export function Bloco5() {
       ...r, derivado, riscoManual, pontosResiduaisNaoMitigados: v.pontosResiduaisNaoMitigados,
       prob: riscoManual ? v.prob! : derivado.prob, imp: riscoManual ? v.imp! : derivado.imp,
       descricao: manualDesc ? v.descricao : "texto" in sugDesc ? sugDesc.texto : "",
-      rotuloDesc: manualDesc ? "Revisado manualmente pelo DPO" : "texto" in sugDesc ? sugDesc.rotulo : sugDesc.aviso,
+      rotuloDesc: manualDesc ? "Revisado manualmente pelo encarregado" : "texto" in sugDesc ? sugDesc.rotulo : sugDesc.aviso,
       mitig: manual ? v.mitig : "texto" in sug ? sug.texto : "",
-      rotuloMitig: manual ? "Revisado manualmente pelo DPO" : "texto" in sug ? sug.rotulo : sug.aviso,
+      rotuloMitig: manual ? "Revisado manualmente pelo encarregado" : "texto" in sug ? sug.rotulo : sug.aviso,
       aviso: "aviso" in sug ? sug.aviso : undefined,
     };
   });
@@ -87,7 +87,7 @@ export function Bloco5() {
   const anoAtual = ciclos.rows[0] ? ciclos.rows[0].ano_fiscal + 1 : new Date().getFullYear();
   const ready = sistema.trim().length > 2 && escudo.trim().length > 20 && efetivos.every((e) => e.mitig.trim().length > 10);
   const responsaveis = demo
-    ? { DPO_OPERACIONAL: "DPO Cenográfico", C_SUITE: "Diretoria Cenográfica" }
+    ? { DPO_OPERACIONAL: "Encarregado Cenográfico", C_SUITE: "Diretoria Cenográfica" }
     : { DPO_OPERACIONAL: roles.includes("DPO_OPERACIONAL") && email ? email : undefined, C_SUITE: roles.includes("C_SUITE") && email ? email : undefined };
   const pendencias = pendenciasBloco5({ sistema, escudo, riscos: efetivos.map((e) => ({ label: e.label, mitig: e.mitig })) }, signatures, responsaveis);
   const pendSig = pendencias.filter((p) => p.id.startsWith("sig"));
@@ -103,7 +103,7 @@ export function Bloco5() {
   const aia = respostasAIA(entradaIA);
   const sobrescreverIA = (n: NivelRiscoIA) => {
     setOverrideIA(n);
-    const detalhe = `Classificação de risco de IA sobrescrita pelo DPO: ${derivadaIA.nivel} → ${n}`;
+    const detalhe = `Classificação de risco de IA sobrescrita pelo encarregado: ${derivadaIA.nivel} → ${n}`;
     if (demo) void demoRegistrarEvento("UPDATE", "ripd_ia", detalhe); else log("UPDATE", "ripd_ia", detalhe);
     toast.success("Classificação sobrescrita e registrada na trilha.");
   };
@@ -142,7 +142,7 @@ export function Bloco5() {
           ))}
         </div>
         <p className="mt-3 text-[11px] text-muted-foreground" data-testid="derivado-ia">
-          {overrideIA ? `Sobrescrito manualmente pelo DPO · o nível derivado seria ${derivadaIA.nivel}.` : <>Derivado de: {derivadaIA.derivadoDe.join("; ")}.</>}
+          {overrideIA ? `Sobrescrito manualmente pelo encarregado · o nível derivado seria ${derivadaIA.nivel}.` : <>Derivado de: {derivadaIA.derivadoDe.join("; ")}.</>}
         </p>
         {canEdit && (
           <label className="mt-3 block text-xs text-muted-foreground">Sobrescrever classificação (registrado na trilha)
@@ -199,7 +199,7 @@ export function Bloco5() {
             const v = { ...DEF, ...ripd[e.id] }; const score = e.prob * e.imp;
             const put = (p: Partial<R>, persist: boolean, detail = `RIPD: ${e.label}`) => { const n = { ...ripd, [e.id]: { ...v, ...p } }; setRipd(n); if (persist) void salvar({ ripd: n }, detail); };
             const sobrescrever = (k: "prob" | "imp", val: number) => {
-              put({ prob: e.prob, imp: e.imp, [k]: val, riscoManual: true }, true, `RIPD: ${k === "prob" ? "probabilidade" : "impacto"} de "${e.label}" sobrescrita pelo DPO (${val})`);
+              put({ prob: e.prob, imp: e.imp, [k]: val, riscoManual: true }, true, `RIPD: ${k === "prob" ? "probabilidade" : "impacto"} de "${e.label}" sobrescrita pelo encarregado (${val})`);
             };
             return (
               <div key={e.id} data-testid={`risco-${e.id}`} className="rounded-sm border bg-background p-4">
@@ -215,14 +215,14 @@ export function Bloco5() {
                   ))}
                   <div>
                     <Textarea rows={3} disabled={!canEdit} aria-label={`Descrição do risco · ${e.label}`} placeholder={e.aviso ?? "Descrição do risco no contexto da empresa…"} value={e.descricao}
-                      onChange={(ev) => { if (!v.descManual) log("UPDATE", "ripd_ia", `RIPD: descrição de "${e.label}" revisada manualmente pelo DPO`); put({ descricao: ev.target.value, descManual: true }, false); }}
+                      onChange={(ev) => { if (!v.descManual) log("UPDATE", "ripd_ia", `RIPD: descrição de "${e.label}" revisada manualmente pelo encarregado`); put({ descricao: ev.target.value, descManual: true }, false); }}
                       onBlur={() => salvar({}, `RIPD: ${e.label}`)} />
                     <p className="mt-1 text-[11px] text-muted-foreground" data-testid={`rotulo-desc-${e.id}`}>{e.rotuloDesc}</p>
                     {e.rotuloDesc.startsWith("Sugerido") && e.descricao && <div className="mt-1"><CopiarModelo texto={e.descricao} pi="PI-03" fonte="LGPD art. 38 / ISO/IEC 42001" rotulo="Copiar sugestão" /></div>}
                   </div>
                   <div>
                     <Textarea rows={3} disabled={!canEdit} aria-label={`Medidas de mitigação · ${e.label}`} placeholder={e.aviso ?? "Medidas de mitigação…"} value={e.mitig}
-                      onChange={(ev) => { if (!v.mitigManual) log("UPDATE", "ripd_ia", `RIPD: mitigação de "${e.label}" revisada manualmente pelo DPO`); put({ mitig: ev.target.value, mitigManual: true }, false); }}
+                      onChange={(ev) => { if (!v.mitigManual) log("UPDATE", "ripd_ia", `RIPD: mitigação de "${e.label}" revisada manualmente pelo encarregado`); put({ mitig: ev.target.value, mitigManual: true }, false); }}
                       onBlur={() => salvar({}, `RIPD: ${e.label}`)} />
                     <p className="mt-1 text-[11px] text-muted-foreground" data-testid={`rotulo-${e.id}`}>{e.rotuloMitig}</p>
                     {e.rotuloMitig.startsWith("Sugerido") && e.mitig && <div className="mt-1"><CopiarModelo texto={e.mitig} pi="PI-03" fonte={BIBLIOTECA[e.id].fonte} rotulo="Copiar sugestão" /></div>}
@@ -230,7 +230,7 @@ export function Bloco5() {
                 </div>
                 <p className="mt-2 text-[11px] text-muted-foreground" data-testid={`derivado-${e.id}`}>
                   {e.riscoManual
-                    ? <>Sobrescrito manualmente pelo DPO · derivado seria {e.derivado.prob}×{e.derivado.imp}. <button type="button" className="underline" disabled={!canEdit} onClick={() => put({ riscoManual: false }, true, `RIPD: risco de "${e.label}" voltou ao valor derivado`)}>Voltar ao derivado</button></>
+                    ? <>Sobrescrito manualmente pelo encarregado · derivado seria {e.derivado.prob}×{e.derivado.imp}. <button type="button" className="underline" disabled={!canEdit} onClick={() => put({ riscoManual: false }, true, `RIPD: risco de "${e.label}" voltou ao valor derivado`)}>Voltar ao derivado</button></>
                     : <>Derivado de: {e.derivado.reducoes.length ? e.derivado.reducoes.join("; ") : "nenhum controle concluído"}. Cálculo: partimos do risco inerente 5×5 = {INE} e cada controle comprovado reduz um eixo; resultado {e.prob}×{e.imp} = {score}.</>}
                 </p>
               </div>
@@ -268,7 +268,7 @@ export function Bloco5() {
           <div className="flex flex-col items-center gap-3 py-6 text-center">
             <PartyPopper className="h-10 w-10 text-success" />
             <p className="text-xl font-semibold text-primary">Conformidade estrutural alcançada · Ano Fiscal {anoAtual}</p>
-            <p className="max-w-lg text-sm text-muted-foreground">Os cinco Produtos Internos estão chancelados por DPO e Diretoria. Ao finalizar, o ciclo é arquivado e o Ano Fiscal {anoAtual + 1} começa pelo Bloco 1.</p>
+            <p className="max-w-lg text-sm text-muted-foreground">Os cinco Produtos Internos estão chancelados por Encarregado e Diretoria. Ao finalizar, o ciclo é arquivado e o Ano Fiscal {anoAtual + 1} começa pelo Bloco 1.</p>
             <Button onClick={finalizar} disabled={!demo && (busy || !canEdit)}><RefreshCw className="h-4 w-4" /> Finalizar Ciclo Privacium Semestral</Button>
           </div>
         </Panel>

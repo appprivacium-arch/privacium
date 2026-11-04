@@ -45,7 +45,7 @@ export function rotuloEtapa1Receptor(a: Pick<ArestaCadeia, "para" | "assinaturaD
   return "não se aplica";
 }
 
-export const NOTA_HASH_ASSINATURA = "O hash exibido é da assinatura da Etapa 2 (ato do DPO), não do conteúdo individual de cada PRT. Produtos distintos compartilham o mesmo hash porque derivam do mesmo ato de assinatura.";
+export const NOTA_HASH_ASSINATURA = "O hash exibido é da assinatura da Etapa 2 (ato do encarregado), não do conteúdo individual de cada PRT. Produtos distintos compartilham o mesmo hash porque derivam do mesmo ato de assinatura.";
 export const rotuloStatus = (s: StatusPRT) => (s.tipo === "COMPLETA" ? "Completa" : s.tipo === "PENDENTE" ? "Aguardando decisão do receptor" : `Rompe em: ${s.no.rotulo}`);
 
 /**
@@ -80,7 +80,7 @@ export function montarCadeia(linhas: Linha[]): TrilhaPRT[] {
       if (l.excluido_em) status = { tipo: "ROMPE", no: origem, motivo: descreverRemocao(origem) };
       else if (receptorSemEscolha(l)) status = { tipo: "PENDENTE", no: origem };
       else if (prtSemDestino(l, p)) status = { tipo: "ROMPE", no: origem, motivo: "destino não declarado" };
-      else if (!a2) status = { tipo: "ROMPE", no: origem, motivo: "assinatura da Etapa 2 (DPO) ausente" };
+      else if (!a2) status = { tipo: "ROMPE", no: origem, motivo: "assinatura da Etapa 2 (Encarregado) ausente" };
       else if (d?.tipo === "INTERNO" && !receptor) status = { tipo: "ROMPE", no: origem, motivo: "linha receptora não registrada no setor de destino" };
       else if (receptor && !a1r) status = { tipo: "ROMPE", no: no(receptor), motivo: "assinatura da Etapa 1 (gestor) ausente no receptor" };
       else if (receptor && receptorSemEscolha(receptor)) status = { tipo: 'PENDENTE', no: no(receptor) };

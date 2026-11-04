@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 
 export function Kanban() {
   const { kanban, set, demo, roles } = usePriva();
-  // Sem DPO, o banco recusa a gravação: desabilitar com explicação em vez de falhar em silêncio.
+  // Sem Encarregado, o banco recusa a gravação: desabilitar com explicação em vez de falhar em silêncio.
   const somenteLeitura = !demo && !roles.includes("DPO_OPERACIONAL");
   const [what, setWhat] = useState("");
 
@@ -31,7 +31,7 @@ export function Kanban() {
       toast.success("Evidência forense anexada com hash SHA-256.");
     }
     if (to === "done" && !evidenceHash) {
-      toast.error("Passe pela Revisão do DPO com evidência antes de concluir.");
+      toast.error("Passe pela Revisão do encarregado com evidência antes de concluir.");
       return;
     }
     set({ kanban: kanban.map((k) => (k.id === card.id ? { ...k, column: to, evidenceHash } : k)) }, { op: "UPDATE", target: "kanban", detail: `${card.what} → ${to}` });
@@ -44,7 +44,7 @@ export function Kanban() {
       </PageHeader>
       {somenteLeitura && (
         <div role="status" className="mb-6 rounded-md border border-primary/40 bg-muted p-4 text-sm font-medium text-foreground">
-          Dados de conformidade do cliente restritos ao DPO da empresa — Administrador possui permissão de leitura, mas não altera o fluxo operacional.
+          Dados de conformidade do cliente restritos ao encarregado da empresa — Administrador possui permissão de leitura, mas não altera o fluxo operacional.
         </div>
       )}
       <div id="kanban-guia" className="mb-6"><AjudaTarefa {...AJUDA_KANBAN} pendencias={pendenciasKanban(kanban)} /></div>

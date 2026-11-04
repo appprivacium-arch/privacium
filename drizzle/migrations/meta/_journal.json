@@ -568,6 +568,13 @@
       "when": 1793766954948,
       "tag": "0080_diagnostico_autoria_uuid_obrigatoria",
       "breakpoints": true
+    },
+    {
+      "idx": 81,
+      "version": "7",
+      "when": 1793801429810,
+      "tag": "0081_remocao_cpf_legado_diagnostico",
+      "breakpoints": true
     }
   ]
 }

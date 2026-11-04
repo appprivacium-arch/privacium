@@ -21,7 +21,7 @@ export function erroTerceiro(e: { code?: string; message?: string } | null | und
   if (code === "23505") return M.DUP;
   if (code === "23514" || /cpf inv|cnpj inv|d[ií]gito/.test(msg)) return M.DOC;
   if (code === "23502") return M.REQ;
-  if (/failed to fetch|network|timeout|abort/.test(msg) || code === "") return msg ? (/failed to fetch|network|timeout|abort/.test(msg) ? M.NET : M.GEN) : M.NET;
+  if (/failed to fetch|network|timeout|abort/.test(msg)) return M.NET;
   return M.GEN;
 }
 

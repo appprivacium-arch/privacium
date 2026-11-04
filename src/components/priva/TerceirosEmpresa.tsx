@@ -12,6 +12,8 @@ import {
   NOTA_SUBOPERADOR, CITACAO_ART42_P1_I, TITULO_CHECKLIST, NOTA_CHECKLIST, PAPEIS_CADEIA, ROTULO_CADEIA, checklistCompleto, terceiroBloqueado, validarTerceiro, formatarCpf, ROTULO_TIPO_PESSOA, VINCULOS_PF, type ChecklistArt39, type PapelCadeia, type TipoPessoa,
 } from "@/lib/priva/terceiros";
 import { Panel, Tag } from "./ui";
+import { CartaoErro } from "./CartaoErro";
+import { erroTerceiro, erroValidacaoTerceiro, type ErroAmigavel } from "@/lib/priva/errosAmigaveis";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -48,7 +50,9 @@ export function TerceirosEmpresa() {
   const { cnpj, demo, roles, log } = usePriva();
   const qc = useQueryClient();
   const { data: terceiros = [] } = useTerceiros();
-  const [edit, setEdit] = useState<typeof vazio | null>(null);
+  const [edit, setEditRaw] = useState<typeof vazio | null>(null);
+  const [erroCad, setErroCad] = useState<ErroAmigavel | null>(null);
+  const setEdit = (v: typeof vazio | null) => { if (v === null) setErroCad(null); setEditRaw(v); };
   const [revelado, setRevelado] = useState<Record<string, string>>({});
   const canEdit = roles.includes("DPO_OPERACIONAL") || roles.includes("ADMIN_SISTEMA");
   const operadores = terceiros.filter((t) => t.papel_cadeia === "OPERADOR");
@@ -66,9 +70,9 @@ export function TerceirosEmpresa() {
     if (demo) return avisarAcaoDemo();
     if (!edit) return;
     const err = validarTerceiro(edit);
-    if (err) return toast.error(err);
+    if (err) return setErroCad(erroValidacaoTerceiro(err));
     const { data: emp, error: e1 } = await supabase.from("empresas").select("id").eq("cnpj", cnpj ?? "").single();
-    if (e1) return toast.error("Empresa não encontrada.");
+    if (e1) { console.error("[TER] empresa", e1); return setErroCad(erroTerceiro(e1)); }
     const { error } = await supabase.from("terceiros_empresa").insert({
       empresa_id: emp.id, razao_social: edit.razao_social.trim(), tipo_pessoa: edit.tipo_pessoa,
       cnpj: edit.tipo_pessoa === "PJ" ? edit.cnpj.replace(/\D/g, "") : null, cpf: edit.tipo_pessoa === "PF" ? edit.cpf.replace(/\D/g, "") : null,
@@ -77,7 +81,7 @@ export function TerceirosEmpresa() {
       data_contrato: edit.data_contrato, checklist_art39: edit.checklist_art39, transferencia_internacional: edit.transferencia_internacional,
       hipotese_art33: edit.transferencia_internacional ? edit.hipotese_art33 : null, encarregado_contato: edit.encarregado_contato.trim() || null,
     });
-    if (error) return toast.error(error.message);
+    if (error) { const amig = erroTerceiro(error); console.error(`[${amig.codigo}]`, error); return setErroCad(amig); }
     log("INSERT", "terceiros_empresa", `Cadastro do terceiro ${edit.razao_social.trim()} (${ROTULO_TIPO_PESSOA[edit.tipo_pessoa]}, ${ROTULO_CADEIA[edit.papel_cadeia]})`, edit.tipo_pessoa === "PF" ? "cpf" : "cnpj");
     toast.success("Terceiro cadastrado. O documento fica mascarado e cada revelação é registrada na trilha.");
     setEdit(null);
@@ -201,6 +205,7 @@ export function TerceirosEmpresa() {
               )}
             </div>
             {validarTerceiro(edit) && <p className="text-xs text-destructive">Pendência para salvar: {validarTerceiro(edit)}</p>}
+            {erroCad && <CartaoErro erro={erroCad} onFechar={() => setErroCad(null)} />}
             <DialogFooter>
               <Button variant="outline" onClick={() => setEdit(null)}>Cancelar</Button>
               <Button disabled={!!validarTerceiro(edit)} onClick={() => void salvar()}>Cadastrar terceiro</Button>

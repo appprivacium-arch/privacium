@@ -60,7 +60,7 @@ export function Bloco1() {
   const herdadas = useHerdadas(cnpj);
   const qc = useQueryClient();
   const { cpf, loading, salvar } = useMeuCpf(userId);
-  const responder = useResponder(cnpj, cpf);
+  const responder = useResponder(cnpj, userId);
   const [dept, setDept] = useState<string>(DEPARTMENTS[0]);
   const [cpfInput, setCpfInput] = useState("");
   const [cpfErr, setCpfErr] = useState("");

@@ -58,20 +58,20 @@ export function useRespostas(cnpj: string | null) {
   return q.data ?? {};
 }
 
-/** Grava respostas no backend amarradas ao CNPJ ativo e ao CPF do auditor. */
-export function useResponder(cnpj: string | null, cpf: string | null) {
+/** Grava respostas no backend amarradas ao CNPJ ativo e ao UUID autenticado do auditor. */
+export function useResponder(cnpj: string | null, userId: string | null) {
   const qc = useQueryClient();
   const demo = useDemo();
   return async (items: { pergunta_id: string; resposta: Resposta }[]) => {
     if (demo) return "Modo Demonstração: respostas não são gravadas.";
-    if (!cnpj || !cpf) return "Informe o CNPJ e o CPF do auditor.";
+    if (!cnpj || !userId) return "Informe o CNPJ e autentique o usuário.";
     qc.setQueryData<Record<string, boolean>>(respostasKey(cnpj), (old) => {
       const next = { ...(old ?? {}) };
       items.forEach((i) => (next[i.pergunta_id] = i.resposta === "SIM"));
       return next;
     });
     const { error } = await supabase.from("respostas_diagnostico").upsert(
-      items.map((i) => ({ empresa_cnpj: cnpj, pergunta_id: i.pergunta_id, usuario_cpf: cpf, resposta_binaria: i.resposta })),
+      items.map((i) => ({ empresa_cnpj: cnpj, pergunta_id: i.pergunta_id, usuario_id: userId, resposta_binaria: i.resposta })),
       { onConflict: "empresa_cnpj,pergunta_id" },
     );
     if (error) {

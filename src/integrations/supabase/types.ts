@@ -1516,7 +1516,8 @@ export type Database = {
           pontuacao_obtida: number
           resposta_binaria: string
           timestamp_resposta: string
-          usuario_cpf: string
+          usuario_cpf: string | null
+          usuario_id: string
         }
         Insert: {
           empresa_cnpj: string
@@ -1525,7 +1526,8 @@ export type Database = {
           pontuacao_obtida?: number
           resposta_binaria: string
           timestamp_resposta?: string
-          usuario_cpf: string
+          usuario_cpf?: string | null
+          usuario_id: string
         }
         Update: {
           empresa_cnpj?: string
@@ -1534,7 +1536,8 @@ export type Database = {
           pontuacao_obtida?: number
           resposta_binaria?: string
           timestamp_resposta?: string
-          usuario_cpf?: string
+          usuario_cpf?: string | null
+          usuario_id?: string
         }
         Relationships: [
           {
@@ -1557,6 +1560,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "usuarios"
             referencedColumns: ["cpf"]
+          },
+          {
+            foreignKeyName: "respostas_diagnostico_usuario_id_fkey"
+            columns: ["usuario_id"]
+            isOneToOne: false
+            referencedRelation: "usuarios"
+            referencedColumns: ["id"]
           },
         ]
       }

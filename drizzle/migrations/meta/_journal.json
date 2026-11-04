@@ -540,6 +540,13 @@
       "when": 1793755320242,
       "tag": "0076_hipotese_categoria_termo_legal",
       "breakpoints": true
+    },
+    {
+      "idx": 77,
+      "version": "7",
+      "when": 1793763360519,
+      "tag": "0077_divergencia_manual",
+      "breakpoints": true
     }
   ]
 }

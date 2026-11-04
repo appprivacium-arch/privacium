@@ -630,6 +630,65 @@ export type Database = {
           },
         ]
       }
+      hipotese: {
+        Row: {
+          alinea: string | null
+          artigo: string
+          atualizado_em: string
+          categoria: string
+          criado_em: string
+          criado_por: string | null
+          empresa_cnpj: string
+          evidencia_id: string | null
+          excluido_em: string | null
+          id: string
+          inciso: string
+          justificativa: string
+          texto_literal: string
+          vigente_desde: string
+        }
+        Insert: {
+          alinea?: string | null
+          artigo: string
+          atualizado_em?: string
+          categoria: string
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj: string
+          evidencia_id?: string | null
+          excluido_em?: string | null
+          id?: string
+          inciso: string
+          justificativa: string
+          texto_literal: string
+          vigente_desde?: string
+        }
+        Update: {
+          alinea?: string | null
+          artigo?: string
+          atualizado_em?: string
+          categoria?: string
+          criado_em?: string
+          criado_por?: string | null
+          empresa_cnpj?: string
+          evidencia_id?: string | null
+          excluido_em?: string | null
+          id?: string
+          inciso?: string
+          justificativa?: string
+          texto_literal?: string
+          vigente_desde?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hipotese_evidencia_id_fkey"
+            columns: ["evidencia_id"]
+            isOneToOne: false
+            referencedRelation: "evidencias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       incidencia_normativa: {
         Row: {
           biblioteca_normativa_id: string
@@ -1254,6 +1313,8 @@ export type Database = {
           finalidade_especifica: string
           fundamento_produto: string | null
           genero_verbo: string
+          hipotese_id: string | null
+          hipotese_origem_id: string | null
           hipotese_sensivel: string | null
           hipotese_tratamento: string
           id: string
@@ -1296,6 +1357,8 @@ export type Database = {
           finalidade_especifica: string
           fundamento_produto?: string | null
           genero_verbo: string
+          hipotese_id?: string | null
+          hipotese_origem_id?: string | null
           hipotese_sensivel?: string | null
           hipotese_tratamento: string
           id?: string
@@ -1338,6 +1401,8 @@ export type Database = {
           finalidade_especifica?: string
           fundamento_produto?: string | null
           genero_verbo?: string
+          hipotese_id?: string | null
+          hipotese_origem_id?: string | null
           hipotese_sensivel?: string | null
           hipotese_tratamento?: string
           id?: string
@@ -1364,6 +1429,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "empresas"
             referencedColumns: ["cnpj"]
+          },
+          {
+            foreignKeyName: "registro_operacoes_hipotese_id_fkey"
+            columns: ["hipotese_id"]
+            isOneToOne: false
+            referencedRelation: "hipotese"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "registro_operacoes_hipotese_origem_id_fkey"
+            columns: ["hipotese_origem_id"]
+            isOneToOne: false
+            referencedRelation: "registro_operacoes"
+            referencedColumns: ["id"]
           },
         ]
       }

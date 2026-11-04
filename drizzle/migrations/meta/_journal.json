@@ -526,6 +526,13 @@
       "when": 1793725293877,
       "tag": "0074_trilha_sistema_schema_private",
       "breakpoints": true
+    },
+    {
+      "idx": 75,
+      "version": "7",
+      "when": 1793753869631,
+      "tag": "0075_hipotese_tabela_e_fks_rot",
+      "breakpoints": true
     }
   ]
 }

@@ -136,6 +136,7 @@
 - [x] Executar verificar_trilha; parar se broken_at não for null; emitir relatório com transcrições e provas.
 
 ## Pseudonimização autorizada — Opção A
-- [ ] Preservar as 332 respostas e seus timestamps durante a migração da autoria para UUID.
-- [ ] Atualizar somente as duas policies de escrita e o payload do diagnóstico.
-- [ ] Verificar paridade, isolamento, testes e verificar_trilha; emitir os 14 itens.
+- [x] Preservar as 332 respostas e seus timestamps durante a migração da autoria para UUID.
+- [x] Atualizar somente as duas policies de escrita e o payload do diagnóstico.
+- [x] Verificar paridade, isolamento, testes e verificar_trilha; emitir os 14 itens.
+- [ ] Remover fisicamente usuario_cpf — bloqueado pela permissão de alterações incompatíveis; coluna marcada como deprecated, mantida para compatibilidade.

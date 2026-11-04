@@ -9,8 +9,12 @@ const publicConfig = Object.fromEntries(readFileSync('publico.env', 'utf8').spli
   .map((line) => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1).replace(/^"|"$/g, '')]; }));
 const url = publicConfig['VITE_SUPABASE_URL'];
 const key = publicConfig['VITE_SUPABASE_PUBLISHABLE_KEY'];
+if (!url || !key) throw new Error('Configuração pública de teste ausente');
 const allowed = minted?.session?.user?.id === '1ffded63-1f7d-4c11-83e0-7bf10116d6c7';
-const headers = () => ({ apikey: key, Authorization: `Bearer ${minted.session.access_token}`, 'Content-Type': 'application/json' });
+const headers = () => {
+  if (!key) throw new Error('Chave pública ausente');
+  return { apikey: key, Authorization: `Bearer ${minted.session.access_token}`, 'Content-Type': 'application/json' };
+};
 
 describe.skipIf(!allowed)('Diagnóstico · conta de isolamento autorizada', () => {
   it('preserva 166 respostas históricas da empresa de teste com UUID', async () => {

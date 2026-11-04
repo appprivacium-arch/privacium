@@ -533,6 +533,13 @@
       "when": 1793753869631,
       "tag": "0075_hipotese_tabela_e_fks_rot",
       "breakpoints": true
+    },
+    {
+      "idx": 76,
+      "version": "7",
+      "when": 1793755320242,
+      "tag": "0076_hipotese_categoria_termo_legal",
+      "breakpoints": true
     }
   ]
 }

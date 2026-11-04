@@ -97,7 +97,7 @@ export function TerceirosEmpresa() {
       <Button size="sm" onClick={() => (demo ? avisarAcaoDemo() : setEdit(vazio))}><Plus className="h-4 w-4" /> Novo terceiro</Button>
     )}>
       <div className="mb-4 space-y-1 text-xs text-muted-foreground" data-testid="fundamentos-terceiros">
-        <p>Destinatários externos dos PRT (Bloco 2, Etapa 2). O CNPJ fica mascarado; a leitura é restrita ao DPO e ao Comitê de Governança, e toda revelação é registrada na trilha. A exclusão é lógica. Este cadastro consta no ROT como operação própria: "gestão de fornecedores com acesso a dados pessoais".</p>
+        <p>Destinatários externos dos PRT (Bloco 2, Etapa 2). O CNPJ fica mascarado; a leitura é restrita ao encarregado e ao Comitê de Governança, e toda revelação é registrada na trilha. A exclusão é lógica. Este cadastro consta no ROT como operação própria: "gestão de fornecedores com acesso a dados pessoais".</p>
         <p>LGPD art. 5º, VII: "{LITERAL_ART5_VII}". Art. 5º, X: "{LITERAL_ART5_X}". Art. 39: "{LITERAL_ART39}" Fonte: <a className="underline" href={FONTE_LGPD_PLANALTO} target="_blank" rel="noreferrer">{FONTE_LGPD_PLANALTO}</a></p>
       </div>
       {!terceiros.length && <p className="text-sm text-muted-foreground">Nenhum terceiro cadastrado.</p>}

@@ -81,7 +81,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="max-w-md rounded-md border bg-card p-10 text-center">
         <Lock className="mx-auto h-8 w-8 text-muted-foreground" />
         <h1 className="mt-4 text-lg font-semibold text-primary">Aguardando liberação</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Sua conta ({email}) foi criada. Um administrador precisa atribuir seu cargo (DPO, C-Suite ou Administrador) antes do acesso.</p>
+        <p className="mt-2 text-sm text-muted-foreground">Sua conta ({email}) foi criada. Um administrador precisa atribuir seu cargo (Encarregado, C-Suite ou Administrador) antes do acesso.</p>
         <button onClick={signOut} className="mt-6 text-sm text-primary hover:underline">Sair</button>
       </div>
     </div>
@@ -92,7 +92,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Building2 className="h-8 w-8 text-muted-foreground" />
         <h1 className="mt-4 text-lg font-semibold text-primary">Cadastre a primeira empresa</h1>
         <p className="mt-2 mb-4 text-sm text-muted-foreground">O progresso do Método BLLOCO é amarrado a cada CNPJ.</p>
-        {role === "C_SUITE" ? <p className="text-sm text-muted-foreground">Peça ao DPO ou administrador para cadastrar.</p> : empresaForm}
+        {role === "C_SUITE" ? <p className="text-sm text-muted-foreground">Peça ao encarregado ou administrador para cadastrar.</p> : empresaForm}
         <button onClick={signOut} className="mt-6 text-sm text-primary hover:underline">Sair</button>
       </div>
     </div>
@@ -187,7 +187,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           {item("/solicitacoes-titular", "Solicitações de titulares", <Users className="h-4 w-4" />)}
           {item("/manual", "Manual de Uso", <BookOpen className="h-4 w-4" />)}
           {item("/glossario", "Glossário", <BookA className="h-4 w-4" />)}
-          {publicDemo && item('/encarregado', 'Encarregado (DPO)', <Users className="h-4 w-4" />)}
+          {publicDemo && item('/encarregado', 'Encarregado', <Users className="h-4 w-4" />)}
           {item("/membros", "Membros e cargos", <Users className="h-4 w-4" />)}
           {item("/enterprise", "Enterprise", <Building2 className="h-4 w-4" />, enterprise ? null : <Lock className="h-3 w-3" />)}
         </nav>
@@ -208,7 +208,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
       <main className="relative min-w-0 flex-1 px-4 py-8 sm:px-10">
         <AvisoModoDemo />
-        <div className="mb-5 flex flex-wrap items-center gap-3" data-testid="cabecalho-porte"><span className="text-xs font-semibold">Ciclo Privacium Semestral</span>{role === "ADMIN_SISTEMA" && !demo ? <Tag tone="muted">Dados de conformidade do cliente restritos ao DPO da empresa</Tag> : <Tag tone={enquadramento.porte ? 'primary' : 'warning'}>{enquadramento.porte ? rotuloPorte(enquadramento.porte) : 'Enquadramento pendente — assinatura do DPO'}</Tag>}</div>
+        <div className="mb-5 flex flex-wrap items-center gap-3" data-testid="cabecalho-porte"><span className="text-xs font-semibold">Ciclo Privacium Semestral</span>{role === "ADMIN_SISTEMA" && !demo ? <Tag tone="muted">Dados de conformidade do cliente restritos ao encarregado da empresa</Tag> : <Tag tone={enquadramento.porte ? 'primary' : 'warning'}>{enquadramento.porte ? rotuloPorte(enquadramento.porte) : 'Enquadramento pendente — assinatura do encarregado'}</Tag>}</div>
         {(role === "DPO_OPERACIONAL" || role === "C_SUITE") && !demo && <FollowUpBanner />}
         {(role === "DPO_OPERACIONAL" || role === "C_SUITE") && <div className="mb-4 flex justify-end"><FollowUpBell /></div>}
         <AlertDialog open={demoAsk} onOpenChange={setDemoAsk}>

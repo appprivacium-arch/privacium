@@ -135,7 +135,7 @@ export function PIOutput({ pi, ready, readyHint, children, dual, acoesExtras }: 
             <DialogTitle>{pi}</DialogTitle>
             <DialogDescription>Emitido pelo Ecossistema de Governança Privacium · ISO/IEC 27701</DialogDescription>
           </DialogHeader>
-          <div ref={docRef} className="max-h-[50vh] overflow-auto rounded-sm border bg-background p-6 text-sm leading-relaxed">{children}{["PI-01", "PI-02", "PI-04"].includes(code) && <p className="mt-4 border-t pt-3"><b>Encarregado (DPO):</b> {(() => { const c = contatoPublicavel(encarregado.data); return c ? `${c.nome} · ${c.email}${c.telefone ? ` · ${c.telefone}` : ""}${c.endereco ? ` · ${c.endereco}` : ""}` : encarregado.data ? "Contato do encarregado não autorizado para publicação pelo controlador" : "Contato não cadastrado"; })()}</p>}</div>
+          <div ref={docRef} className="max-h-[50vh] overflow-auto rounded-sm border bg-background p-6 text-sm leading-relaxed">{children}{["PI-01", "PI-02", "PI-04"].includes(code) && <p className="mt-4 border-t pt-3"><b>Encarregado:</b> {(() => { const c = contatoPublicavel(encarregado.data); return c ? `${c.nome} · ${c.email}${c.telefone ? ` · ${c.telefone}` : ""}${c.endereco ? ` · ${c.endereco}` : ""}` : encarregado.data ? "Contato do encarregado não autorizado para publicação pelo controlador" : "Contato não cadastrado"; })()}</p>}</div>
           <DialogFooter>
             {sig ? (
               <div className="flex w-full flex-wrap items-center justify-between gap-2">
@@ -158,14 +158,14 @@ export function PIOutput({ pi, ready, readyHint, children, dual, acoesExtras }: 
                       <Button key={who} variant={done ? "outline" : "default"} disabled={!demo && !!done} onClick={async () => {
                         if (demo) return void demoAssinar(code, who);
                         const ts = new Date().toISOString();
-                        const by = who === "DPO" ? `DPO ${email} · CPF · Gov.br (simulado)` : `Diretoria · CNPJ ${maskCNPJ(cnpj ?? "")} · Gov.br (simulado)`;
+                        const by = who === "DPO" ? `Encarregado ${email} · CPF · Gov.br (simulado)` : `Diretoria · CNPJ ${maskCNPJ(cnpj ?? "")} · Gov.br (simulado)`;
                         const hash = await sha256(`${k}|${ts}|${by}`);
                         const next = { ...signatures, [k]: { by, ts, hash } };
                         const other = signatures[`${code}-${who === "DPO" ? "DIR" : "DPO"}`];
                         if (other) next[code] = { by: `${other.by} + ${by}`, ts, hash: await sha256(`${code}|${other.hash}|${hash}`) };
                         set({ signatures: next }, { op: "INSERT", target: "signatures", detail: `${k} assinado${other ? ` · ${code} CHANCELADO` : ""}` });
                       }}>
-                        <ShieldCheck className="h-4 w-4" /> {done ? "✓ " : ""}{who === "DPO" ? "Assinatura do DPO (CPF)" : "Assinatura da Diretoria (CNPJ)"}
+                        <ShieldCheck className="h-4 w-4" /> {done ? "✓ " : ""}{who === "DPO" ? "Assinatura do Encarregado (CPF)" : "Assinatura da Diretoria (CNPJ)"}
                       </Button>
                     );
                   })}

@@ -83,7 +83,7 @@ const rot = (p: Partial<Rot> & Pick<Rot, "id" | "setor" | "codigo">): Rot => ({
   prazo_produto: null, fundamento_produto: null, origem_compartilhamento: null, produtos_tratamento: [], excluido_em: null, excluido_por: null, motivo_exclusao: null, origem: "REAL", removida_do_dossie: false, ...p,
 });
 export const DEMO_ROT: Rot[] = [
-  rot({ id: "demo-rot-1", setor: "RH", codigo: "PRIVA-RH-001", assinatura_etapa1: { assinante: "Gestora de RH (cenográfica)", email: "rh@cenografica.com.br", etapa: 1, em: "2026-09-02T12:00:00Z", sha256: "a1c4e9f07b3d52e8c6a90f1b2d3e4f5061728394a5b6c7d8e9f0a1b2c3d4e5f6" }, assinatura_etapa2: { assinante: "DPO (cenográfica)", email: "dpo@cenografica.com.br", etapa: 2, em: "2026-09-05T15:30:00Z", sha256: "7e3b9d1c5f0a2846b8d1e3f5a7c9b0d2e4f6081a3c5e7092b4d6f8a0c2e4f619" }, ciclo_vida: { Coletar: ["receber", "classificar"], Reter: ["arquivar"], Processar: ["utilizar"], Compartilhar: ["transferir"] }, categoria_titulares: ["Colaboradores"], dados_pessoais: ["Nome", "CPF", "Dados bancários"], finalidade_especifica: "Processamento da folha de pagamento mensal", compartilhamento: "Contabilidade terceirizada", area_setor: "Recursos Humanos › Folha de Pagamento", insumo: "contrato", meio_fornecimento: "API/sistema", produto_interno: "Ficha cadastral", produtos_tratamento: [
+  rot({ id: "demo-rot-1", setor: "RH", codigo: "PRIVA-RH-001", assinatura_etapa1: { assinante: "Gestora de RH (cenográfica)", email: "rh@cenografica.com.br", etapa: 1, em: "2026-09-02T12:00:00Z", sha256: "a1c4e9f07b3d52e8c6a90f1b2d3e4f5061728394a5b6c7d8e9f0a1b2c3d4e5f6" }, assinatura_etapa2: { assinante: "Encarregado (cenográfica)", email: "dpo@cenografica.com.br", etapa: 2, em: "2026-09-05T15:30:00Z", sha256: "7e3b9d1c5f0a2846b8d1e3f5a7c9b0d2e4f6081a3c5e7092b4d6f8a0c2e4f619" }, ciclo_vida: { Coletar: ["receber", "classificar"], Reter: ["arquivar"], Processar: ["utilizar"], Compartilhar: ["transferir"] }, categoria_titulares: ["Colaboradores"], dados_pessoais: ["Nome", "CPF", "Dados bancários"], finalidade_especifica: "Processamento da folha de pagamento mensal", compartilhamento: "Contabilidade terceirizada", area_setor: "Recursos Humanos › Folha de Pagamento", insumo: "contrato", meio_fornecimento: "API/sistema", produto_interno: "Ficha cadastral", produtos_tratamento: [
     { nome: "Ficha cadastral", destino: { tipo: "INTERNO", area_setor_destino: "Recursos Humanos › Admissão e Demissão" } },
     { nome: "Análise psicológica", destino: { tipo: "INTERNO", area_setor_destino: "Jurídico › Governança de Privacidade" } },
     { nome: "Demonstrativo de pagamento", destino: { tipo: "EXTERNO", terceiro_id: "demo-ter-1", terceiro_nome: "Contabilidade Cenográfica Ltda." } },
@@ -95,11 +95,11 @@ export const DEMO_ROT: Rot[] = [
   ] }),
   rot({ id: "demo-rot-3", setor: "Recepção", codigo: "PRIVA-RECEPCAO-001", ciclo_vida: { Coletar: ["receber", "produzir"], Reter: ["armazenar"], Eliminar: ["eliminar"] }, categoria_titulares: ["Menores de Idade", "Visitantes"], dados_pessoais: ["Nome", "Foto"], dados_sensiveis: ["Biometria Facial"], finalidade_especifica: "Controle de acesso físico às instalações", hipotese_tratamento: "Art. 7º, IX – Legítimo interesse do controlador ou de terceiro", hipotese_sensivel: "Art. 11, II, g – Garantia de prevenção à fraude e segurança do titular", tempo_retencao: "6 meses", base_prazo: "Política interna de segurança", infraestrutura: "Servidor local", salvaguardas: ["Criptografia em repouso", "Acesso restrito por perfil"], justificativa_mitigacao: "Templates biométricos cifrados com AES-256, sem armazenamento da imagem bruta, consentimento específico do responsável legal (Art. 14 LGPD) e exclusão automática após 6 meses.", area_setor: "Recepção › Controle de Acesso", insumo: "imagem/documento digitalizado", meio_fornecimento: "presencial/recepção", produto_interno: "Registro de acesso", produtos_tratamento: [{ nome: "Registro de acesso", destino: { tipo: "ELIMINACAO", prazo: "6 meses", fundamento: "Política interna de segurança" } }] }),
   rot({ id: "demo-rot-4", setor: "Financeiro", codigo: "PRIVA-FIN-001", assinatura_etapa1: { assinante: "Gestor Financeiro (cenográfico)", email: "fin@cenografica.com.br", etapa: 1, em: "2026-09-08T10:00:00Z", sha256: "c2f8a0d4e6b1937a5c7e9f1b3d5a7c9e0f2a4c6e8b0d2f4a6c8e0b2d4f6a8c01" }, ciclo_vida: { Coletar: ["receber"], Reter: ["armazenar"], Processar: ["utilizar", "avaliar ou controlar"] }, categoria_titulares: ["Colaboradores"], dados_pessoais: ["Nome", "CPF", "Dados bancários"], finalidade_especifica: 'Recebimento de "Relatório de folha consolidado" de Recursos Humanos › Folha de Pagamento (compartilhamento interno)', tempo_retencao: "5 anos", base_prazo: "CTN art. 173", area_setor: "Financeiro › Contas a Pagar", insumo: "Relatório de folha consolidado", meio_fornecimento: "API/sistema", produto_interno: "Comprovante de pagamento", produtos_tratamento: [{ nome: "Comprovante de pagamento", destino: null }], origem_compartilhamento: { estado: "insumo recebido", linha_origem_id: "demo-rot-1", codigo_origem: "PRIVA-RH-001", area_setor_origem: "Recursos Humanos › Folha de Pagamento" } }),
-  rot({ id: "demo-rot-5", setor: "Jurídico", codigo: "PRIVA-JURIDICO-001", ciclo_vida: { Coletar: ["receber"], Reter: ["arquivar"], Eliminar: ["eliminar"] }, categoria_titulares: ["Clientes"], dados_pessoais: ["Nome", "E-mail"], finalidade_especifica: 'Recebimento de "Lista de inadimplentes" de Comercial › Cobrança (compartilhamento interno)', area_setor: "Jurídico › Contencioso", insumo: "Lista de inadimplentes", meio_fornecimento: "API/sistema", origem_compartilhamento: { estado: "insumo recebido", linha_origem_id: "demo-rot-removida", codigo_origem: "PRIVA-COMERCIAL-002", area_setor_origem: "Comercial › Cobrança" }, continuacao_receptor: { tipo: "ELIMINACAO", fundamento: "Processo de cobrança encerrado — eliminação do insumo recebido (LGPD art. 16, caput)", em: "2026-10-15T10:00:00Z", por: "DPO (cenográfica)" } }),
+  rot({ id: "demo-rot-5", setor: "Jurídico", codigo: "PRIVA-JURIDICO-001", ciclo_vida: { Coletar: ["receber"], Reter: ["arquivar"], Eliminar: ["eliminar"] }, categoria_titulares: ["Clientes"], dados_pessoais: ["Nome", "E-mail"], finalidade_especifica: 'Recebimento de "Lista de inadimplentes" de Comercial › Cobrança (compartilhamento interno)', area_setor: "Jurídico › Contencioso", insumo: "Lista de inadimplentes", meio_fornecimento: "API/sistema", origem_compartilhamento: { estado: "insumo recebido", linha_origem_id: "demo-rot-removida", codigo_origem: "PRIVA-COMERCIAL-002", area_setor_origem: "Comercial › Cobrança" }, continuacao_receptor: { tipo: "ELIMINACAO", fundamento: "Processo de cobrança encerrado — eliminação do insumo recebido (LGPD art. 16, caput)", em: "2026-10-15T10:00:00Z", por: "Encarregado (cenográfica)" } }),
   // Linha excluída logicamente (LGPD art. 37): fora da planilha mestre, presente no grafo e no PI-02.
   rot({ id: "demo-rot-removida", setor: "Comercial", codigo: "PRIVA-COMERCIAL-002", ciclo_vida: { Coletar: ["receber"], Processar: ["utilizar"], Compartilhar: ["transferir"] }, categoria_titulares: ["Clientes"], dados_pessoais: ["Nome", "E-mail"], finalidade_especifica: "Cobrança de clientes inadimplentes", compartilhamento: "Jurídico › Contencioso (interno)", area_setor: "Comercial › Cobrança", insumo: "contrato", meio_fornecimento: "API/sistema", produto_interno: "Lista de inadimplentes", produtos_tratamento: [
     { nome: "Lista de inadimplentes", destino: { tipo: "INTERNO", area_setor_destino: "Jurídico › Contencioso", linha_receptor_id: "demo-rot-5", linha_receptor_codigo: "PRIVA-JURIDICO-001" } },
-  ], excluido_em: "2026-10-12T14:20:00Z", excluido_por: "DPO (cenográfica)", motivo_exclusao: "Processo de cobrança terceirizado e encerrado internamente" }),
+  ], excluido_em: "2026-10-12T14:20:00Z", excluido_por: "Encarregado (cenográfica)", motivo_exclusao: "Processo de cobrança terceirizado e encerrado internamente" }),
 ];
 
 type MembroDemo = Omit<Database["public"]["Tables"]["membros_empresa"]["Row"], "documento">;
@@ -171,7 +171,7 @@ export const DEMO_ROWS: {
       riscos: textoRiscos(riscosDemo, detalhesDemo), medidas_selecionadas: medidasDemo.map(vincularMedida),
       medidas: textoMedidas(medidasDemo), encarregado: 'dpo@cenografica.com.br' },
     enviado_anpd_em: null, encerrado_em: null, criado_por: null, processo_id: 'demo-rot-1', comunicacao_atrasada: false, prazo_dias_uteis: null,
-    etapas_registro: Object.fromEntries(etapasDemo.map(({ numero }) => [String(numero), { data: ts, responsavel: 'DPO Cenográfico', evidencia: evidenciasDemo[numero - 1] ?? '' }])),
+    etapas_registro: Object.fromEntries(etapasDemo.map(({ numero }) => [String(numero), { data: ts, responsavel: 'Encarregado Cenográfico', evidencia: evidenciasDemo[numero - 1] ?? '' }])),
   }],
   ripd_ia: [{
     empresa_cnpj: DEMO_CNPJ, sistema_avaliado: "Assistente LLM de triagem de currículos e atendimento", atualizado_por: null, atualizado_em: ts,
@@ -208,7 +208,7 @@ type IncidenteRow = Database["public"]["Tables"]["incidentes_seguranca"]["Row"];
 export function aplicarSessaoDemo(i: IncidenteRow, s: DemoSessao): IncidenteRow {
   if (!s.enviadoEm && !s.encerradoEm) return i;
   const registro = { ...(i.etapas_registro as Record<string, unknown>) };
-  if (s.enviadoEm) registro['6'] = { data: s.enviadoEm, responsavel: 'DPO Cenográfico', evidencia: 'Comunicação à ANPD enviada pelo formulário assistido (simulação).' };
+  if (s.enviadoEm) registro['6'] = { data: s.enviadoEm, responsavel: 'Encarregado Cenográfico', evidencia: 'Comunicação à ANPD enviada pelo formulário assistido (simulação).' };
   return { ...i, enviado_anpd_em: s.enviadoEm, encerrado_em: s.encerradoEm, etapas_registro: registro as IncidenteRow["etapas_registro"] };
 }
 
@@ -225,16 +225,16 @@ const seed = (seq: number, ts: string, op: DemoEvento['op'], target: string, det
 export const DEMO_TRILHA_SEED: DemoEvento[] = (() => {
   const eventos: [string, DemoEvento['op'], string, string][] = [
     ["2026-10-01T12:00:00.000Z", "INSERT", "incidentes_seguranca", "Incidente de ransomware declarado · prazo de 3 dias úteis iniciado"],
-    ["2026-10-01T12:20:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 01 (Isolamento) concluída · DPO Cenográfico"],
-    ["2026-10-01T12:40:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 02 (Invocação) concluída · DPO Cenográfico"],
-    ["2026-10-01T13:10:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 03 (Sandbox) concluída · DPO Cenográfico"],
-    ["2026-10-01T15:30:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 04 (Descriptografia) concluída · DPO Cenográfico"],
-    ["2026-10-01T18:00:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 05 (Validação) concluída · DPO Cenográfico"],
+    ["2026-10-01T12:20:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 01 (Isolamento) concluída · Encarregado Cenográfico"],
+    ["2026-10-01T12:40:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 02 (Invocação) concluída · Encarregado Cenográfico"],
+    ["2026-10-01T13:10:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 03 (Sandbox) concluída · Encarregado Cenográfico"],
+    ["2026-10-01T15:30:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 04 (Descriptografia) concluída · Encarregado Cenográfico"],
+    ["2026-10-01T18:00:00.000Z", "UPDATE", "incidentes_seguranca", "Etapa 05 (Validação) concluída · Encarregado Cenográfico"],
     ["2026-10-01T09:12:00.000Z", "INSERT", "lotes_pgaudit", "Extração mensal 2026-10 (3 linhas)"],
     ["2026-10-01T09:15:00.000Z", "UPDATE", "lotes_pgaudit", "Hash SHA-256 do lote 2026-10 selado"],
-    ["2026-09-20T10:00:00.000Z", "INSERT", "signatures", "PI-01 chancelado · DPO Cenográfico"],
-    ["2026-09-25T10:00:00.000Z", "INSERT", "signatures", "PI-02 chancelado · DPO + Diretoria"],
-    ["2026-09-28T10:00:00.000Z", "INSERT", "signatures", "PI-03 chancelado · DPO + Diretoria"],
+    ["2026-09-20T10:00:00.000Z", "INSERT", "signatures", "PI-01 chancelado · Encarregado Cenográfico"],
+    ["2026-09-25T10:00:00.000Z", "INSERT", "signatures", "PI-02 chancelado · Encarregado + Diretoria"],
+    ["2026-09-28T10:00:00.000Z", "INSERT", "signatures", "PI-03 chancelado · Encarregado + Diretoria"],
   ];
   let prev = hex('genesistrilha');
   return eventos.map(([ts, op, target, detail], i) => { const e = seed(i + 1, ts, op, target, detail, prev); prev = e.hash; return e; });

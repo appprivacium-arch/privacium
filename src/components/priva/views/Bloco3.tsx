@@ -101,7 +101,7 @@ export function Bloco3() {
         readyHint="Proteja todos os endpoints com BitLocker e catalogue ao menos um cofre Cryptomator."
         acoesExtras={<CopiarModelo textoId="dossie-pi03" rotulo="Copiar dossiê (modelo)" />}>
         <h3 className="font-semibold">Laudo técnico · Art. 46 da LGPD · ISO/IEC 27701:2019 (cláusula em verificação)</h3>
-        <p className="mt-2"><b>1. Criptografia de endpoint (BitLocker):</b> {prot}/{endpoints.length} máquinas protegidas, com chaves de recuperação custodiadas offline pelo DPO.</p>
+        <p className="mt-2"><b>1. Criptografia de endpoint (BitLocker):</b> {prot}/{endpoints.length} máquinas protegidas, com chaves de recuperação custodiadas offline pelo encarregado.</p>
         <ul className="list-disc pl-5">{endpoints.map((a) => <li key={a.id}>{a.identificador} {a.descricao && `· ${a.descricao}`} — {a.protegido ? "protegido" : "pendente"}</li>)}</ul>
         <p className="mt-2"><b>2. Cofres em nuvem (Cryptomator, criptografia client-side):</b></p>
         <ul className="list-disc pl-5">{cofres.map((a) => <li key={a.id}>{a.identificador} ({a.provedor_nuvem}) — SHA-256 <span className="font-mono text-xs">{a.hash_integridade}</span></li>)}</ul>

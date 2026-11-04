@@ -37,7 +37,7 @@ export function validarANPD(form: ComunicacaoANPD, email: string, passos: boolea
     if (atual < 30) motivos.push({ campo, titulo, mensagem: `Campo ${campo === 'riscos' ? 'Riscos e consequências' : titulo}: informe ao menos 30 caracteres (atual: ${atual})` });
   }
   if (form.medidasSelecionadas?.some(v => !vincularMedida(v)) || (form.medidasSelecionadas && new Set(form.medidasSelecionadas).size !== form.medidasSelecionadas.length)) motivos.push({ campo: 'medidas', titulo: 'Medidas', mensagem: 'Selecione medidas distintas do catálogo' });
-  if (!email.trim()) motivos.push({ campo: "encarregado", titulo: "Encarregado", mensagem: "Nenhum DPO cadastrado para este CNPJ" });
+  if (!email.trim()) motivos.push({ campo: "encarregado", titulo: "Encarregado", mensagem: "Nenhum Encarregado cadastrado para este CNPJ" });
   for (let i = 0; i < 5; i++) if (!passos[i]) motivos.push({ campo: `etapa-${i}`, titulo: `Etapa ${i + 1}`, mensagem: `Etapa ${String(i + 1).padStart(2, "0")} não está concluída` });
   for (const e of evidencias ?? []) if (e.numero <= 5 && e.concluida && (!e.data || !e.responsavel)) motivos.push({ campo: `etapa-${e.numero - 1}`, titulo: `Etapa ${e.numero}`, mensagem: `Etapa ${String(e.numero).padStart(2, '0')} (${e.nome}) ${!e.responsavel ? 'sem responsável registrado' : 'sem data registrada'}` });
   return motivos;

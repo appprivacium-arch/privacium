@@ -281,11 +281,11 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
     setDemoSessao((s) => ({ ...s, encerradoEm: DEMO_AGORA_ISO }));
     await registrarEventoDemo("UPDATE", "incidentes_seguranca", "Incidente encerrado (simulação) · PI-04 liberado para chancela");
   };
-  /** Chancela cenográfica: DPO e Diretoria são personas distintas; a segregação real permanece no modo autenticado. */
+  /** Chancela cenográfica: Encarregado e Diretoria são personas distintas; a segregação real permanece no modo autenticado. */
   const demoAssinar = async (code: string, who: "DPO" | "DIR") => {
     const k = `${code}-${who}`;
     if (demoShared.signatures[k]) return;
-    const by = who === "DPO" ? "DPO Cenográfico · Gov.br (simulado)" : "Diretoria Cenográfica · Gov.br (simulado)";
+    const by = who === "DPO" ? "Encarregado Cenográfico · Gov.br (simulado)" : "Diretoria Cenográfica · Gov.br (simulado)";
     const hash = await sha256(`${k}|${DEMO_AGORA_ISO}|${by}`);
     const next: Record<string, Signature> = { ...demoShared.signatures, [k]: { by, ts: DEMO_AGORA_ISO, hash } };
     const other = demoShared.signatures[`${code}-${who === "DPO" ? "DIR" : "DPO"}`];

@@ -58,7 +58,7 @@ export const NORMAS: Record<string, Norma> = {
   },
   "LGPD art. 41": {
     citacao: "LGPD art. 41",
-    resumo: "Obriga o controlador a indicar um encarregado pelo tratamento de dados pessoais (DPO) e a divulgar sua identidade publicamente.",
+    resumo: "Obriga o controlador a indicar um encarregado pelo tratamento de dados pessoais e a divulgar sua identidade publicamente.",
     porque: "O cadastro do Encarregado nesta plataforma cumpre essa exigência de publicidade.",
   },
   "LGPD art. 46": {

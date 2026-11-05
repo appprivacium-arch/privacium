@@ -1,5 +1,12 @@
 - [x] Fase 0: movimentos 0–4 executados pela sessão de samuellgpd@gmail.com; 3 vínculos + 3 eventos de papéis, total 2.127/seq 2.228, ambas as verificações sem quebras. Revogações usam DELETE, divergência declarada do item 10 do anexo; sem mudanças de estrutura.
 - [ ] Fase 0 · Movimento 5: cadastro da encarregada em membros_empresa suspenso por falta de documento; nenhum membro criado para Privacium.
+
+## Fase 1-A — Privacium como empresa comum
+- [x] Baseline reconferido: 2.132/seq 2.233, hash do elo 2.230 = aca2aff5… (autorizado), 0 quebras; +3 SELECTs legítimos do painel ADMIN.
+- [x] Passo 1: empresa já cadastrada (1ccdb210, CNPJ 11325048000196, CORE, ATIVO, 03/11/2026) — dispensado.
+- [ ] Passo 2: divergência confirmada (banco "PRIVACIUM TECNOLOGIA EM PRIVACIDADE" × Receita "TRANSROTA - LOGISTICA…LTDA" em 2 fontes); registro bloqueado pelo CHECK de origem_confusao (só 4 valores manual×interface) — aguarda decisão sobre 5º valor.
+- [ ] Passo 3 (CPF) e Passo 4 (166 perguntas): bloqueados por papel — /bloco-1 fora das rotas C_SUITE (AppShell:24) e INSERT em respostas_diagnostico exige DPO_OPERACIONAL na policy. Aguarda decisão de conta/papel.
+- [~] Passo 5: selo "Agente de pequeno porte — Res. 2/2022" visível sem assinatura; painel completo dentro do Bloco 1 (bloqueado); "camada 1, 6 colunas" sem correspondente no código.
 - [x] Fase 0.1 v3: instalada somente auditoria de empresa_id em usuarios; nove travas conferidas, 2.121 elos recalculados sem quebras, nenhum vínculo alterado e nenhum seq consumido em testes de escrita (não executados).
 - [x] Volumetria total na Trilha Forense Master + checar isolamento RLS
 - [x] Cadastrar contato do encarregado por CNPJ com isolamento e auditoria.

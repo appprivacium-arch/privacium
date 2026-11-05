@@ -1,3 +1,4 @@
+- [ ] Fase 0: executar movimentos 0–4 autorizados, conferir autoria e 14 travas; Movimento 5 suspenso por falta de documento da encarregada.
 - [x] Fase 0.1 v3: instalada somente auditoria de empresa_id em usuarios; nove travas conferidas, 2.121 elos recalculados sem quebras, nenhum vínculo alterado e nenhum seq consumido em testes de escrita (não executados).
 - [x] Volumetria total na Trilha Forense Master + checar isolamento RLS
 - [x] Cadastrar contato do encarregado por CNPJ com isolamento e auditoria.

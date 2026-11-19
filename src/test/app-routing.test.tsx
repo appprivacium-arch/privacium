@@ -18,4 +18,11 @@ describe("App routing", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     expect(router.matchRoutes('/pagina-inexistente').at(-1)?.routeId).toBe('/$');
   });
+  it('matches password recovery directly under the public root', () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    expect(router.matchRoutes('/redefinir-senha').map((match) => match.routeId)).toEqual([
+      rootRouteId,
+      '/redefinir-senha',
+    ]);
+  });
 });

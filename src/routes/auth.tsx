@@ -109,6 +109,7 @@ function AuthPage() {
           <form onSubmit={submit} className="space-y-4">
             <div><Label htmlFor="email">E-mail corporativo</Label><Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
             <div><Label htmlFor="password">Senha corporativa</Label><Input id="password" type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+            {mode === "in" && <Button asChild variant="link" className="h-auto p-0"><Link to="/redefinir-senha">Esqueci a senha</Link></Button>}
             {msg && <p className={msg.tone === "ok" ? "text-sm text-success" : "text-sm text-destructive"}>{msg.text}</p>}
             <Button type="submit" className="w-full" disabled={busy || !hydrated}>{mode === "in" ? "Entrar" : "Criar conta"}</Button>
           </form>

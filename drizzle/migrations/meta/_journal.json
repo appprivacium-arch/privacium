@@ -624,6 +624,13 @@
       "when": 1795143383497,
       "tag": "0088_trilha_valida_lista_fechada",
       "breakpoints": true
+    },
+    {
+      "idx": 89,
+      "version": "7",
+      "when": 1795143483948,
+      "tag": "0089_rot_bloqueia_exclusao_fisica",
+      "breakpoints": true
     }
   ]
 }

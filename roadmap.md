@@ -151,3 +151,9 @@
 - [x] Verificar paridade, isolamento, testes e verificar_trilha; emitir os 14 itens.
 - [ ] Remover fisicamente usuario_cpf — nova tentativa recusada pela permissão efetiva de alterações incompatíveis; aguarda liberação em Agent permissions.
 - [ ] Correção da asserção de integridade aplicada; validação pós-remoção e escrita reversível aguardam a remoção autorizada.
+
+## Bloco 3 — Saneamento da trilha
+- [x] Recriar e validar as duas constraints, rejeitar novas falhas de login pela função canônica e remover a rotina legada.
+- [x] Instalar o bloqueio de exclusão física do ROT, sem novo registro de auditoria por gatilho.
+- [x] Testar o bloqueio com rollback local e atestar a exclusão lógica na empresa de teste.
+- [x] Reler o baseline, inserir os quatro elos literais com autoria autenticada e verificar a cadeia: 2.162 → 2.166 elos, seq 2264–2267.

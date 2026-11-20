@@ -39,3 +39,4 @@
 - Glossary terms and dashboard indicators come from one shared glossary module. Why: no bare acronyms; every metric shows definition, formula and action.
 - Public client build vars (VITE_ URL + publishable key only) live in versioned `publico.env`; vite.config.ts reads it with a no-fallback guard. Why: publish builder gets no `.env`/env vars and `.env.*` is gitignored.
 - Peças/evidências/não conformidades/ações (+ pivôs rot_pecas, rot_evidencias) são tabelas aditivas por empresa_cnpj, sem DELETE (exclusão lógica), com diff auditado por trigger e eventos sem sessão via `private.registrar_trilha_sistema` (schema private sem acesso do app + asserção de current_user postgres/service_role); why: evidência forense sem tocar o ROT, com defesa em profundidade.
+- ROT blocks physical deletes at the trigger to prevent cascade loss.

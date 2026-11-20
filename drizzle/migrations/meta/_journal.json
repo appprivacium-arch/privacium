@@ -638,6 +638,13 @@
       "when": 1795145747531,
       "tag": "0090_rot_audita_exclusao_logica",
       "breakpoints": true
+    },
+    {
+      "idx": 91,
+      "version": "7",
+      "when": 1795145787433,
+      "tag": "0091_trilha_privada_guarda_login_falha",
+      "breakpoints": true
     }
   ]
 }

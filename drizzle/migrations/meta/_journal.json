@@ -610,6 +610,13 @@
       "when": 1795143326079,
       "tag": "0086_trilha_guarda_login_falha",
       "breakpoints": true
+    },
+    {
+      "idx": 87,
+      "version": "7",
+      "when": 1795143354241,
+      "tag": "0087_trilha_remove_rotina_login_legada",
+      "breakpoints": true
     }
   ]
 }

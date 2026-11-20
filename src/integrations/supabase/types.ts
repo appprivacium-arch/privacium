@@ -2458,10 +2458,6 @@ export type Database = {
         Args: { _concluida?: boolean; _etapa: number; _incidente: string }
         Returns: undefined
       }
-      registrar_falha_login: {
-        Args: { _email: string; _ip: string }
-        Returns: boolean
-      }
       registrar_trilha: {
         Args: {
           _cnpj: string

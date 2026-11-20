@@ -1,0 +1,1 @@
+DROP FUNCTION public.registrar_falha_login(text, text);

@@ -631,6 +631,13 @@
       "when": 1795143483948,
       "tag": "0089_rot_bloqueia_exclusao_fisica",
       "breakpoints": true
+    },
+    {
+      "idx": 90,
+      "version": "7",
+      "when": 1795145747531,
+      "tag": "0090_rot_audita_exclusao_logica",
+      "breakpoints": true
     }
   ]
 }

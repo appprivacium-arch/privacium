@@ -1,0 +1,6 @@
+ALTER TABLE public.trilha_auditoria_sistema DROP CONSTRAINT trilha_auditoria_sistema_op_check;
+ALTER TABLE public.trilha_auditoria_sistema ADD CONSTRAINT trilha_auditoria_sistema_op_check
+  CHECK (op = ANY (ARRAY['SELECT','INSERT','UPDATE','DELETE','EXCLUSAO_LOGICA','LOGIN_FALHA','COMUNICACAO_ANPD','DESCUMPRIMENTO_SLA','ENCERRAR_INCIDENTE','UPDATE_CAMPO','DDL','INTERPRETACAO_MAPEADA','ANOTACAO_HISTORICA','PASSAGEM_AUTORIA','TERMO_ASSINADO']::text[])) NOT VALID;
+ALTER TABLE public.trilha_auditoria_sistema DROP CONSTRAINT trilha_auditoria_sistema_acao_executada_check;
+ALTER TABLE public.trilha_auditoria_sistema ADD CONSTRAINT trilha_auditoria_sistema_acao_executada_check
+  CHECK (acao_executada = ANY (ARRAY['SELECT','INSERT','UPDATE','DELETE','EXCLUSAO_LOGICA','LOGIN_FALHA','COMUNICACAO_ANPD','DESCUMPRIMENTO_SLA','ENCERRAR_INCIDENTE','UPDATE_CAMPO','DDL','INTERPRETACAO_MAPEADA','ANOTACAO_HISTORICA','PASSAGEM_AUTORIA','TERMO_ASSINADO']::text[])) NOT VALID;

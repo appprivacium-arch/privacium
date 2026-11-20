@@ -1,0 +1,2 @@
+ALTER TABLE public.trilha_auditoria_sistema VALIDATE CONSTRAINT trilha_auditoria_sistema_op_check;
+ALTER TABLE public.trilha_auditoria_sistema VALIDATE CONSTRAINT trilha_auditoria_sistema_acao_executada_check;

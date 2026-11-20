@@ -645,6 +645,13 @@
       "when": 1795145787433,
       "tag": "0091_trilha_privada_guarda_login_falha",
       "breakpoints": true
+    },
+    {
+      "idx": 92,
+      "version": "7",
+      "when": 1795145864043,
+      "tag": "0092_bloqueia_delete_conteudo_metodo",
+      "breakpoints": true
     }
   ]
 }

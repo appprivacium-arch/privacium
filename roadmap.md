@@ -157,3 +157,9 @@
 - [x] Instalar o bloqueio de exclusão física do ROT, sem novo registro de auditoria por gatilho.
 - [x] Testar o bloqueio com rollback local e atestar a exclusão lógica na empresa de teste.
 - [x] Reler o baseline, inserir os quatro elos literais com autoria autenticada e verificar a cadeia: 2.162 → 2.166 elos, seq 2264–2267.
+
+## Protocolo de Fonte de Verdade — 20/11/2026
+- [x] Mapear limpeza de fixtures e privilégios de execução, sem revogar acessos.
+- [x] Classificar exclusão lógica do ROT e comprovar na empresa de teste (elo 2271).
+- [x] Bloquear novas falhas de login na rotina privada e DELETE nas quatro tabelas; testar em banco descartável.
+- [x] Anotar o elo 2263 pelo fluxo canônico (novo elo 2272), verificar a trilha e revisar a Regra nº 5.

@@ -163,3 +163,8 @@
 - [x] Classificar exclusão lógica do ROT e comprovar na empresa de teste (elo 2271).
 - [x] Bloquear novas falhas de login na rotina privada e DELETE nas quatro tabelas; testar em banco descartável.
 - [x] Anotar o elo 2263 pelo fluxo canônico (novo elo 2272), verificar a trilha e revisar a Regra nº 5.
+
+## Registro de cobertura de DDL — 20/11/2026
+- [x] Reler a governança, confirmar os elos DDL 1823/2267 e a trava 2171/2272.
+- [x] Inserir somente a Regra de Auditoria nº 10 após a nº 9.
+- [x] Gravar uma ANOTACAO_HISTORICA pelo endpoint canônico autenticado (seq 2273) e conferir 2172 elos, prev_hash esperado e verificar_trilha: ok=true, broken_at=null.

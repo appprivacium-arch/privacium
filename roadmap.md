@@ -1,7 +1,7 @@
 ## Congelamento V1.0 e acesso de suporte — 22/11/2026
 - [x] Ler integralmente o blueprint e congelar cópia byte-idêntica por commit, sem editar o original.
-- [ ] Aplicar somente a opção A em admin_acesso_suporte, mantendo guardas e lista de 15 tipos.
-- [ ] Registrar E-001/E-002 e comprovar as oito travas de saída com consultas e resultados.
+- [x] Aplicar somente a opção A em admin_acesso_suporte, mantendo guardas e lista de 15 tipos; testes isolados e chamada real na empresa de teste aprovados.
+- [x] Registrar E-001/E-002 e comprovar as oito travas de saída com consultas e resultados; delta de cinco elos identificado (quatro aberturas de painel e um teste de suporte), sem modificar a auditoria fora do escopo.
 
 - [x] Fase 0: movimentos 0–4 executados pela sessão de samuellgpd@gmail.com; 3 vínculos + 3 eventos de papéis, total 2.127/seq 2.228, ambas as verificações sem quebras. Revogações usam DELETE, divergência declarada do item 10 do anexo; sem mudanças de estrutura.
 - [ ] Fase 0 · Movimento 5: cadastro da encarregada em membros_empresa suspenso por falta de documento; nenhum membro criado para Privacium.

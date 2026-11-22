@@ -652,6 +652,13 @@
       "when": 1795145864043,
       "tag": "0092_bloqueia_delete_conteudo_metodo",
       "breakpoints": true
+    },
+    {
+      "idx": 93,
+      "version": "7",
+      "when": 1795390234560,
+      "tag": "0093_corrigir_admin_acesso_suporte_op_select",
+      "breakpoints": true
     }
   ]
 }

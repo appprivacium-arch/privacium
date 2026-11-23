@@ -81,3 +81,43 @@
 - Motivo: `.gitignore` contém `.env`/`.env.*` (linhas 34–38), verificado em 23/11/2026; `/commits/main/.env` retorna ausência de histórico; nenhuma reescrita de histórico executada nem permitida (AGENTS.md). Referência: §10.7.
 - Ressalva mantida: `.env` consta no commit 8fd234e do repositório Lovable, classificado em §10.7.2 como (c), risco zero.
 - Nenhuma alteração de código, banco, migration, policy, gatilho ou função.
+
+## 23/11/2026 — Retomada documental — §6, §10.2 e catálogo de privilégios
+
+- Leituras consultadas: `system-blueprint.md` §2, §6 (incluindo §6.1), §10.1, §10.2, §10.6, §10.7 e §10.7.1–§10.7.4; `AGENTS.md`; este CHANGELOG; `docs/conhecimento/PRIVACIUM-SCHEMA.md`, especialmente item 3 e saída bruta (d). As migrations 0075 e 0089 foram apenas lidas, não executadas.
+- **Item 1 / E-003 — parcialmente executado (§6).** A contagem foi corrigida segundo a medição de 23/11/2026 22:53:30 UTC informada no protocolo e a confirmação Q05 já registrada em E-003; nenhuma nova consulta SQL nesta rodada.
+  - Antes literal: `| 40 | Colunas físicas em \`registro_operacoes\` |`
+  - Depois literal: `| 42 | Colunas físicas em \`registro_operacoes\` |`
+  - Preservados integralmente 12, 18, 20 e a estrutura real de **duas** colunas (`| Número | Significado |`), não três como descrito no protocolo. Nenhuma coluna documental inventada.
+  - **Nota interrompida por divergência factual:** o texto solicitado atribui as duas colunas à migração 0089. A fonte versionada `drizzle/migrations/0075_hipotese_tabela_e_fks_rot.sql`, linhas 41–43, contém literalmente:
+
+    ```sql
+    ALTER TABLE public.registro_operacoes
+      ADD COLUMN hipotese_id uuid NULL REFERENCES public.hipotese(id),
+      ADD COLUMN hipotese_origem_id uuid NULL REFERENCES public.registro_operacoes(id);
+    ```
+
+    A migração `0089_rot_bloqueia_exclusao_fisica.sql` cria o bloqueio de DELETE e não acrescenta essas colunas. A nota literal não foi inserida nem corrigida por aproximação; aguarda texto autorizado com a referência corrigida. Esta leitura prova o conteúdo dos arquivos, não a data de aplicação no banco.
+- **Item 2 — executado (§10.2).** Harmonização com a conclusão histórica de §10.6 e §10.7.4; os outros dois itens e essas duas seções ficaram intactos.
+  - Antes literal:
+
+    ```text
+    | Tornar repositório privado no GitHub | Decidido — execução manual pendente |
+    ```
+
+  - Depois literal:
+
+    ```text
+    | Tornar repositório privado no GitHub | Concluído em 02/11/2026 (ver §10.6 e §10.7.4). Reaberto temporariamente como público em 23/11/2026 para auditoria externa declarada; retorno a privado previsto ao encerramento do projeto. Nenhuma credencial foi exposta nesta reabertura. |
+    ```
+
+  - A reabertura em 23/11/2026 e a ausência de credenciais expostas nessa reabertura foram registradas como declaração do usuário no protocolo, **NÃO VERIFICADAS independentemente nesta rodada**. A varredura de §10.7.4 é histórica (02/11/2026), não comprova a reabertura posterior. Nenhum repositório GitHub foi criado, apagado, transferido ou teve sua visibilidade alterada nesta execução.
+- **Item 3 — interrompido por divergência literal (PRIVACIUM-SCHEMA.md, item 3, L123).** O protocolo transcreve `role_table_grants` sem as crases existentes no arquivo; conforme o critério 4, nenhuma correção por semelhança foi aplicada. Antes e depois idênticos:
+
+  ```text
+  Resultado: 448 colunas de tabelas ordinárias `public/private`, 100 índices, 5 sequências (todos os schemas, conforme SQL solicitado), 0 privilégios visíveis na consulta `role_table_grants`, 5 extensões.
+  ```
+
+  - Saída bruta `[]` e ressalva preexistente de L125 preservadas integralmente. A retificação de 1.097 privilégios sobre 40 relações aguarda autorização ancorada no literal real; números informados no protocolo, não medidos novamente nesta rodada.
+- Digest do blueprint vivo recalculado pela convenção de exclusão da própria linha; baseline V1.0 preservada. Somente `system-blueprint.md` e este CHANGELOG alterados; nenhuma alteração em roadmap.md ou no relatório de schema.
+- Nenhuma alteração de código, banco, migration, policy, gatilho ou função nesta rodada.

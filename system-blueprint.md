@@ -1,7 +1,7 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
 Versão documental: V1.1 · Vigência: 23/11/2026 (UTC).
-SHA-256 do conteúdo com exclusão desta linha de digest: 591dd6fcf49a5b2ae7048eaaeb4a792ddc5a73ece99c06f58c0ca3395c4082e9.
+SHA-256 do conteúdo com exclusão desta linha de digest: 91d1a141a6fd7431b443aa7536695975c7d717d0968ce5463d84159380459512.
 Convenção: o digest acima exclui integralmente sua própria linha (incluindo a quebra de linha); o SHA-256 integral do arquivo está no relatório E-003 a E-007. Um arquivo não pode declarar seu próprio SHA-256 integral sem autorreferência.
 Âncora histórica intocada: `docs/blueprint/V1.0-BASELINE__fe0646f1.md` (SHA-256 `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`).
 
@@ -140,7 +140,7 @@ Contagem canônica de campos do ROT (equivalência):
 | 12 | Campos lógicos do método PRIVA |
 | 18 | Colunas de dados na tela |
 | 20 | 18 + 2 colunas fixas (ID Processo e Ações) |
-| 40 | Colunas físicas em `registro_operacoes` |
+| 42 | Colunas físicas em `registro_operacoes` |
 
 Decisão A/B do ROT por porte — adotada a Opção A: o ROT simplificado é FORMA do mesmo produto (Res. CD/ANPD nº 2/2022, art. 9º), nunca dispensa do art. 37 da LGPD. Mantêm-se as três camadas de campos e o alerta do art. 16.
 
@@ -274,7 +274,7 @@ Alternativas descartadas:
 ### 10.2. Pendências de segurança do repositório
 | Item | Status |
 |---|---|
-| Tornar repositório privado no GitHub | Decidido — execução manual pendente |
+| Tornar repositório privado no GitHub | Concluído em 02/11/2026 (ver §10.6 e §10.7.4). Reaberto temporariamente como público em 23/11/2026 para auditoria externa declarada; retorno a privado previsto ao encerramento do projeto. Nenhuma credencial foi exposta nesta reabertura. |
 | Confirmar escopo do app Lovable no GitHub | Pendente — após a mudança de visibilidade |
 | .env no histórico do Git | Encerrado — risco zero confirmado (apenas chaves públicas de bootstrap) |
 

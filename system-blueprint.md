@@ -287,7 +287,7 @@ O Lovable opera via GitHub App com escopo autorizado na conta/organização e su
 
 Procedimento em caso de falha de sincronização após tornar o repositório privado:
 1. NÃO reconectar o app do Lovable. Reconectar cria um repositório novo e perde o histórico.
-2. Verificar primeiro em GitHub → Settings → Applications → Lovable se o repositório leumasamil/privacium continua autorizado.
+2. Verificar primeiro em GitHub → Settings → Applications → Lovable se o repositório appprivacium-arch/privacium continua autorizado.
 3. Se estiver fora do escopo, adicionar o repositório à seleção do app — sem reinstalar.
 4. Só considerar reconexão se o acesso do app estiver íntegro e a sincronização continuar falhando, ciente de que isso implica repositório novo.
 
@@ -477,7 +477,7 @@ Sequência obrigatória:
 | # | Ação | Onde |
 |---|---|---|
 | 1 | Tornar o repositório privado (ação do usuário) | GitHub → Settings → Danger Zone → Change visibility |
-| 2 | Verificar se leumasamil/privacium permanece autorizado | GitHub → Settings → Applications → Lovable |
+| 2 | Verificar se appprivacium-arch/privacium permanece autorizado | GitHub → Settings → Applications → Lovable |
 | 3 | Solicitar uma alteração pequena e verificável no projeto, já com o repositório privado | Lovable |
 | 4 | Confirmar que o commit correspondente aparece no GitHub | GitHub → histórico de commits |
 

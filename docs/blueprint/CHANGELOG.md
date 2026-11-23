@@ -360,12 +360,6 @@ Reconciliação: operacionais = §10.3 L288 e §10.6 L478 na numeração histór
 
 Antes literal da inserção: bloco inexistente; nenhuma entrada anterior removida ou substituída.
 
-Depois literal da nota inserida:
-
-```text
-A referência “§1.4” citada no prompt anterior não existe como seção numerada no blueprint — é item da skill de protocolo, não do documento. A preservação histórica está ancorada em §10.7 e no registro da baseline V1.0.
-```
-
 A referência “§1.4” citada no prompt anterior não existe como seção numerada no blueprint — é item da skill de protocolo, não do documento. A preservação histórica está ancorada em §10.7 e no registro da baseline V1.0.
 
 Nota de proveniência: a atribuição à skill é informação fornecida pelo usuário neste protocolo; nenhuma skill foi consultada ou alterada nesta rodada. Nenhuma correção de texto no blueprint por este item.
@@ -377,3 +371,5 @@ Nota de proveniência: a atribuição à skill é informação fornecida pelo us
 3. G já reconciliado: 10 históricas e 2 operacionais; lista, total e transcrições preservados.
 4. H registrado: origem do erro “§1.4” e âncoras §10.7/baseline V1.0; substituição dos dois endereços e verificação de escopo seguem pendentes.
 5. Somente este CHANGELOG alterado; blueprint e baseline preservados; nenhum SQL ou alteração de código, banco, migration, policy, gatilho ou função.
+
+O CHANGELOG a partir de 23/11/2026 registra também rodadas sem alteração de conteúdo, por exigência de rastreabilidade do protocolo. Isso não constitui alteração do blueprint.

@@ -294,3 +294,86 @@ Decisão A/B do ROT por porte — adotada a Opção A: o ROT simplificado é FOR
 - Nenhum SQL executado. Nenhum repositório GitHub criado, apagado, transferido ou reconectado. Baseline V1.0 preservada. Permanecem abertas a revisão autorizada das duas instruções com endereço antigo e a verificação do escopo atual.
 
 Nenhuma alteração de código, banco, migration, policy, gatilho ou função nesta rodada. Nenhum arquivo além de system-blueprint.md e CHANGELOG.md foi alterado.
+
+## 23/11/2026 — Medição e rastreabilidade documental — itens E a H
+
+- Leitura declarada: `system-blueprint.md` §6, §10.2, §10.3 e §10.6; este CHANGELOG. Consultados também os princípios no início do blueprint, §10.7 e `AGENTS.md`. Nenhum SQL executado.
+
+### Item E — medição de linhas físicas; nenhuma correção
+
+Comando executado na raiz do projeto:
+
+```sh
+awk 'NR>=275 && NR<=280 {printf "%d:[%s]\n", NR, $0}' system-blueprint.md
+```
+
+Saída literal:
+
+```text
+275:[]
+276:[### 10.2. Pendências de segurança do repositório]
+277:[| Item | Status |]
+278:[|---|---|]
+279:[| Tornar repositório privado no GitHub | Concluído em 02/11/2026 (ver §10.6 e §10.7.4). Reaberto temporariamente como público em 23/11/2026 para auditoria externa declarada; retorno a privado previsto ao encerramento do projeto. Nenhuma credencial foi exposta nesta reabertura. |]
+280:[| Confirmar escopo do app Lovable no GitHub | Pendente — após a mudança de visibilidade |]
+```
+
+Resultado: a célula de status ocupa **UMA linha física**, L279, terminando em `|`; “Reaberto temporariamente” está na mesma linha, não inicia a linha seguinte. A medição comprova a estrutura física, não verifica as declarações de visibilidade ou exposição contidas na célula.
+
+### Item F — classificação já retificada; substituição interrompida
+
+O literal real da classificação já é operacional viva; não existe neste trecho a classificação histórica apontada no protocolo. Conforme o critério 4, nenhuma substituição foi realizada.
+
+Antes literal (entrada `system-blueprint.md` — L478, numeração histórica anterior à nota de §6):
+
+```text
+- Classificação: **(ii) INSTRUÇÃO OPERACIONAL VIVA**. Procedimento vigente/reutilizável; referência antiga pode induzir erro.
+```
+
+Depois literal (idêntico):
+
+```text
+- Classificação: **(ii) INSTRUÇÃO OPERACIONAL VIVA**. Procedimento vigente/reutilizável; referência antiga pode induzir erro.
+```
+
+Raciocínio explicitado nesta entrada: a coluna “Onde” prova que a tabela instrui execução futura; o registro de execução é bloco separado. A linha operacional de §10.6 está atualmente em L480; seu texto no blueprint e suas transcrições literais foram preservados. A substituição do endereço segue pendente de autorização.
+
+### Item G — lista e total já reconciliados; substituição interrompida
+
+O literal real já totaliza 10 históricas e 2 operacionais, e a lista já classifica ambas as instruções como operacionais. Não foi encontrado o total divergente de 11 históricas e 1 operacional nesta entrada; nenhuma substituição por aproximação.
+
+Antes literal:
+
+```text
+- Total do inventário anterior à rodada: 10 registros históricos (6 na baseline + 4 no documento vivo) e 2 instruções operacionais vivas. As transcrições acrescentadas neste CHANGELOG são novos registros desta rodada, não novas instruções nem substituições das fontes.
+```
+
+Depois literal (idêntico):
+
+```text
+- Total do inventário anterior à rodada: 10 registros históricos (6 na baseline + 4 no documento vivo) e 2 instruções operacionais vivas. As transcrições acrescentadas neste CHANGELOG são novos registros desta rodada, não novas instruções nem substituições das fontes.
+```
+
+Reconciliação: operacionais = §10.3 L288 e §10.6 L478 na numeração histórica do inventário (atualmente L290 e L480); históricas = 6 ocorrências na baseline V1.0 + 4 no documento vivo. A pendência adicional de escopo em §10.2 não contém o nome pesquisado e não integra essas 12 ocorrências. Nenhuma transcrição literal anterior foi alterada.
+
+### Item H — nota aditiva de rastreabilidade do erro informado pelo usuário
+
+Antes literal da inserção: bloco inexistente; nenhuma entrada anterior removida ou substituída.
+
+Depois literal da nota inserida:
+
+```text
+A referência “§1.4” citada no prompt anterior não existe como seção numerada no blueprint — é item da skill de protocolo, não do documento. A preservação histórica está ancorada em §10.7 e no registro da baseline V1.0.
+```
+
+A referência “§1.4” citada no prompt anterior não existe como seção numerada no blueprint — é item da skill de protocolo, não do documento. A preservação histórica está ancorada em §10.7 e no registro da baseline V1.0.
+
+Nota de proveniência: a atribuição à skill é informação fornecida pelo usuário neste protocolo; nenhuma skill foi consultada ou alterada nesta rodada. Nenhuma correção de texto no blueprint por este item.
+
+### Veredito — cinco linhas
+
+1. E medido: L279 ocupa uma linha física terminando em `|`; saída literal transcrita.
+2. F já retificado: instrução operacional viva; acrescentado o raciocínio da coluna “Onde”, sem substituir o literal existente.
+3. G já reconciliado: 10 históricas e 2 operacionais; lista, total e transcrições preservados.
+4. H registrado: origem do erro “§1.4” e âncoras §10.7/baseline V1.0; substituição dos dois endereços e verificação de escopo seguem pendentes.
+5. Somente este CHANGELOG alterado; blueprint e baseline preservados; nenhum SQL ou alteração de código, banco, migration, policy, gatilho ou função.

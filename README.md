@@ -27,24 +27,12 @@ npm run dev
 
 ## Arquivos de ambiente e histórico público
 
-O `.gitignore` gerenciado pelo ambiente está somente leitura e ainda não ignora `.env` e `.env.*`. Essas duas linhas precisam ser acrescentadas no repositório externo. Isso não remove arquivos já rastreados nem versões antigas. A chave publishable é pública por natureza: a proteção dos dados depende de autenticação, permissões e RLS, não de escondê-la.
+Afirmações verificadas em 23/11/2026 (ver system-blueprint.md §10.7):
 
-A remoção de versões antigas deve ser planejada em uma cópia isolada, com backup seguro e coordenação da conexão GitHub/Lovable. O procedimento solicitado para remover `.env` é:
-
-```sh
-git filter-repo --path .env --invert-paths
-git push --force
-```
-
-Se também existirem variantes no histórico, use **em lugar do primeiro comando**:
-
-```sh
-git filter-repo --path .env --path-glob '.env.*' --invert-paths
-```
-
-Esses caminhos são relativos à raiz; arquivos de ambiente em subpastas precisam de caminhos adicionais. Confira o remoto e a branch antes do envio: `filter-repo` pode remover o remoto `origin`, que precisa ser reconfigurado na cópia isolada. A limpeza deve abranger todas as branches e tags que contenham os arquivos; um único `git push --force` não garante isso. Cópias em forks e caches externos também não são removidas por esse procedimento.
-
-**Atenção:** isso reescreve o histórico e pode apagar o histórico do projeto no Lovable. Todos os clones devem ser refeitos após a limpeza; não mescle novamente commits antigos. Não execute esses comandos no ambiente conectado. Nenhum comando de reescrita ou envio foi executado nesta atualização.
+- O `.gitignore` do repositório já contém `.env` e `.env.*` (linhas 34–38). A pendência de "acrescentar as duas linhas" está encerrada.
+- `github.com/appprivacium-arch/privacium/commits/main/.env` retorna ausência de histórico. O arquivo `.env` nunca foi commitado no repositório `appprivacium-arch/privacium`.
+- Nenhum procedimento de reescrita de histórico deve ser executado. Reescrita destruiria o histórico do projeto no Lovable, conforme AGENTS.md.
+- A chave publishable é pública por natureza e protegida por RLS. Não é segredo.
 
 ### Rotação da chave publishable
 

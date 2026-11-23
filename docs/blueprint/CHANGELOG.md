@@ -67,3 +67,10 @@
 - Ressalva: teor do art. 6º, §1º da Res. CD/ANPD nº 15/2024 **a verificar**; citação preexistente preservada, não confirmada nem descrita nesta rodada.
 - Varredura anterior, transcrições integrais e todas as ocorrências não corrigidas como “correção terminológica pendente”: complemento da Parte C do relatório E-003 a E-007.
 - Digest do documento vivo recalculado conforme a convenção existente; V1.0 intocada. Nenhuma alteração de código, banco, migration, policy, gatilho ou função.
+
+## 23/11/2026 — README — histórico público e arquivos de ambiente
+
+- Seção "Arquivos de ambiente e histórico público" do README.md: removido integralmente o bloco que recomendava `git filter-repo` e `git push --force`; substituído por quatro afirmações verificadas em 23/11/2026.
+- Motivo: `.gitignore` já contém `.env`/`.env.*` (linhas 34–38); reescrita de histórico é vedada pelo AGENTS.md (destruiria o histórico no Lovable); chave publishable é pública e protegida por RLS (§10.7, classificação (c)).
+- Ressalva: no histórico do repositório Lovable, `.env` consta no commit 8fd234e (22/10/2026), já classificado em §10.7.2 como (c), risco zero. A afirmação de ausência refere-se ao repositório `appprivacium-arch/privacium`, conforme verificação do usuário.
+- Nenhuma alteração de código, banco, migration, policy, gatilho ou função.

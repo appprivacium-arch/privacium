@@ -74,3 +74,10 @@
 - Motivo: `.gitignore` já contém `.env`/`.env.*` (linhas 34–38); reescrita de histórico é vedada pelo AGENTS.md (destruiria o histórico no Lovable); chave publishable é pública e protegida por RLS (§10.7, classificação (c)).
 - Ressalva: no histórico do repositório Lovable, `.env` consta no commit 8fd234e (22/10/2026), já classificado em §10.7.2 como (c), risco zero. A afirmação de ausência refere-se ao repositório `appprivacium-arch/privacium`, conforme verificação do usuário.
 - Nenhuma alteração de código, banco, migration, policy, gatilho ou função.
+
+## 23/11/2026 — roadmap.md — item "Ignorar .env e .env.*" concluído
+
+- Item do roadmap.md marcado como concluído, com o texto literal fornecido pelo usuário.
+- Motivo: `.gitignore` contém `.env`/`.env.*` (linhas 34–38), verificado em 23/11/2026; `/commits/main/.env` retorna ausência de histórico; nenhuma reescrita de histórico executada nem permitida (AGENTS.md). Referência: §10.7.
+- Ressalva mantida: `.env` consta no commit 8fd234e do repositório Lovable, classificado em §10.7.2 como (c), risco zero.
+- Nenhuma alteração de código, banco, migration, policy, gatilho ou função.

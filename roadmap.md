@@ -41,7 +41,7 @@
 - [x] Verificar RPCs e executar etapas/encerramento com sessão real.
 - [x] Explicar bloqueio no modo demonstração com saída acessível.
 - [x] Auditar e corrigir isolamento RLS por tabela; documentar limpeza do histórico.
-- [ ] Ignorar .env e .env.*: bloqueado pelo .gitignore gerenciado somente leitura; requer edição no repositório externo.
+- [x] Ignorar .env e .env.* — concluído. O .gitignore do repositório contém .env e .env.* (linhas 34–38), verificado em 23/11/2026; /commits/main/.env retorna ausência de histórico. Nenhuma reescrita de histórico foi executada nem deve ser.
 - [x] Criar página 404 explícita e verificar navegação.
 - [x] Extrair AvisoModoDemo com AlertTriangle no topo das telas e ajustar texto da página 404; verificar saída e rotas inexistentes.
 - [x] Revalidar exclusões de ambiente, credenciais privadas e RLS das 23 tabelas; documentar limpeza do histórico e recomendação de rotação (exclusão bloqueada conforme pendência acima).

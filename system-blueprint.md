@@ -1,7 +1,7 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
 Versão documental: V1.1 · Vigência: 23/11/2026 (UTC).
-SHA-256 do conteúdo com exclusão desta linha de digest: 91d1a141a6fd7431b443aa7536695975c7d717d0968ce5463d84159380459512.
+SHA-256 do conteúdo com exclusão desta linha de digest: 63fda41c420c8a23b5cbf98cfcc64e1b9fab35345635ae897bbedbcc223bfc31.
 Convenção: o digest acima exclui integralmente sua própria linha (incluindo a quebra de linha); o SHA-256 integral do arquivo está no relatório E-003 a E-007. Um arquivo não pode declarar seu próprio SHA-256 integral sem autorreferência.
 Âncora histórica intocada: `docs/blueprint/V1.0-BASELINE__fe0646f1.md` (SHA-256 `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`).
 
@@ -141,6 +141,8 @@ Contagem canônica de campos do ROT (equivalência):
 | 18 | Colunas de dados na tela |
 | 20 | 18 + 2 colunas fixas (ID Processo e Ações) |
 | 42 | Colunas físicas em `registro_operacoes` |
+
+Atualizado em 23/11/2026: 42 colunas físicas, conforme medição no catálogo do banco. As duas colunas adicionais — `hipotese_id` e `hipotese_origem_id` — foram introduzidas pela migração `0075_hipotese_tabela_e_fks_rot.sql` (linhas 41–43) e não constavam desta tabela. A migração `0089_rot_bloqueia_exclusao_fisica.sql` trata de bloqueio de DELETE, não de acréscimo de colunas.
 
 Decisão A/B do ROT por porte — adotada a Opção A: o ROT simplificado é FORMA do mesmo produto (Res. CD/ANPD nº 2/2022, art. 9º), nunca dispensa do art. 37 da LGPD. Mantêm-se as três camadas de campos e o alerta do art. 16.
 

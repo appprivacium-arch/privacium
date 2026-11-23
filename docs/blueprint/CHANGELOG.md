@@ -121,3 +121,176 @@
   - Saída bruta `[]` e ressalva preexistente de L125 preservadas integralmente. A retificação de 1.097 privilégios sobre 40 relações aguarda autorização ancorada no literal real; números informados no protocolo, não medidos novamente nesta rodada.
 - Digest do blueprint vivo recalculado pela convenção de exclusão da própria linha; baseline V1.0 preservada. Somente `system-blueprint.md` e este CHANGELOG alterados; nenhuma alteração em roadmap.md ou no relatório de schema.
 - Nenhuma alteração de código, banco, migration, policy, gatilho ou função nesta rodada.
+
+## 23/11/2026 — Correção documental — itens A a D (§6 e §10.2)
+
+- Leitura declarada: `system-blueprint.md` §6, §10.1, §10.2, §10.3, §10.6 e §10.7.4; `AGENTS.md` e este CHANGELOG. §1.4 não foi localizado como seção numerada no blueprint; a preservação histórica está expressa no registro da baseline deste CHANGELOG e em §10.7.
+- **Item A — já atendido; nenhuma substituição executada.** A linha L277 antes da rodada já coincide integralmente com o literal autorizado, em uma única linha física; não foi detectada quebra dentro da célula. Os outros dois itens e §10.6/§10.7.4 permanecem intactos.
+  - Antes literal:
+
+```text
+| Tornar repositório privado no GitHub | Concluído em 02/11/2026 (ver §10.6 e §10.7.4). Reaberto temporariamente como público em 23/11/2026 para auditoria externa declarada; retorno a privado previsto ao encerramento do projeto. Nenhuma credencial foi exposta nesta reabertura. |
+```
+
+  - Depois literal (idêntico):
+
+```text
+| Tornar repositório privado no GitHub | Concluído em 02/11/2026 (ver §10.6 e §10.7.4). Reaberto temporariamente como público em 23/11/2026 para auditoria externa declarada; retorno a privado previsto ao encerramento do projeto. Nenhuma credencial foi exposta nesta reabertura. |
+```
+
+- **Item B — inventário, sem substituições.** Varredura recursiva dos arquivos `.md` do projeto, incluindo diretórios ocultos de documentação, excluindo metadados de Git e dependências/saídas geradas: 12 linhas com `leumasamil`; todas contêm `leumasamil/privacium`. Os números abaixo são anteriores à inserção da nota. Classificação retificada: a tabela “Sequência obrigatória” de §10.6 é instrução operacional reutilizável, distinta do “Registro de execução (02/11/2026)” que a sucede; portanto L478 é operacional viva, não histórica. A baseline inteira é fotografia histórica congelada, inclusive suas antigas instruções.
+
+### `docs/blueprint/V1.0-BASELINE__fe0646f1.md` — L277
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Baseline V1.0 congelada: conteúdo histórico preservado.
+- Transcrição literal da linha completa:
+
+```text
+2. Verificar primeiro em GitHub → Settings → Applications → Lovable se o repositório leumasamil/privacium continua autorizado.
+```
+
+### `docs/blueprint/V1.0-BASELINE__fe0646f1.md` — L467
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Baseline V1.0 congelada: conteúdo histórico preservado.
+- Transcrição literal da linha completa:
+
+```text
+| 2 | Verificar se leumasamil/privacium permanece autorizado | GitHub → Settings → Applications → Lovable |
+```
+
+### `docs/blueprint/V1.0-BASELINE__fe0646f1.md` — L474
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Baseline V1.0 congelada: conteúdo histórico preservado.
+- Transcrição literal da linha completa:
+
+```text
+- Passo 1 — concluído: o repositório leumasamil/privacium passou a ser privado em 02/11/2026.
+```
+
+### `docs/blueprint/V1.0-BASELINE__fe0646f1.md` — L475
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Baseline V1.0 congelada: conteúdo histórico preservado.
+- Transcrição literal da linha completa:
+
+```text
+- Passo 2 — concluído: o app lovable.dev foi verificado no GitHub, com acesso confirmado a leumasamil/privacium (Repository access: Only select repositories, 1 repositório selecionado).
+```
+
+### `docs/blueprint/V1.0-BASELINE__fe0646f1.md` — L478
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Baseline V1.0 congelada: conteúdo histórico preservado.
+- Transcrição literal da linha completa:
+
+```text
+- Passo 4 — concluído em 02/11/2026: o commit "Atualizou completed_steps" (hash único 3119fae, confirmado por acesso direto a github.com/leumasamil/privacium/commit/3119fae, com a mensagem e a data de 02/11/2026), gerado após a mudança de visibilidade, apareceu corretamente no GitHub. A sincronização Lovable ↔ GitHub está íntegra com o repositório privado.
+```
+
+### `docs/blueprint/V1.0-BASELINE__fe0646f1.md` — L483
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Baseline V1.0 congelada: conteúdo histórico preservado.
+- Transcrição literal da linha completa:
+
+```text
+Contexto: o repositório leumasamil/privacium permaneceu público até 02/11/2026. Todo o histórico de commits anterior a essa data esteve exposto. Tornar o repositório privado não apaga o que já foi commitado — o conteúdo permanece recuperável em qualquer commit do histórico.
+```
+
+### `system-blueprint.md` — L288
+
+- Classificação: **(ii) INSTRUÇÃO OPERACIONAL VIVA**. Procedimento vigente/reutilizável; referência antiga pode induzir erro.
+- Transcrição literal da linha completa:
+
+```text
+2. Verificar primeiro em GitHub → Settings → Applications → Lovable se o repositório leumasamil/privacium continua autorizado.
+```
+
+- Texto correto proposto para revisão futura, **não aplicado**:
+
+```text
+2. Verificar primeiro em GitHub → Settings → Applications → Lovable se o repositório appprivacium-arch/privacium continua autorizado.
+```
+
+### `system-blueprint.md` — L478
+
+- Classificação: **(ii) INSTRUÇÃO OPERACIONAL VIVA**. Procedimento vigente/reutilizável; referência antiga pode induzir erro.
+- Transcrição literal da linha completa:
+
+```text
+| 2 | Verificar se leumasamil/privacium permanece autorizado | GitHub → Settings → Applications → Lovable |
+```
+
+- Texto correto proposto para revisão futura, **não aplicado**:
+
+```text
+| 2 | Verificar se appprivacium-arch/privacium permanece autorizado | GitHub → Settings → Applications → Lovable |
+```
+
+### `system-blueprint.md` — L485
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Ato/contexto relativo a 02/11/2026 ou antes; preservar.
+- Transcrição literal da linha completa:
+
+```text
+- Passo 1 — concluído: o repositório leumasamil/privacium passou a ser privado em 02/11/2026.
+```
+
+### `system-blueprint.md` — L486
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Ato/contexto relativo a 02/11/2026 ou antes; preservar.
+- Transcrição literal da linha completa:
+
+```text
+- Passo 2 — concluído: o app lovable.dev foi verificado no GitHub, com acesso confirmado a leumasamil/privacium (Repository access: Only select repositories, 1 repositório selecionado).
+```
+
+### `system-blueprint.md` — L489
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Ato/contexto relativo a 02/11/2026 ou antes; preservar.
+- Transcrição literal da linha completa:
+
+```text
+- Passo 4 — concluído em 02/11/2026: o commit "Atualizou completed_steps" (hash único 3119fae, confirmado por acesso direto a github.com/leumasamil/privacium/commit/3119fae, com a mensagem e a data de 02/11/2026), gerado após a mudança de visibilidade, apareceu corretamente no GitHub. A sincronização Lovable ↔ GitHub está íntegra com o repositório privado.
+```
+
+### `system-blueprint.md` — L494
+
+- Classificação: **(i) REGISTRO HISTÓRICO**. Ato/contexto relativo a 02/11/2026 ou antes; preservar.
+- Transcrição literal da linha completa:
+
+```text
+Contexto: o repositório leumasamil/privacium permaneceu público até 02/11/2026. Todo o histórico de commits anterior a essa data esteve exposto. Tornar o repositório privado não apaga o que já foi commitado — o conteúdo permanece recuperável em qualquer commit do histórico.
+```
+
+### Item adicional da tabela §10.2 — L278 antes da rodada
+
+```text
+| Confirmar escopo do app Lovable no GitHub | Pendente — após a mudança de visibilidade |
+```
+
+- Instrução/pendência operacional viva. Não menciona conta nem repositório; não há endereço a substituir nesse literal. A verificação do escopo atual permanece aberta; nenhuma conexão foi alterada.
+- Total do inventário anterior à rodada: 10 registros históricos (6 na baseline + 4 no documento vivo) e 2 instruções operacionais vivas. As transcrições acrescentadas neste CHANGELOG são novos registros desta rodada, não novas instruções nem substituições das fontes.
+
+- **Item C — executado (§6).** Nota autorizada inserida imediatamente abaixo da tabela de contagem, preservando os números 12, 18, 20 e 42 e as crases. A medição de catálogo citada é a medição anterior de 23/11/2026; não houve nova consulta de banco nesta rodada.
+  - Antes literal (trecho de inserção):
+
+```text
+| 42 | Colunas físicas em `registro_operacoes` |
+
+Decisão A/B do ROT por porte — adotada a Opção A: o ROT simplificado é FORMA do mesmo produto (Res. CD/ANPD nº 2/2022, art. 9º), nunca dispensa do art. 37 da LGPD. Mantêm-se as três camadas de campos e o alerta do art. 16.
+```
+
+  - Depois literal:
+
+```text
+| 42 | Colunas físicas em `registro_operacoes` |
+
+Atualizado em 23/11/2026: 42 colunas físicas, conforme medição no catálogo do banco. As duas colunas adicionais — `hipotese_id` e `hipotese_origem_id` — foram introduzidas pela migração `0075_hipotese_tabela_e_fks_rot.sql` (linhas 41–43) e não constavam desta tabela. A migração `0089_rot_bloqueia_exclusao_fisica.sql` trata de bloqueio de DELETE, não de acréscimo de colunas.
+
+Decisão A/B do ROT por porte — adotada a Opção A: o ROT simplificado é FORMA do mesmo produto (Res. CD/ANPD nº 2/2022, art. 9º), nunca dispensa do art. 37 da LGPD. Mantêm-se as três camadas de campos e o alerta do art. 16.
+```
+
+- **Item D — executado.** Registro aditivo neste CHANGELOG com data 23/11/2026; entradas anteriores não reescritas. Digest do documento vivo atualizado pela convenção existente (exclusão da própria linha):
+  - Antes literal: `SHA-256 do conteúdo com exclusão desta linha de digest: 91d1a141a6fd7431b443aa7536695975c7d717d0968ce5463d84159380459512.`
+  - Depois literal: `SHA-256 do conteúdo com exclusão desta linha de digest: 63fda41c420c8a23b5cbf98cfcc64e1b9fab35345635ae897bbedbcc223bfc31.`
+- Nenhum SQL executado. Nenhum repositório GitHub criado, apagado, transferido ou reconectado. Baseline V1.0 preservada. Permanecem abertas a revisão autorizada das duas instruções com endereço antigo e a verificação do escopo atual.
+
+Nenhuma alteração de código, banco, migration, policy, gatilho ou função nesta rodada. Nenhum arquivo além de system-blueprint.md e CHANGELOG.md foi alterado.

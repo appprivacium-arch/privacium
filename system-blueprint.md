@@ -1,7 +1,7 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
 Versão documental: V1.1 · Vigência: 23/11/2026 (UTC).
-SHA-256 do conteúdo com exclusão desta linha de digest: 2d16bd382baf9d93d467e1108c090a85853f834e8ca2b38afaca20039064f6aa.
+SHA-256 do conteúdo com exclusão desta linha de digest: 591dd6fcf49a5b2ae7048eaaeb4a792ddc5a73ece99c06f58c0ca3395c4082e9.
 Convenção: o digest acima exclui integralmente sua própria linha (incluindo a quebra de linha); o SHA-256 integral do arquivo está no relatório E-003 a E-007. Um arquivo não pode declarar seu próprio SHA-256 integral sem autorreferência.
 Âncora histórica intocada: `docs/blueprint/V1.0-BASELINE__fe0646f1.md` (SHA-256 `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`).
 
@@ -465,7 +465,7 @@ Método: leitura do código atual (FormularioANPD.tsx, anpd.ts, estadoIncidente.
 | Campo | Natureza | Uso |
 |---|---|---|
 | `iniciado_em` | Registro de auditoria: momento da criação do registro no sistema | Só auditoria e ordenação. **Nenhum cálculo de prazo pode usá-lo.** |
-| `data_conhecimento` | Base legal do prazo (Res. CD/ANPD nº 15/2024, art. 6º, §1º) | Único marco de contagem do prazo, no banco e na tela. |
+| `data_conhecimento` | Fundamento normativo do prazo (Res. CD/ANPD nº 15/2024, art. 6º, §1º) | Único marco de contagem do prazo, no banco e na tela. |
 
 ### 10.6. Procedimento de validação pós-mudança de visibilidade
 

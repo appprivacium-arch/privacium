@@ -173,3 +173,8 @@
 - [x] Reler a governança, confirmar os elos DDL 1823/2267 e a trava 2171/2272.
 - [x] Inserir somente a Regra de Auditoria nº 10 após a nº 9.
 - [x] Gravar uma ANOTACAO_HISTORICA pelo endpoint canônico autenticado (seq 2273) e conferir 2172 elos, prev_hash esperado e verificar_trilha: ok=true, broken_at=null.
+
+## E-004 — complemento documental A.2 — 23/11/2026
+- [x] Varrer os cinco termos e transcrever integralmente os dois trechos; parar o título já saneado.
+- [x] Trocar somente a segunda célula por “Fundamento normativo do prazo”, preservar citação/estrutura e recalcular o digest.
+- [x] Registrar E-004 e a varredura integral na Parte C; demais ocorrências e verificação normativa permanecem pendentes, sem autorização de correção neste turno.

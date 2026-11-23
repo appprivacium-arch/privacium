@@ -58,3 +58,12 @@
 - Hash integral novo no relatório; digest no documento vivo exclui sua própria linha, com convenção explícita. A exigência autorreferente de A.6 não foi declarada integralmente cumprida.
 - E-003 e a segunda substituição de E-004 não tiveram execução correspondente por divergência literal; aguardam decisão. E-005/E-006/E-007 e a primeira substituição de E-004 foram executadas.
 - Livro de decisões no relatório, Parte C; decisões abertas não constituem autorização de implementação.
+
+## 23/11/2026 — E-004 — complemento A.2 / vocabulário residual
+
+- Referência antiga L335, atual L346: **interrompida nesta rodada por divergência literal**; o título já contém “hipótese de tratamento exata”. Nenhuma nova substituição nesse título.
+- Referência antiga L457, atual L468: **executada** conforme o último Passo 2: “Base legal do prazo” → “Fundamento normativo do prazo”, somente na segunda célula. Mantidos a citação, os pipes, as três colunas, as crases e a terceira célula integral.
+- Justificativa: coerência documental com o próprio CT-4, atual L215; sem nova regra jurídica ou interpretação do dispositivo.
+- Ressalva: teor do art. 6º, §1º da Res. CD/ANPD nº 15/2024 **a verificar**; citação preexistente preservada, não confirmada nem descrita nesta rodada.
+- Varredura anterior, transcrições integrais e todas as ocorrências não corrigidas como “correção terminológica pendente”: complemento da Parte C do relatório E-003 a E-007.
+- Digest do documento vivo recalculado conforme a convenção existente; V1.0 intocada. Nenhuma alteração de código, banco, migration, policy, gatilho ou função.

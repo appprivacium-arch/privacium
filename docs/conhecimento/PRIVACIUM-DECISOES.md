@@ -1,0 +1,260 @@
+# PRIVACIUM — DECISÕES
+
+Transcrições integrais, sem resumir nem atualizar as decisões de origem; estados históricos permanecem como registrados.
+
+## (a) docs/blueprint/CHANGELOG.md — de E-001 em diante
+
+````markdown
+## 22/11/2026 — E-001 — Congelamento da linha de base V1.0
+
+- Cópia congelada e commitada antes da correção da função: commit `0b8270e`.
+- Hash do original e da cópia: `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`.
+- Identidade byte a byte conferida; o documento vivo não foi editado.
+- Última linha real (L578): “- Regime de verificação: com Simone como encarregada externa e Samuel como desenvolvedor, deixa de existir a pendência de verificação por conflito de papéis para o conteúdo normativo. A verificação técnica permanece.” A referência “L578” do protocolo é o número da linha, não seu conteúdo literal.
+
+## 22/11/2026 — E-002 — Tratamento de admin_acesso_suporte
+
+- Aplicada exclusivamente a **opção A** pela migração `0093_corrigir_admin_acesso_suporte_op_select.sql`.
+- `op = SELECT`; `target = empresas`; `detail = '[ACESSO_SUPORTE] CNPJ ' || _cnpj || ' · motivo: ' || trim(_motivo)`.
+- Justificativa: corrigir a chamada incompatível com os CHECKs validados sem ampliar os tipos de evento; o rótulo semântico fica no detalhe autenticado pelo hash.
+- Mantidas as guardas de ADMIN_SISTEMA e motivo com no mínimo 20 caracteres após trim, os privilégios e o search_path; a função não libera acesso a dados.
+- A lista fechada permanece com 15 tipos nas duas constraints. A opção B não foi aplicada.
+- Não foi criada auditoria automática de DDL. A verificação da trilha será por recálculo elo a elo, com a fórmula de registrar_acesso, não por alegação de execução de verificar_trilha().
+
+## 23/11/2026 — E-003 — correção documental
+
+- A.1: **interrompida**. Seção: §6 — Contagem canônica de campos do ROT. Justificativa medida: L134 contém crases em `registro_operacoes`; o literal do protocolo não contém. Nenhuma alteração por semelhança. Q05 confirma 42 colunas.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-004 — correção documental
+
+- A.2 L335: **executada**. Seção: §10.5 — Checklist 4b.2. Justificativa medida: Leitura L335 integral; §7 e CT-4 (§9.4). Alteração terminológica autorizada, sem introdução de regra jurídica.
+- A.2 L457: **interrompida**. Seção: §10.5.1 — Regra a partir da C1. Justificativa medida: L457 inclui crases no nome `data_conhecimento` e a terceira coluna da tabela; não coincide com o literal informado. Nenhuma substituição nesse trecho.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-005 — correção documental
+
+- A.3: **executada**. Seção: §2 — Regra Unificada de Trilha. Justificativa medida: Q04 (elencos idênticos e validados) e E-002 transcrita; privilégios e definição em Q03.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-006 — correção documental
+
+- A.4: **executada**. Seção: §2 — Regra Unificada de Trilha. Justificativa medida: Q16 reconfirma exatamente a fotografia de 324 elos; leitura dos oito disparadores (L02 no relatório). Q14 é fotografia posterior distinta.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-007 — correção documental
+
+- A.5: **executada**. Seção: §6.1 — Doutrina PRIVA / etapas do ROT. Justificativa medida: Q06 definição integral, Q07 distribuição, Q15 constraints e Q17 todas as funções públicas que referenciam papel_rac.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — V1.1 — versionamento e livro de decisões
+
+- Vigência UTC: 23/11/2026. Linha de base V1.0 preservada.
+- Hash integral novo no relatório; digest no documento vivo exclui sua própria linha, com convenção explícita. A exigência autorreferente de A.6 não foi declarada integralmente cumprida.
+- E-003 e a segunda substituição de E-004 não tiveram execução correspondente por divergência literal; aguardam decisão. E-005/E-006/E-007 e a primeira substituição de E-004 foram executadas.
+- Livro de decisões no relatório, Parte C; decisões abertas não constituem autorização de implementação.
+
+## 23/11/2026 — E-004 — complemento A.2 / vocabulário residual
+
+- Referência antiga L335, atual L346: **interrompida nesta rodada por divergência literal**; o título já contém “hipótese de tratamento exata”. Nenhuma nova substituição nesse título.
+- Referência antiga L457, atual L468: **executada** conforme o último Passo 2: “Base legal do prazo” → “Fundamento normativo do prazo”, somente na segunda célula. Mantidos a citação, os pipes, as três colunas, as crases e a terceira célula integral.
+- Justificativa: coerência documental com o próprio CT-4, atual L215; sem nova regra jurídica ou interpretação do dispositivo.
+- Ressalva: teor do art. 6º, §1º da Res. CD/ANPD nº 15/2024 **a verificar**; citação preexistente preservada, não confirmada nem descrita nesta rodada.
+- Varredura anterior, transcrições integrais e todas as ocorrências não corrigidas como “correção terminológica pendente”: complemento da Parte C do relatório E-003 a E-007.
+- Digest do documento vivo recalculado conforme a convenção existente; V1.0 intocada. Nenhuma alteração de código, banco, migration, policy, gatilho ou função.
+````
+
+## (b) roadmap.md — integral
+
+````markdown
+## Congelamento V1.0 e acesso de suporte — 22/11/2026
+- [x] Ler integralmente o blueprint e congelar cópia byte-idêntica por commit, sem editar o original.
+- [x] Aplicar somente a opção A em admin_acesso_suporte, mantendo guardas e lista de 15 tipos; testes isolados e chamada real na empresa de teste aprovados.
+- [x] Registrar E-001/E-002 e comprovar as oito travas de saída com consultas e resultados; delta de cinco elos identificado (quatro aberturas de painel e um teste de suporte), sem modificar a auditoria fora do escopo.
+
+- [x] Fase 0: movimentos 0–4 executados pela sessão de samuellgpd@gmail.com; 3 vínculos + 3 eventos de papéis, total 2.127/seq 2.228, ambas as verificações sem quebras. Revogações usam DELETE, divergência declarada do item 10 do anexo; sem mudanças de estrutura.
+- [ ] Fase 0 · Movimento 5: cadastro da encarregada em membros_empresa suspenso por falta de documento; nenhum membro criado para Privacium.
+
+## Fase 1-A — Privacium como empresa comum
+- [x] Baseline reconferido: 2.132/seq 2.233, hash do elo 2.230 = aca2aff5… (autorizado), 0 quebras; +3 SELECTs legítimos do painel ADMIN.
+- [x] Passo 1: empresa já cadastrada (1ccdb210, CNPJ 11325048000196, CORE, ATIVO, 03/11/2026) — dispensado.
+- [ ] Passo 2: divergência confirmada (banco "PRIVACIUM TECNOLOGIA EM PRIVACIDADE" × Receita "TRANSROTA - LOGISTICA…LTDA" em 2 fontes); registro bloqueado pelo CHECK de origem_confusao (só 4 valores manual×interface) — aguarda decisão sobre 5º valor.
+- [ ] Passo 3 (CPF) e Passo 4 (166 perguntas): bloqueados por papel — /bloco-1 fora das rotas C_SUITE (AppShell:24) e INSERT em respostas_diagnostico exige DPO_OPERACIONAL na policy. Aguarda decisão de conta/papel.
+- [~] Passo 5: selo "Agente de pequeno porte — Res. 2/2022" visível sem assinatura; painel completo dentro do Bloco 1 (bloqueado); "camada 1, 6 colunas" sem correspondente no código.
+- [x] Fase 0.1 v3: instalada somente auditoria de empresa_id em usuarios; nove travas conferidas, 2.121 elos recalculados sem quebras, nenhum vínculo alterado e nenhum seq consumido em testes de escrita (não executados).
+- [x] Volumetria total na Trilha Forense Master + checar isolamento RLS
+- [x] Cadastrar contato do encarregado por CNPJ com isolamento e auditoria.
+- [x] Completar formulário ANPD, validação, envio simulado e SLA congelado.
+- [x] Conectar pendências e PDFs ao contato real; verificar fluxo autenticado.
+- [ ] Conectar contato à política gerada: bloqueado porque não existe gerador de política no aplicativo atual.
+- [x] Unificar estado do incidente, pendências e encerramento com feedback.
+- [x] Registrar etapas e encerramento atomicamente; verificar fluxo autenticado e testes.
+- [x] Acrescentar referências públicas semelhantes, consulta às bases e cinco notícias no Bloco 4, isoladas de documentos e auditoria.
+- [x] Verificar fontes, cache, regras de isolamento e consulta autenticada das referências.
+- [x] Acrescentar catálogo de naturezas do incidente, seleção assistida e fonte normativa na comunicação ANPD.
+- [x] Exibir natureza e fonte no PI-04 e PDFs, preservando comunicações anteriores.
+- [x] Validar persistência, seleção e documentos com testes e navegação autenticada.
+- [x] Integrar 24 medidas ANPD, sugestões por etapa e texto automático copiável.
+- [x] Persistir fontes canônicas e incluir medidas no PI-04 sem alterar registros anteriores.
+- [x] Verificar regras e fluxo autenticado das medidas.
+- [x] Integrar categorias ROT e catálogo padrão, fontes e criticidade.
+- [x] Completar foco, progresso, pendências destacadas e cores semânticas.
+- [x] Verificar persistência e fluxo autenticado da Parte 4.
+- [x] Completar referências existentes e monitor conservador de fornecedores.
+- [x] Persistir monitor por CNPJ, decisões auditadas e cooldown sem copiar evidências externas.
+- [x] Integrar alertas no Bloco 4, badges no ROT e próximo passo secundário.
+- [x] Verificar isolamento, decisões e fluxo autenticado da Parte 5.
+- [x] Corrigir acesso por ID ao formulário ANPD em faixa, checklist e PI-04.
+- [x] Integrar 11 riscos assistidos e sugestões de medidas por vetor, com fontes e preservação das escolhas do DPO.
+- [x] Validar riscos e medidas atomicamente e verificar fluxo autenticado e PDF.
+- [x] Verificar RPCs e executar etapas/encerramento com sessão real.
+- [x] Explicar bloqueio no modo demonstração com saída acessível.
+- [x] Auditar e corrigir isolamento RLS por tabela; documentar limpeza do histórico.
+- [ ] Ignorar .env e .env.*: bloqueado pelo .gitignore gerenciado somente leitura; requer edição no repositório externo.
+- [x] Criar página 404 explícita e verificar navegação.
+- [x] Extrair AvisoModoDemo com AlertTriangle no topo das telas e ajustar texto da página 404; verificar saída e rotas inexistentes.
+- [x] Revalidar exclusões de ambiente, credenciais privadas e RLS das 23 tabelas; documentar limpeza do histórico e recomendação de rotação (exclusão bloqueada conforme pendência acima).
+- [x] Corrigir retorno do login e destino seguro, com Lovable apenas na visualização incorporada.
+- [x] Criar demonstração pública isolada, seed ANPD completo e ações com aviso, preservando guard e RLS.
+- [x] Executar os dez critérios: b–j passaram localmente (b com resposta controlada e dica condicional sem enumerar contas); a aguarda publicação e autorização Google interativa.
+- [ ] Validar login Google completo no app publicado: bloqueado pela publicação ainda não solicitada e consentimento Google interativo.
+- [x] Completar seis etapas cenográficas sem envio ou encerramento e preservar bloqueio do Bloco 5.
+- [x] Conferir ações demo clicáveis mesmo com validação pendente e aviso sem requisições.
+- [x] Executar os seis testes do anexo: todos passaram na visualização local; fluxo demo sem requisições ao banco.
+- [x] Exibir responsável cenográfico nas seis etapas do Bloco 4 e completar as evidências específicas do anexo.
+- [x] Executar os sete critérios do checklist demo: a–g passaram localmente, com zero requisições ao banco ou funções internas.
+- [x] Quebrar o circuito fechado do incidente: etapa 06 como consequência do envio, não pré-requisito (regra, não seed).
+- [x] Demo em memória: envio ANPD simulado → etapa 06 → encerramento → chancela PI-04 → Bloco 5 na mesma sessão, delta 0 no banco.
+- [x] Substituir "SLA de 72 horas" por 3 dias úteis (Res. CD/ANPD nº 15/2024, art. 6º) com contador de dias úteis.
+- [x] Corrigir atalhos do Dashboard e do Bloco 4 para aba=anpd; auditar todos os atalhos.
+- [x] Popular Trilho Core no demo com eventos do seed + eventos em memória com SHA-256 encadeado.
+- [x] Executar provas de aceitação (a) a (j) e atualizar testes que codificavam o comportamento antigo.
+- [x] Envio 2: bibliotecaTextos.ts determinística com modelos copiáveis (cabeçalho/rodapé obrigatórios) e evento de cópia na trilha.
+- [x] Envio 2: PI-03 — "Copiar modelo" nos chips do Escudo, estrutura+inventário no Cryptomator, padrão de nomenclatura no BitLocker, "Copiar dossiê (modelo)".
+- [x] Envio 2: PI-05 — botões de copiar nas sugestões; pedagogia normativa expansível (LGPD arts. 5º/6º/14/20/46/48; Res. 15/2024 arts. 3º e 6º).
+- [ ] Envio 2: provas e2e de cópia com clipboard (e, f, h, i) — unitárias feitas; e2e de clipboard pendente.
+
+## Envio 3 — MCI + Lei de IA
+- [x] Corrigir apenas dosimetria PI-05: pesos dos PIs chancelados, desconto residual declarado, memória e valor final únicos; 179 testes unitários, 2 e2e e documento/simulador conferidos. RIPO atual não contém pontos percentuais explícitos; não converter escores em percentuais inventados.
+- [x] MCI art. 15 no console pgAudit (Bloco 4) com tooltip pedagógico.
+- [x] MCI art. 10 + prazo de retenção na Trilha de Auditoria.
+- [x] Seção "Marco Civil da Internet" (art. 7º, VIII) no Manual de Uso.
+- [x] PI-05: classificação determinística de risco de IA com "Derivado de:" e override auditado.
+- [x] Inventário de sistemas de IA alimentado pelo PI-03 (sem digitação duplicada).
+- [x] Painel AIA com 4 eixos + rótulo de escopo + ressalva PL 2338 em tramitação.
+- [x] Testes unitários + e2e (a)–(i); provar delta 0, guards/migrations intactos.
+- [x] ROT: papel do agente (Bloco 1 + por linha) e camada de produto interno com destino ancorado — TAREFA A/B/C do anexo
+
+- [x] Etapa 2 como lista de PRT + cadastro de Terceiros (migração 0040).
+- [x] Divergência art. 39 resolvida: checklist renomeado como instrumento do método; suboperador pelo art. 42, § 1º, I.
+- [x] Tarefa A: finalidade sugerida v2 no campo 6, aviso de equivalência e contador de padronização.
+- [ ] Tarefa B: PRT como entidade (`produtos_tratamento`/`produtos_destino`) e grafo "Cadeia de custódia".
+- [ ] Tarefa C: incidente com seleção de nó e relatório "Prova de cadeia de custódia" (art. 43) — depende da B.
+- [ ] Tarefa D: conferir demo /demo com lista de PRT e bloqueio — depende da B.
+
+## Dosimetria NULL + Biblioteca normativa versionada
+- [x] Parte A: `ciclos_priva.reducao_dosimetria` aceita NULL; 0→NULL; relatório exibe "não calculado"; teste.
+- [x] Parte B: tabela `biblioteca_normativa` + seed (51 verificadas + 8 não verificáveis), regra de renderização, painel "Qualidade normativa" com filtro e verificação auditada, teste B.5.
+- [ ] Pendência de decisão: empresa SLN tem 2 ciclos legados com redução 48% (método rejeitado); tarefa só mandou converter os zeros — aguardando orientação.
+
+## Exclusão lógica do ROT (migração 0044)
+- [x] Exclusão lógica com data, autor e motivo; grafo, PI-02 e relatório art. 43 exibem a remoção.
+- [x] Grafo: "Etapa 1 receptor: ausente" para destino Interno sem receptor; nota do hash; seleção do nó auditada.
+- Limitação: Linhas excluídas antes da migração 0044 não são recuperáveis — o histórico anterior tem lacunas.
+
+## Remoção de registro de teste + prova real da seleção do nó (migração 0045)
+- [x] Coluna `origem` (REAL/TESTE/DEMONSTRACAO) + `removida_do_dossie` no ROT; RPC auditada `remover_registro_de_teste` (só ADMIN_SISTEMA, justificativa obrigatória, hash na trilha).
+- [x] PRIVA-TI-001 da empresa real marcada TESTE e fora do dossiê (justificativa registrada); PI-02 e grafo não a exibem mais.
+- [x] Prova real na empresa de teste: incidente criado, seleção do nó gravada na trilha com hash (sem simulação) e relatório com o mesmo hash.
+- [x] Regra A.5: testes automatizados nunca criam dados na empresa real — só na empresa de teste ou com rollback.
+
+## Direitos do titular e continuidade do receptor
+- [x] Registrar sete dispositivos verificados; item 9.7 e incidência normativa com separação do fomento econômico.
+- [x] Índice salgado por empresa e atendimento auditado com prazos, roteamento e negativa fundamentada.
+- [x] Escolha expressa no receptor, duas declarações para uso exclusivo e cadeia de múltiplos saltos.
+- [x] Testes de regras/isolamento, CT-1 a CT-5 e capturas renderizadas dos fluxos reais na empresa de teste.
+
+## Demonstração pública — titulares (concluído 2026-11-01)
+- [x] Auditoria de supressão (AppShell:101 e demais `demo &&`)
+- [x] Aba `titulares` na demo pública com fixtures cenográficas
+- [x] Trava das duas declarações valendo também na demo
+- [x] Publicação e comprovação renderizada no link público (12 provas)
+
+## Cinco quebras de coerência do ROT
+- [x] Corrigir cabeçalho, coluna 2 e terminologia explicativa, preservando os verbos e dados existentes.
+- [x] Exibir destino pendente e impedir destino definitivo sem escolha registrada do receptor.
+- [x] Corrigir Financeiro e Recepção cenográficos e sinalizar origem excluída no Jurídico.
+- [x] Verificar regras, CT-1 a CT-5, publicar e capturar provas no link público versionado.
+
+## Identidade pública e estados pendentes do ROT
+- [x] Registrar a versão servida e diagnosticar o alerta público antes de alterações.
+- [x] Identificar a entrega na interface, distinguir origem ausente e excluída e corrigir estados pendentes.
+- [x] Verificar contagens, chancela e alcance real da migração 0052 sem alterar dados reais.
+- [x] Testar, publicar e entregar provas públicas com limites explícitos (PI-02 global mantém falhas impeditivas de Marketing).
+- [x] Correção C1: data de conhecimento informada, prazo contado dela, testes e registro no blueprint.
+
+## Três ajustes (02/11)
+- [x] Etapa 1 encerrar_incidente na trilha
+- [x] Etapa 2 Kanban somente leitura para não-DPO
+- [x] Etapa 3 Identidade/Princípios no topo do blueprint + AGENTS.md + memória
+- [x] Etapa 4 Regra unificada de trilha na seção 2
+- [x] Etapa 5 Diff granular + botão Editar fixo
+- [x] Etapa 6 Princípio 4 no blueprint
+- [x] Passo 6.1 criar dpo@privacium.com.br e atribuir apenas DPO_OPERACIONAL; link de confirmação solicitado.
+- [ ] Passo 6.1 confirmar e-mail — bloqueado pelo clique do destinatário; chegada à caixa postal não verificável pelos registros disponíveis.
+- [ ] Passo 6.2 criar workspace inicial da Privacium e verificar empresa, CORE, 50.000 tokens e vínculo exclusivo do novo DPO.
+- [ ] Passo 6.3 preencher declaração ME — bloqueado pelos critérios e confirmação da conta; registrar Simone/autonomia só após respostas e criação da empresa, CPF/data em aberto; não assinar em nome do DPO.
+- [ ] Passo 6.4 reportar seis provas de isolamento/criação e existência de nome fantasia/CNAE; não cadastrar ROT, membros, terceiros ou identificadores reais.
+- [x] Passo 6: conferir novas seis perguntas; ato específico de indicação ainda ausente, contato consta em PI-01/PI-02/PI-04 e PDF, CPF/data em aberto.
+- [x] Passo 6: adicionar nome_fantasia em empresas e sincronização; documentar razão social escolhida diferente do cartão CNPJ.
+- [x] Passo 6 · Ações 1–3: ato de indicação (Bloco 1), publicar_contato opção (a), campos novos do encarregado.
+- [ ] Passo 6 · Ação 4: registrar Simone — aguarda a empresa existir (depende da confirmação do e-mail do DPO).
+- [x] Ato: indicação voluntária (Res. 2/2022 art. 11 §2º), citação art. 3º Res. 18/2024, declaração de conflito separada (art. 20).
+- [x] Conta samuel@privacium.com.br criada só com C_SUITE (trilha seq 1679).
+- [ ] Confirmar e-mails de samuel@ e dpo@ e vincular ambos à Privacium em Membros — bloqueado pelo clique dos destinatários.
+
+## Correção autorizada — dois checks + autoria humana
+- [x] Ampliar os dois CHECKs atomicamente, preservando o baseline.
+- [x] Criar trilha de usuário com fórmula canônica e trocar somente a chamada de registrar_divergencia.
+- [x] Registrar divergência fictícia na empresa de teste e apagar somente essa divergência.
+- [x] Executar verificar_trilha; parar se broken_at não for null; emitir relatório com transcrições e provas.
+
+## Pseudonimização autorizada — Opção A
+- [x] Preservar as 332 respostas e seus timestamps durante a migração da autoria para UUID.
+- [x] Atualizar somente as duas policies de escrita e o payload do diagnóstico.
+- [x] Verificar paridade, isolamento, testes e verificar_trilha; emitir os 14 itens.
+- [ ] Remover fisicamente usuario_cpf — nova tentativa recusada pela permissão efetiva de alterações incompatíveis; aguarda liberação em Agent permissions.
+- [ ] Correção da asserção de integridade aplicada; validação pós-remoção e escrita reversível aguardam a remoção autorizada.
+
+## Bloco 3 — Saneamento da trilha
+- [x] Recriar e validar as duas constraints, rejeitar novas falhas de login pela função canônica e remover a rotina legada.
+- [x] Instalar o bloqueio de exclusão física do ROT, sem novo registro de auditoria por gatilho.
+- [x] Testar o bloqueio com rollback local e atestar a exclusão lógica na empresa de teste.
+- [x] Reler o baseline, inserir os quatro elos literais com autoria autenticada e verificar a cadeia: 2.162 → 2.166 elos, seq 2264–2267.
+
+## Protocolo de Fonte de Verdade — 20/11/2026
+- [x] Mapear limpeza de fixtures e privilégios de execução, sem revogar acessos.
+- [x] Classificar exclusão lógica do ROT e comprovar na empresa de teste (elo 2271).
+- [x] Bloquear novas falhas de login na rotina privada e DELETE nas quatro tabelas; testar em banco descartável.
+- [x] Anotar o elo 2263 pelo fluxo canônico (novo elo 2272), verificar a trilha e revisar a Regra nº 5.
+
+## Registro de cobertura de DDL — 20/11/2026
+- [x] Reler a governança, confirmar os elos DDL 1823/2267 e a trava 2171/2272.
+- [x] Inserir somente a Regra de Auditoria nº 10 após a nº 9.
+- [x] Gravar uma ANOTACAO_HISTORICA pelo endpoint canônico autenticado (seq 2273) e conferir 2172 elos, prev_hash esperado e verificar_trilha: ok=true, broken_at=null.
+
+## E-004 — complemento documental A.2 — 23/11/2026
+- [x] Varrer os cinco termos e transcrever integralmente os dois trechos; parar o título já saneado.
+- [x] Trocar somente a segunda célula por “Fundamento normativo do prazo”, preservar citação/estrutura e recalcular o digest.
+- [x] Registrar E-004 e a varredura integral na Parte C; demais ocorrências e verificação normativa permanecem pendentes, sem autorização de correção neste turno.
+````
+
+## (c) Lista de arquivos em .lovable/plan/ — recursiva, incluindo ocultos
+
+````text
+.lovable/plan/achado-3-retirar-o-acesso-do-administrador-aos-dados-dos-cli-2026-11-02.md
+.lovable/plan/passo-6-ato-de-indicação-do-encarregado-e-correções-do-cadas-2026-11-03.md
+.lovable/plan/prompt-c-criação-das-6-estruturas-aditivas-c1-c10-2026-11-03.md
+.lovable/plan/prompt-d-1-correção-da-trilha-e-preenchimento-das-peças-2026-11-03.md
+.lovable/plan/rodada-1-auditoria-de-segurança-somente-leitura-2026-11-02.md
+````

@@ -1,5 +1,10 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
+Versão documental: V1.1 · Vigência: 23/11/2026 (UTC).
+SHA-256 do conteúdo com exclusão desta linha de digest: 2d16bd382baf9d93d467e1108c090a85853f834e8ca2b38afaca20039064f6aa.
+Convenção: o digest acima exclui integralmente sua própria linha (incluindo a quebra de linha); o SHA-256 integral do arquivo está no relatório E-003 a E-007. Um arquivo não pode declarar seu próprio SHA-256 integral sem autorreferência.
+Âncora histórica intocada: `docs/blueprint/V1.0-BASELINE__fe0646f1.md` (SHA-256 `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`).
+
 ## Identidade e Princípios do Privacium
 
 > Leitura obrigatória antes de qualquer alteração. Versão curta em `AGENTS.md`.
@@ -75,6 +80,10 @@ Arquitetura de nomes:
   - *Grava:* desmascarar CPF, CNPJ ou e-mail de titular, membro ou terceiro; editar qualquer campo de registro (com diff: campo, valor anterior, valor novo, autor, data); assinar produto; encerrar incidente; registrar acesso de suporte; criar, remover ou alterar vínculo de membro.
   - *Não grava:* abrir tela; clicar em filtro, atalho ou link de pendência; visualizar checklist ou lista de pendências; navegar entre blocos.
   - *Motivo:* navegação é intenção; revelação de dado pessoal e alteração de estado são fatos. Registrar intenção infla a trilha e esconde o fato.
+  - *Lista fechada medida (E-005, 23/11/2026, Q04):* `trilha_auditoria_sistema_op_check` e `trilha_auditoria_sistema_acao_executada_check` têm `convalidated = true` e elencos idênticos de 15 valores: `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `EXCLUSAO_LOGICA`, `LOGIN_FALHA`, `COMUNICACAO_ANPD`, `DESCUMPRIMENTO_SLA`, `ENCERRAR_INCIDENTE`, `UPDATE_CAMPO`, `DDL`, `INTERPRETACAO_MAPEADA`, `ANOTACAO_HISTORICA`, `PASSAGEM_AUTORIA`, `TERMO_ASSINADO`.
+  - `ACESSO_SUPORTE` e `ACESSO_NEGADO` NÃO são valores válidos de `op` nem de `acao_executada`. A presença de `LOGIN_FALHA` no elenco não autoriza sua gravação: permanece a vedação da Regra de Auditoria nº 9.
+  - *Decisão E-002:* `admin_acesso_suporte` grava `op='SELECT'`, `target='empresas'`, com o rótulo `[ACESSO_SUPORTE]` no `detail`; apenas registra o motivo declarado e não libera dado algum.
+  - *Passivo de navegação (E-006):* fotografia histórica medida até `seq=2291`: 324 elos, `min(seq)=4`, `max(seq)=2291`; "Abertura do painel": 98; "Leitura da tela": 183; "Troca de painel": 25; "Abertura da esteira": 18. Reconferência Q16 em 23/11/2026. Os 8 pontos de disparo no frontend permanecem ATIVOS na data da medição por leitura do código; isso não demonstra que cada ponto tenha disparado nesta rodada. O passivo não está encerrado; a estratégia é decisão aberta no livro de decisões.
 
 - **Privacy by Default:** CPFs, CNPJs e e-mails de titulares aparecem ocultos/mascarados por padrão (ex: ***.555.***-77).
 
@@ -141,6 +150,8 @@ Sequência canônica: Porta de entrada → Custódia → Uso → Saída → Mort
 
 - Etapa 1 (dentro de casa): Coletar, Reter, Processar. Pendência tolerável (amarelo). Fundamento: art. 46, § 2º.
 - Etapa 2 (fora de casa ou morto): Compartilhar, Eliminar. Pendência intolerável (vermelho). Fundamento: arts. 39 e 42, § 1º, III.
+
+Assinatura bifásica do ROT — comportamento medido de `assinar_etapa_rot` (E-007, 23/11/2026, Q06): Etapa 1 assinada pelo membro ativo com `papel_rac='R'`, e-mail correspondente à sessão e área correspondente à linha; admitida substituição por `DPO_OPERACIONAL` ou `ADMIN_SISTEMA`. Etapa 2 exclusivamente por `DPO_OPERACIONAL` ou `ADMIN_SISTEMA`. São as assinaturas por linha, distintas da chancela do PI-02. FATO MEDIDO (Q07, Q15 e Q17): nenhuma função ou constraint examinada exige `papel_rac='A'`; a base tem R=49, A=0, C=0. O juízo de governança sobre essa ausência permanece decisão aberta, sem conclusão de inocuidade.
 
 Nota do protocolo (seção 9): estas remissões são doutrina do método neste documento; só aparecem no produto após registro VERIFICADA na `biblioteca_normativa`.
 
@@ -332,7 +343,7 @@ Checklist 4b.1 — campos obrigatórios do art. 6º, §2º da Res. CD/ANPD nº 1
 
 Nota: a divergência anterior ("10 vs 12") está resolvida — o art. 6º, §2º da Res. 15/2024 contém exatamente 12 incisos (I a XII), todos transcritos acima da fonte oficial.
 
-Checklist 4b.2 — requisitos sistêmicos complementares (base legal exata):
+Checklist 4b.2 — requisitos sistêmicos complementares (hipótese de tratamento exata):
 | # | Requisito sistêmico | Dispositivo | Status |
 |---|---|---|---|
 | 1 | Registro interno de incidentes por, no mínimo, 5 anos, inclusive dos não comunicados, contendo os 8 campos mínimos do §1º (incluindo o inciso VIII — motivos da ausência de comunicação) | Art. 10 e §1º, Res. 15/2024 | Pendente de verificação |

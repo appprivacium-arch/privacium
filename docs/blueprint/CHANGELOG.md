@@ -25,3 +25,36 @@
 - Mantidas as guardas de ADMIN_SISTEMA e motivo com no mínimo 20 caracteres após trim, os privilégios e o search_path; a função não libera acesso a dados.
 - A lista fechada permanece com 15 tipos nas duas constraints. A opção B não foi aplicada.
 - Não foi criada auditoria automática de DDL. A verificação da trilha será por recálculo elo a elo, com a fórmula de registrar_acesso, não por alegação de execução de verificar_trilha().
+
+## 23/11/2026 — E-003 — correção documental
+
+- A.1: **interrompida**. Seção: §6 — Contagem canônica de campos do ROT. Justificativa medida: L134 contém crases em `registro_operacoes`; o literal do protocolo não contém. Nenhuma alteração por semelhança. Q05 confirma 42 colunas.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-004 — correção documental
+
+- A.2 L335: **executada**. Seção: §10.5 — Checklist 4b.2. Justificativa medida: Leitura L335 integral; §7 e CT-4 (§9.4). Alteração terminológica autorizada, sem introdução de regra jurídica.
+- A.2 L457: **interrompida**. Seção: §10.5.1 — Regra a partir da C1. Justificativa medida: L457 inclui crases no nome `data_conhecimento` e a terceira coluna da tabela; não coincide com o literal informado. Nenhuma substituição nesse trecho.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-005 — correção documental
+
+- A.3: **executada**. Seção: §2 — Regra Unificada de Trilha. Justificativa medida: Q04 (elencos idênticos e validados) e E-002 transcrita; privilégios e definição em Q03.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-006 — correção documental
+
+- A.4: **executada**. Seção: §2 — Regra Unificada de Trilha. Justificativa medida: Q16 reconfirma exatamente a fotografia de 324 elos; leitura dos oito disparadores (L02 no relatório). Q14 é fotografia posterior distinta.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — E-007 — correção documental
+
+- A.5: **executada**. Seção: §6.1 — Doutrina PRIVA / etapas do ROT. Justificativa medida: Q06 definição integral, Q07 distribuição, Q15 constraints e Q17 todas as funções públicas que referenciam papel_rac.
+- Antes/depois literal, consultas e saídas: `RELATORIO-E-003-A-E-007-2026-11-23.md`. Nenhuma alteração de banco ou código de aplicação.
+
+## 23/11/2026 — V1.1 — versionamento e livro de decisões
+
+- Vigência UTC: 23/11/2026. Linha de base V1.0 preservada.
+- Hash integral novo no relatório; digest no documento vivo exclui sua própria linha, com convenção explícita. A exigência autorreferente de A.6 não foi declarada integralmente cumprida.
+- E-003 e a segunda substituição de E-004 não tiveram execução correspondente por divergência literal; aguardam decisão. E-005/E-006/E-007 e a primeira substituição de E-004 foram executadas.
+- Livro de decisões no relatório, Parte C; decisões abertas não constituem autorização de implementação.

@@ -105,9 +105,9 @@ export const DEMO_ROT: Rot[] = [
 type MembroDemo = Omit<Database["public"]["Tables"]["membros_empresa"]["Row"], "documento">;
 /** Membros cenográficos: documentos fictícios, exibidos sempre mascarados. */
 export const DEMO_MEMBROS: MembroDemo[] = [
-  { id: "demo-mem-1", empresa_id: "demo", nome: "Ana Cenográfica", tipo_documento: "CPF", email: "ana@cenografica.com.br", area_setor: "Recursos Humanos › Folha de Pagamento", papel_rac: "R", membro_comite: true, ativo: true, criado_em: ts, atualizado_em: ts },
-  { id: "demo-mem-2", empresa_id: "demo", nome: "Bruno Cenográfico", tipo_documento: "CPF", email: "bruno@cenografica.com.br", area_setor: "Recepção › Controle de Acesso", papel_rac: "R", membro_comite: false, ativo: true, criado_em: ts, atualizado_em: ts },
-  { id: "demo-mem-3", empresa_id: "demo", nome: "Carla Cenográfica", tipo_documento: "CNPJ", email: "carla@cenografica.com.br", area_setor: "Jurídico › Governança de Privacidade", papel_rac: "A", membro_comite: true, ativo: true, criado_em: ts, atualizado_em: ts },
+  { id: "demo-mem-1", empresa_id: "demo", nome: "Ana Cenográfica", tipo_documento: "CPF", email: "ana@cenografica.com.br", area_setor: "Recursos Humanos › Folha de Pagamento", papel_rac: "R", membro_comite: true, ativo: true, criado_em: ts, atualizado_em: ts, user_id: null },
+  { id: "demo-mem-2", empresa_id: "demo", nome: "Bruno Cenográfico", tipo_documento: "CPF", email: "bruno@cenografica.com.br", area_setor: "Recepção › Controle de Acesso", papel_rac: "R", membro_comite: false, ativo: true, criado_em: ts, atualizado_em: ts, user_id: null },
+  { id: "demo-mem-3", empresa_id: "demo", nome: "Carla Cenográfica", tipo_documento: "CNPJ", email: "carla@cenografica.com.br", area_setor: "Jurídico › Governança de Privacidade", papel_rac: "A", membro_comite: true, ativo: true, criado_em: ts, atualizado_em: ts, user_id: null },
 ];
 
 type TerceiroDemo = Omit<Database["public"]["Tables"]["terceiros_empresa"]["Row"], "cnpj" | "cpf">;

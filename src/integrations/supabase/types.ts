@@ -956,6 +956,7 @@ export type Database = {
           nome: string
           papel_rac: string | null
           tipo_documento: string
+          user_id: string | null
         }
         Insert: {
           area_setor?: string | null
@@ -970,6 +971,7 @@ export type Database = {
           nome: string
           papel_rac?: string | null
           tipo_documento: string
+          user_id?: string | null
         }
         Update: {
           area_setor?: string | null
@@ -984,6 +986,7 @@ export type Database = {
           nome?: string
           papel_rac?: string | null
           tipo_documento?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -1216,6 +1219,60 @@ export type Database = {
           },
         ]
       }
+      normas_referencia: {
+        Row: {
+          data_publicacao: string | null
+          data_vigencia: string | null
+          hash_conteudo: string | null
+          id: string
+          natureza: Database["public"]["Enums"]["norma_natureza"]
+          observacao: string | null
+          orgao: string | null
+          proxima_revisao_em: string | null
+          sigla: string
+          status: Database["public"]["Enums"]["norma_status"]
+          tipo: Database["public"]["Enums"]["norma_tipo"]
+          titulo: string
+          url_oficial: string | null
+          verificada_em: string | null
+          versao: string | null
+        }
+        Insert: {
+          data_publicacao?: string | null
+          data_vigencia?: string | null
+          hash_conteudo?: string | null
+          id?: string
+          natureza: Database["public"]["Enums"]["norma_natureza"]
+          observacao?: string | null
+          orgao?: string | null
+          proxima_revisao_em?: string | null
+          sigla: string
+          status: Database["public"]["Enums"]["norma_status"]
+          tipo: Database["public"]["Enums"]["norma_tipo"]
+          titulo: string
+          url_oficial?: string | null
+          verificada_em?: string | null
+          versao?: string | null
+        }
+        Update: {
+          data_publicacao?: string | null
+          data_vigencia?: string | null
+          hash_conteudo?: string | null
+          id?: string
+          natureza?: Database["public"]["Enums"]["norma_natureza"]
+          observacao?: string | null
+          orgao?: string | null
+          proxima_revisao_em?: string | null
+          sigla?: string
+          status?: Database["public"]["Enums"]["norma_status"]
+          tipo?: Database["public"]["Enums"]["norma_tipo"]
+          titulo?: string
+          url_oficial?: string | null
+          verificada_em?: string | null
+          versao?: string | null
+        }
+        Relationships: []
+      }
       pecas: {
         Row: {
           atualizado_em: string
@@ -1278,6 +1335,42 @@ export type Database = {
           status?: string
         }
         Relationships: []
+      }
+      pergunta_norma: {
+        Row: {
+          artigo: string | null
+          norma_id: string
+          pergunta_id: string
+          tipo_vinculo: string
+        }
+        Insert: {
+          artigo?: string | null
+          norma_id: string
+          pergunta_id: string
+          tipo_vinculo?: string
+        }
+        Update: {
+          artigo?: string | null
+          norma_id?: string
+          pergunta_id?: string
+          tipo_vinculo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pergunta_norma_norma_id_fkey"
+            columns: ["norma_id"]
+            isOneToOne: false
+            referencedRelation: "normas_referencia"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pergunta_norma_pergunta_id_fkey"
+            columns: ["pergunta_id"]
+            isOneToOne: false
+            referencedRelation: "perguntas_diagnostico"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       perguntas_diagnostico: {
         Row: {
@@ -2413,6 +2506,7 @@ export type Database = {
         }[]
       }
       meu_cpf: { Args: never; Returns: string }
+      meus_cnpjs: { Args: never; Returns: string[] }
       minha_empresa_cnpj: { Args: never; Returns: string }
       minha_empresa_id: { Args: never; Returns: string }
       prazo_agente_anpd: { Args: { _cnpj: string }; Returns: number }
@@ -2504,6 +2598,7 @@ export type Database = {
       }
       revelar_cnpj_terceiro: { Args: { _id: string }; Returns: string }
       revelar_documento_membro: { Args: { _id: string }; Returns: string }
+      tem_vinculo: { Args: { _cnpj: string }; Returns: boolean }
       verificar_citacao_normativa: {
         Args: { _id: string; _texto: string; _url: string }
         Returns: {
@@ -2566,6 +2661,20 @@ export type Database = {
         | "PRESTADOR"
         | "PERMUTA"
         | "OUTRO"
+      norma_natureza: "OBRIGACAO" | "REFERENCIA"
+      norma_status:
+        | "VIGENTE"
+        | "EM_TRAMITACAO"
+        | "REVOGADA"
+        | "SUBSTITUIDA"
+        | "ARQUIVADA"
+      norma_tipo:
+        | "LEI"
+        | "RESOLUCAO"
+        | "PROJETO_LEI"
+        | "NORMA_TECNICA"
+        | "GUIA"
+        | "JURISPRUDENCIA"
       origem_registro: "REAL" | "TESTE" | "DEMONSTRACAO"
       status_normativo:
         | "VERIFICADA"
@@ -2711,6 +2820,22 @@ export const Constants = {
         "PRESTADOR",
         "PERMUTA",
         "OUTRO",
+      ],
+      norma_natureza: ["OBRIGACAO", "REFERENCIA"],
+      norma_status: [
+        "VIGENTE",
+        "EM_TRAMITACAO",
+        "REVOGADA",
+        "SUBSTITUIDA",
+        "ARQUIVADA",
+      ],
+      norma_tipo: [
+        "LEI",
+        "RESOLUCAO",
+        "PROJETO_LEI",
+        "NORMA_TECNICA",
+        "GUIA",
+        "JURISPRUDENCIA",
       ],
       origem_registro: ["REAL", "TESTE", "DEMONSTRACAO"],
       status_normativo: [

@@ -21,6 +21,7 @@ import { Route as AuthenticatedBloco2RouteImport } from './routes/_authenticated
 import { Route as AuthenticatedBloco3RouteImport } from './routes/_authenticated/bloco-3'
 import { Route as AuthenticatedBloco4RouteImport } from './routes/_authenticated/bloco-4'
 import { Route as AuthenticatedBloco5RouteImport } from './routes/_authenticated/bloco-5'
+import { Route as AuthenticatedDecisoesRouteImport } from './routes/_authenticated/decisoes'
 import { Route as AuthenticatedDivergenciasRouteImport } from './routes/_authenticated/divergencias'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedGlossarioRouteImport } from './routes/_authenticated/glossario'
@@ -90,6 +91,11 @@ const AuthenticatedBloco4Route = AuthenticatedBloco4RouteImport.update({
 const AuthenticatedBloco5Route = AuthenticatedBloco5RouteImport.update({
   id: '/bloco-5',
   path: '/bloco-5',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDecisoesRoute = AuthenticatedDecisoesRouteImport.update({
+  id: '/decisoes',
+  path: '/decisoes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDivergenciasRoute =
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/bloco-3': typeof AuthenticatedBloco3Route
   '/bloco-4': typeof AuthenticatedBloco4Route
   '/bloco-5': typeof AuthenticatedBloco5Route
+  '/decisoes': typeof AuthenticatedDecisoesRoute
   '/divergencias': typeof AuthenticatedDivergenciasRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
   '/glossario': typeof AuthenticatedGlossarioRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/bloco-3': typeof AuthenticatedBloco3Route
   '/bloco-4': typeof AuthenticatedBloco4Route
   '/bloco-5': typeof AuthenticatedBloco5Route
+  '/decisoes': typeof AuthenticatedDecisoesRoute
   '/divergencias': typeof AuthenticatedDivergenciasRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
   '/glossario': typeof AuthenticatedGlossarioRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/_authenticated/bloco-3': typeof AuthenticatedBloco3Route
   '/_authenticated/bloco-4': typeof AuthenticatedBloco4Route
   '/_authenticated/bloco-5': typeof AuthenticatedBloco5Route
+  '/_authenticated/decisoes': typeof AuthenticatedDecisoesRoute
   '/_authenticated/divergencias': typeof AuthenticatedDivergenciasRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRoute
   '/_authenticated/glossario': typeof AuthenticatedGlossarioRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/bloco-3'
     | '/bloco-4'
     | '/bloco-5'
+    | '/decisoes'
     | '/divergencias'
     | '/enterprise'
     | '/glossario'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/bloco-3'
     | '/bloco-4'
     | '/bloco-5'
+    | '/decisoes'
     | '/divergencias'
     | '/enterprise'
     | '/glossario'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/_authenticated/bloco-3'
     | '/_authenticated/bloco-4'
     | '/_authenticated/bloco-5'
+    | '/_authenticated/decisoes'
     | '/_authenticated/divergencias'
     | '/_authenticated/enterprise'
     | '/_authenticated/glossario'
@@ -397,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBloco5RouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/decisoes': {
+      id: '/_authenticated/decisoes'
+      path: '/decisoes'
+      fullPath: '/decisoes'
+      preLoaderRoute: typeof AuthenticatedDecisoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/divergencias': {
       id: '/_authenticated/divergencias'
       path: '/divergencias'
@@ -484,6 +503,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBloco3Route: typeof AuthenticatedBloco3Route
   AuthenticatedBloco4Route: typeof AuthenticatedBloco4Route
   AuthenticatedBloco5Route: typeof AuthenticatedBloco5Route
+  AuthenticatedDecisoesRoute: typeof AuthenticatedDecisoesRoute
   AuthenticatedDivergenciasRoute: typeof AuthenticatedDivergenciasRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRoute
   AuthenticatedGlossarioRoute: typeof AuthenticatedGlossarioRoute
@@ -504,6 +524,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBloco3Route: AuthenticatedBloco3Route,
   AuthenticatedBloco4Route: AuthenticatedBloco4Route,
   AuthenticatedBloco5Route: AuthenticatedBloco5Route,
+  AuthenticatedDecisoesRoute: AuthenticatedDecisoesRoute,
   AuthenticatedDivergenciasRoute: AuthenticatedDivergenciasRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRoute,
   AuthenticatedGlossarioRoute: AuthenticatedGlossarioRoute,

@@ -50,6 +50,43 @@ export function Tag({ tone = "muted", children }: { tone?: "muted" | "destructiv
   return <span className={cn("inline-flex items-center gap-1 rounded-sm px-2 py-0.5 text-xs font-medium", map[tone])}>{children}</span>;
 }
 
+export function IndicadorGravacao() {
+  const { demo, saveStatus, saveMessage, lastSavedAt, retrySave } = usePriva();
+  if (demo) return null;
+  const tone =
+    saveStatus === "FALHOU"
+      ? "border-destructive/40 bg-destructive/10 text-destructive"
+      : saveStatus === "PENDENTE"
+        ? "border-warning/40 bg-warning/10 text-foreground"
+        : "border-border bg-muted/50 text-muted-foreground";
+  const texto =
+    saveStatus === "SALVANDO"
+      ? "Salvando…"
+      : saveStatus === "SALVO"
+        ? lastSavedAt
+          ? `Salvo às ${lastSavedAt}`
+          : "Salvo"
+        : saveStatus === "PENDENTE"
+          ? saveMessage ?? "Alterações não salvas"
+          : "Não foi possível salvar. Suas alterações continuam nesta tela. Tente novamente.";
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      data-testid="indicador-gravacao"
+      data-save-status={saveStatus}
+      className={cn("inline-flex flex-wrap items-center gap-2 rounded-sm border px-2.5 py-1 text-xs font-medium", tone)}
+    >
+      <span>{texto}</span>
+      {saveStatus === "FALHOU" && (
+        <Button type="button" size="sm" variant="destructive" className="h-6 px-2 text-xs" onClick={() => void retrySave()}>
+          Tentar novamente
+        </Button>
+      )}
+    </div>
+  );
+}
+
 const ROLE_KEY: Record<string, string> = { ADMIN_SISTEMA: "ADM-2EC", DPO_OPERACIONAL: "DPO-2EC", C_SUITE: "" };
 
 /** Dado pessoal mascarado; revelação exige credencial do cargo (C-Suite não tem need-to-know). */

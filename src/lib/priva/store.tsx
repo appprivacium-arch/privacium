@@ -59,6 +59,12 @@ const initialShared: Shared = {
   incidentSteps: [false, false, false, false, false, false],
 };
 
+export type SaveStatus = "SALVO" | "SALVANDO" | "PENDENTE" | "FALHOU";
+
+function formatarHora(d: Date = new Date()): string {
+  return d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+}
+
 type Ctx = Shared & {
   ready: boolean;
   userId: string | null;
@@ -70,6 +76,10 @@ type Ctx = Shared & {
   auditTotal: number;
   cnpj: string | null;
   empresas: Empresa[];
+  saveStatus: SaveStatus;
+  saveMessage: string | null;
+  lastSavedAt: string | null;
+  retrySave: () => Promise<void>;
   selectEmpresa: (cnpj: string) => void;
   createEmpresa: (cnpj: string, razao: string) => Promise<string | null>;
   setRole: (r: Role) => void;
@@ -111,6 +121,9 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   const [auditTotal, setAuditTotal] = useState(0);
   const [cnpj, setCnpj] = useState<string | null>(null);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("SALVO");
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
   const [demo, setDemoState] = useState(initialDemo);
   const [demoPorte, setDemoPorte] = useState<Porte>('COMPLETO');
   const [demoShared, setDemoShared] = useState<Shared>(() => ({ ...initialShared, signatures: initialDemo ? DEMO_PUBLIC_SIGNATURES : DEMO_SIGNATURES }));
@@ -133,11 +146,15 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   }, [initialDemo, demo]);
 
   const loadEmpresa = async (c: string) => {
-    const { data: ws } = await supabase.from("workspace_empresa").select("data").eq("cnpj", c).maybeSingle();
+    const { data: ws } = await supabase.from("workspace_empresa").select("data, updated_at").eq("cnpj", c).maybeSingle();
+    if (saveTimer.current) { clearTimeout(saveTimer.current); saveTimer.current = null; }
     pending.current = null;
     setShared({ ...initialShared, ...((ws?.data ?? {}) as Partial<Shared>) });
     setCnpj(c);
     cnpjRef.current = c;
+    setSaveStatus("SALVO");
+    setSaveMessage(null);
+    setLastSavedAt(ws?.updated_at ? formatarHora(new Date(ws.updated_at)) : formatarHora());
     localStorage.setItem(CNPJ_PREF, c);
   };
 
@@ -185,18 +202,77 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
     return () => { void supabase.removeChannel(ch); };
   }, [ready, roles.length, userId, cnpj, demo, initialDemo]);
 
+  const flushPersist = useCallback(async (targetOverride?: string | null) => {
+    if (saveTimer.current) {
+      clearTimeout(saveTimer.current);
+      saveTimer.current = null;
+    }
+    const data = pending.current;
+    if (!data) return;
+    const target = targetOverride ?? cnpjRef.current;
+    if (!target) {
+      setSaveStatus("PENDENTE");
+      setSaveMessage("Selecione a empresa para salvar");
+      return;
+    }
+    setSaveStatus("SALVANDO");
+    setSaveMessage(null);
+    const nowIso = new Date().toISOString();
+    const { data: updated, error } = await supabase
+      .from("workspace_empresa")
+      .update({ data: data as never, updated_at: nowIso, updated_by: userId })
+      .eq("cnpj", target)
+      .select("cnpj");
+    if (error || !updated || updated.length === 0) {
+      setSaveStatus("FALHOU");
+      setSaveMessage(null);
+      return;
+    }
+    if (pending.current === data) {
+      pending.current = null;
+      setSaveStatus("SALVO");
+      setSaveMessage(null);
+      setLastSavedAt(formatarHora(new Date(nowIso)));
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (demo || initialDemo) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (pending.current) {
+        void flushPersist();
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      if (pending.current) {
+        void flushPersist();
+      }
+    };
+  }, [demo, initialDemo, flushPersist]);
+
   const persist = (next: Shared) => {
     pending.current = next;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     const target = cnpjRef.current;
-    if (!target) return;
-    saveTimer.current = setTimeout(async () => {
-      const data = pending.current;
-      if (!data) return;
-      await supabase.from("workspace_empresa").update({ data: data as never, updated_at: new Date().toISOString(), updated_by: userId }).eq("cnpj", target);
-      if (pending.current === data) pending.current = null;
+    if (!target) {
+      setSaveStatus("PENDENTE");
+      setSaveMessage("Selecione a empresa para salvar");
+      return;
+    }
+    setSaveStatus("PENDENTE");
+    setSaveMessage(null);
+    saveTimer.current = setTimeout(() => {
+      void flushPersist(target);
     }, 600);
   };
+
+  const retrySave = useCallback(async () => {
+    await flushPersist();
+  }, [flushPersist]);
 
   const log = useCallback((op: AuditEntry["op"], target: string, detail: string, campo?: string) => {
     if (demo || initialDemo) return;
@@ -235,7 +311,11 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
 
   const selectEmpresa = (c: string) => {
     if (c === cnpjRef.current) return;
-    void loadEmpresa(c).then(() => log("SELECT", "workspace_empresa", `Abertura da esteira do CNPJ ${c}`));
+    void (async () => {
+      if (pending.current) await flushPersist();
+      await loadEmpresa(c);
+      log("SELECT", "workspace_empresa", `Abertura da esteira do CNPJ ${c}`);
+    })();
   };
 
   const createEmpresa = async (raw: string, razao: string) => {
@@ -298,13 +378,13 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   const value: Ctx = demo
     ? {
         ...demoShared, ready, userId: initialDemo ? null : userId, email: initialDemo ? 'dpo@cenografica.com.br' : email, roles: ['DPO_OPERACIONAL'], role: 'DPO_OPERACIONAL', audit: demoEventos as AuditEntry[], auditTotal: demoEventos.length, cnpj: DEMO_CNPJ,
-        empresas: [{ cnpj: DEMO_CNPJ, razao_social: razaoDemo(demoPorte) }], selectEmpresa: noop,
+        empresas: [{ cnpj: DEMO_CNPJ, razao_social: razaoDemo(demoPorte) }], saveStatus: "SALVO", saveMessage: null, lastSavedAt: null, retrySave: async () => undefined, selectEmpresa: noop,
         createEmpresa: async () => "Indisponível no Modo Demonstração.", setRole: noop,
         set: noop, log: noop, sign: async (pi: string) => demoAssinar(pi, "DPO"),
         reset: noop, refreshAudit: async () => undefined, demo, publicDemo: initialDemo, setDemo, demoPorte, setDemoPorte,
         demoSessao, demoEnviarANPD, demoEncerrarIncidente, demoAssinar, demoRegistrarEvento: registrarEventoDemo,
       }
-    : { ...shared, signatures: assinaturasVigentes(shared.signatures, new Date()), ready, userId, email, roles, role, audit, auditTotal, cnpj, empresas, selectEmpresa, createEmpresa, setRole, set, log, sign, reset, refreshAudit, demo, demoPorte, setDemoPorte: noop, publicDemo: false, setDemo, demoSessao: DEMO_SESSAO_INICIAL, demoEnviarANPD: async () => undefined, demoEncerrarIncidente: async () => undefined, demoAssinar: async () => undefined, demoRegistrarEvento: async () => ({ hash: "", ts: "" }) };
+    : { ...shared, signatures: assinaturasVigentes(shared.signatures, new Date()), ready, userId, email, roles, role, audit, auditTotal, cnpj, empresas, saveStatus, saveMessage, lastSavedAt, retrySave, selectEmpresa, createEmpresa, setRole, set, log, sign, reset, refreshAudit, demo, demoPorte, setDemoPorte: noop, publicDemo: false, setDemo, demoSessao: DEMO_SESSAO_INICIAL, demoEnviarANPD: async () => undefined, demoEncerrarIncidente: async () => undefined, demoAssinar: async () => undefined, demoRegistrarEvento: async () => ({ hash: "", ts: "" }) };
 
   return (
     <C.Provider value={value}>

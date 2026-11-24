@@ -1,4 +1,5 @@
 import { useRef, useState, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { Eye, EyeOff, Lock, ShieldCheck, FileSignature, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { TelaBloqueio } from "./TelaBloqueio";
 import { PendenciasDoBloco } from "./PendenciasDoBloco";
 import { useEncarregado } from "@/lib/priva/useEncarregado";
 import { contatoPublicavel } from "@/lib/priva/atoIndicacao";
+import { etapaAtualEmpresa } from "@/lib/priva/governancaEmpresa";
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';
 import { toast } from 'sonner';
 
@@ -221,8 +223,28 @@ export function PIOutput({ pi, ready, readyHint, children, dual, acoesExtras }: 
 }
 
 export function BlockGate({ n, children }: { n: number; children: ReactNode }) {
-  const { signatures, demo } = usePriva();
+  const { signatures, demo, governanca, cnpj, role, roles, setRole } = usePriva();
   const enquadramento = useEnquadramento();
+  const etapa = etapaAtualEmpresa(governanca, cnpj);
+  if (!demo && !etapa.liberada && (etapa.etapa <= 3 || n > 1)) {
+    return (
+      <Panel title={etapa.titulo} action={<Tag tone="warning">Passo {etapa.etapa} de 5</Tag>}>
+        <div className="space-y-3 text-sm">
+          <p>{etapa.descricao}</p>
+          <p className="text-xs text-muted-foreground">
+            <b>Responsável:</b> {etapa.responsavel} · <b>Onde resolver:</b> {etapa.onde}
+          </p>
+          {role === etapa.responsavel ? (
+            <Button asChild size="sm"><Link to={etapa.onde.startsWith("/decisoes") ? "/decisoes" : "/bloco-1"}>Ir para {etapa.onde}</Link></Button>
+          ) : roles.includes(etapa.responsavel) ? (
+            <Button type="button" size="sm" onClick={() => setRole(etapa.responsavel)}>Trocar para {etapa.responsavel}</Button>
+          ) : (
+            <p className="text-xs text-muted-foreground">Aguardando ação do perfil <b>{etapa.responsavel}</b> em <b>{etapa.onde}</b>.</p>
+          )}
+        </div>
+      </Panel>
+    );
+  }
   if (!demo && n > 1 && !enquadramento.vigente) {
     return <PendenciasDoBloco bloco={n} titulo="Enquadramento do agente pendente" />;
   }

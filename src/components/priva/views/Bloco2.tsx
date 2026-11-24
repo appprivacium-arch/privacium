@@ -31,6 +31,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { BadgeFornecedorROT } from '@/components/priva/AlertaFornecedorVazado';
+import { registrarValidacaoFornecedor, type AutoriaFornecedorRot } from "@/lib/priva/governancaEmpresa";
 
 
 
@@ -46,7 +47,7 @@ const empty = (cnpj: string, papel: PapelAgente = "CONTROLADOR"): RotInput => ({
 });
 
 export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = {}) {
-  const { cnpj, log, roles, demo } = usePriva();
+  const { cnpj, log, role, roles, email, governanca, set, demo } = usePriva();
   const enq = useEnquadramento();
   const papelPadrao = ((enq.declaracao?.criterios as { papelAgente?: PapelAgente } | null)?.papelAgente) ?? "CONTROLADOR";
   const qc = useQueryClient();
@@ -155,6 +156,38 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
   const { semDestino, semProduto, receptoresPendentes, semDestinoPRT, externosBloqueados, ready } = pendenciasPI02(rows, terceiros);
   const NUMS = ["", "1. ", "1A. ", "2. ", "3. ", "4. ", "5. ", "6. ", "", "", "8. ", "9. ", "10. ", "10A. ", "10C. ", "10B. ", "11. ", "12. "];
 
+  const validarFornecedorRot = (r: RotRow) => {
+    if (demo) return avisarAcaoDemo();
+    const externos = produtosDaLinha(r).filter((p) => p.destino?.tipo === "EXTERNO");
+    const nomeForn = externos.map((p) => p.destino?.terceiro_nome).filter(Boolean).join(", ") || r.compartilhamento || "Fornecedor externo";
+    const atual: AutoriaFornecedorRot = governanca?.autoria_fornecedores_rot?.[r.id] ?? {
+      rot_id: r.id,
+      fornecedor_nome: nomeForn,
+      inserido_por: r.criado_por ?? email ?? "não identificado",
+      inserido_papel: role,
+      inserido_em_utc: r.criado_em ?? new Date().toISOString(),
+      autovalidacao: false,
+    };
+    const validado = registrarValidacaoFornecedor(atual, email ?? "não identificado");
+    set(
+      {
+        governanca: {
+          ...governanca,
+          autoria_fornecedores_rot: {
+            ...(governanca?.autoria_fornecedores_rot ?? {}),
+            [r.id]: validado,
+          },
+        },
+      },
+      {
+        op: "UPDATE",
+        target: "rot_validacao_fornecedor",
+        detail: `Fornecedor (${nomeForn}) no ${r.codigo} validado por ${validado.validado_por} (${validado.autovalidacao ? "AUTOVALIDAÇÃO" : "DUPLA CHECAGEM"})`,
+      },
+    );
+    toast.success(validado.autovalidacao ? "Registrado como autovalidação (mesmo utilizador)." : "Validação de fornecedor registrada.");
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader eyebrow="Bloco 2 · (R) Ciclo Privacium Semestral · Art. 37 LGPD" title="Registrar as Operações de Tratamento">
@@ -222,6 +255,22 @@ export function Bloco2({ origemAusente = false }: { origemAusente?: boolean } = 
                     </td>
                     <td className="max-w-80 px-2 py-2" data-testid={`produto-${r.codigo}`}>
                       <PRTCelula r={r} terceiros={terceiros} />
+                      {produtosDaLinha(r).some((p) => p.destino?.tipo === "EXTERNO") && (() => {
+                        const aut = governanca?.autoria_fornecedores_rot?.[r.id];
+                        return (
+                          <div className="mt-2 rounded-sm border bg-muted/20 p-1.5 text-[10px]">
+                            <p><b>Inserido por:</b> {aut?.inserido_por ?? r.criado_por ?? "—"} ({aut?.inserido_em_utc ? new Date(aut.inserido_em_utc).toLocaleString("pt-BR") : r.criado_em ? new Date(r.criado_em).toLocaleString("pt-BR") : "—"})</p>
+                            {aut?.validado_por ? (
+                              <p className="mt-0.5">
+                                <b>Validado por:</b> {aut.validado_por} ({new Date(aut.validado_em_utc ?? "").toLocaleString("pt-BR")})
+                                {aut.autovalidacao && <span className="ml-1 rounded bg-warning/20 px-1 font-semibold text-warning-foreground">Autovalidação</span>}
+                              </p>
+                            ) : canEdit && (
+                              <button type="button" onClick={() => validarFornecedorRot(r)} className="mt-1 text-[10px] font-medium text-primary underline">Validar fornecedor</button>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </td>
                     <td className="px-2 py-2">{r.meio_fornecimento ?? "—"}</td>
                     <td className="px-2 py-2"><Tags items={r.salvaguardas} /></td>

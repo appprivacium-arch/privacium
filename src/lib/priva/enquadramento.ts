@@ -50,4 +50,4 @@ export function normalizarCriterios(raw: unknown): CriteriosPorte {
 export const razaoDemo = (p: Porte) => p === 'PEQUENO' ? 'Empresa Cenográfica ME' : 'Empresa Cenográfica S.A.';
 export const prazoPorPorte = (p: Porte | null | undefined): 3 | 6 => p === 'PEQUENO' ? 6 : 3;
 export const citacaoSimplificada = (p: Porte | null | undefined): string[] => p === 'PEQUENO' ? ['Res. CD/ANPD nº 2/2022, art. 9º (registro simplificado — agentes de tratamento de pequeno porte)'] : [];
-export const rotuloPorte = (p: Porte) => p === 'PEQUENO' ? 'Agente de pequeno porte — Res. 2/2022' : 'Agente de médio/grande porte — regime completo';
+export const rotuloPorte = (p: Porte) => p === 'PEQUENO' ? 'Agente de pequeno porte — Res. CD/ANPD 2/2022 e Res. 18/2024 (dispensa encarregado; canal obrigatório)' : 'Agente de médio/grande porte — regime completo';

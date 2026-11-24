@@ -6,6 +6,7 @@ import type React from "react";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { sha256, type InventoryRow, type KanbanCard, type Role } from "./data";
+import type { GovernancaEmpresa } from "./governancaEmpresa";
 
 export type AuditEntry = {
   seq: number;
@@ -32,6 +33,7 @@ type Shared = {
   assets: { id: string; host: string; bitlocker: boolean; vault: boolean }[];
   incidentStart: string | null;
   incidentSteps: boolean[];
+  governanca?: GovernancaEmpresa;
 };
 
 const initialShared: Shared = {

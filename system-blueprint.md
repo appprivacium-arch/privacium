@@ -1,7 +1,7 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
 Versão documental: V1.1 · Vigência: 23/11/2026 (UTC).
-SHA-256 do conteúdo com exclusão desta linha de digest: 63fda41c420c8a23b5cbf98cfcc64e1b9fab35345635ae897bbedbcc223bfc31.
+SHA-256 do conteúdo com exclusão desta linha de digest: 4d518eaa6a45b018837777e891073fbe3fc46d48d580e7488d9d2fc89f73f233.
 Convenção: o digest acima exclui integralmente sua própria linha (incluindo a quebra de linha); o SHA-256 integral do arquivo está no relatório E-003 a E-007. Um arquivo não pode declarar seu próprio SHA-256 integral sem autorreferência.
 Âncora histórica intocada: `docs/blueprint/V1.0-BASELINE__fe0646f1.md` (SHA-256 `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`).
 
@@ -229,6 +229,13 @@ Normas técnicas cujo texto integral é protegido por direitos autorais e vendid
 (c) a fonte pública de onde o título foi obtido (catálogo oficial da ISO, página do controle, ou publicação que reproduza a estrutura de controles).
 O produto NUNCA reproduz o texto integral do controle — apenas referencia número e título. Isso constitui referência bibliográfica, não reprodução de obra protegida.
 A regra 1.2 (texto literal + URL) permanece integralmente aplicável a LEIS e RESOLUÇÕES.
+
+Exibição em material público: a regra de citação desta seção aplica-se também a
+páginas, READMEs e propostas comerciais. É vedado exibir identificador de norma sem
+o título oficial. É vedado exibir identificador de norma de forma que possa ser lido
+como certificação, conformidade atestada ou acreditação. Certificação só pode ser
+afirmada com número de certificado, organismo emissor acreditado, escopo e prazo de
+validade declarados no mesmo material.
 
 ### 9.7. ESCOPO NORMATIVO E INCIDÊNCIA
 (a) A LGPD e as resoluções da ANPD definem o regime geral e prevalecem sobre qualquer outra

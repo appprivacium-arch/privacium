@@ -178,3 +178,12 @@
 - [x] Varrer os cinco termos e transcrever integralmente os dois trechos; parar o título já saneado.
 - [x] Trocar somente a segunda célula por “Fundamento normativo do prazo”, preservar citação/estrutura e recalcular o digest.
 - [x] Registrar E-004 e a varredura integral na Parte C; demais ocorrências e verificação normativa permanecem pendentes, sem autorização de correção neste turno.
+
+## Certificação ISO/IEC — pendência declarada
+- [ ] Certificação ISO/IEC 27701 da Privacium — NÃO CERTIFICADA. Referencial
+  metodológico declarado na página pública. A 27701 é extensão da 27001 e depende
+  de SGSI 27001 em operação. Escopo, organismo acreditado e cronograma a definir.
+  Nenhum material público pode afirmar certificação até emissão formal, com número,
+  escopo e validade.
+- [ ] Certificação ISO/IEC 27001 da Privacium — NÃO CERTIFICADA. Pré-requisito
+  prático da 27701.

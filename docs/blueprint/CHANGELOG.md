@@ -373,3 +373,113 @@ Nota de proveniência: a atribuição à skill é informação fornecida pelo us
 5. Somente este CHANGELOG alterado; blueprint e baseline preservados; nenhum SQL ou alteração de código, banco, migration, policy, gatilho ou função.
 
 O CHANGELOG a partir de 23/11/2026 registra também rodadas sem alteração de conteúdo, por exigência de rastreabilidade do protocolo. Isso não constitui alteração do blueprint.
+
+
+## 23/11/2026 — Referenciais públicos, certificação declarada e digest — M, N, O, Q e R
+
+Data documental solicitada: 23/11/2026; execução e leitura pública em 24/11/2026 UTC (23/11 no UTC−3).
+Leitura declarada anterior à edição: `system-blueprint.md` L1–40 (convenção L4–5 e princípios), §9.6 L225–232; `AGENTS.md` integral L1–42, marca L20; este CHANGELOG integral L1–375; `roadmap.md` L1–180; `src/routes/auth.tsx` L1–123.
+
+### M — trecho público em /auth (§9.6)
+Motivo: distinguir referências do método de certificação emitida. Componente AuthPage preservado; somente o parágrafo de referenciais substituído e a declaração imediatamente abaixo acrescentada, com menor peso visual. Título da aba, headline, Método BLLOCO, trilha e entrada preservados em código. O texto maior naturalmente ocupa mais linhas e desloca o bloco; não se afirma identidade geométrica. No celular, o painel lateral continua oculto pelo comportamento preexistente, sem alteração de layout.
+
+Antes literal:
+```tsx
+          <p className="font-mono text-xs uppercase tracking-[0.2em]">Privacy by Design · ISO/IEC 27701 · 27037</p>
+```
+Depois literal:
+```tsx
+          <p className="font-mono text-xs uppercase tracking-[0.2em]">Referenciais do método: Privacy by Design (Ann Cavoukian) · ISO/IEC 27001 — Sistemas de Gestão da Segurança da Informação · ISO/IEC 27005 — Gestão de Riscos de Segurança da Informação · ISO/IEC 27701 — Gestão da Privacidade da Informação · ISO 9001 — Sistemas de Gestão da Qualidade</p>
+          <p className="mt-2 text-xs font-normal opacity-75">Metodologia desenvolvida por profissional com atuação em auditoria e implementação dessas normas. A Privacium não possui certificação ISO/IEC emitida.</p>
+```
+
+### N — acréscimo ao final de §9.6
+Motivo: estender a regra aos materiais públicos e impedir referência interpretável como certificação. Texto preexistente preservado.
+Antes literal:
+```text
+### 9.6. Citação de norma técnica paga (ISO/IEC, NIST quando aplicável)
+Normas técnicas cujo texto integral é protegido por direitos autorais e vendido pelo organismo emissor NÃO exigem texto literal para citação. Para essas normas, a citação é válida quando o prompt fornecer:
+(a) a identificação completa da norma (ex.: ISO/IEC 27002:2022);
+(b) o número e o TÍTULO OFICIAL do controle (ex.: 5.12 — Classificação da informação);
+(c) a fonte pública de onde o título foi obtido (catálogo oficial da ISO, página do controle, ou publicação que reproduza a estrutura de controles).
+O produto NUNCA reproduz o texto integral do controle — apenas referencia número e título. Isso constitui referência bibliográfica, não reprodução de obra protegida.
+A regra 1.2 (texto literal + URL) permanece integralmente aplicável a LEIS e RESOLUÇÕES.
+
+```
+Depois literal:
+```text
+### 9.6. Citação de norma técnica paga (ISO/IEC, NIST quando aplicável)
+Normas técnicas cujo texto integral é protegido por direitos autorais e vendido pelo organismo emissor NÃO exigem texto literal para citação. Para essas normas, a citação é válida quando o prompt fornecer:
+(a) a identificação completa da norma (ex.: ISO/IEC 27002:2022);
+(b) o número e o TÍTULO OFICIAL do controle (ex.: 5.12 — Classificação da informação);
+(c) a fonte pública de onde o título foi obtido (catálogo oficial da ISO, página do controle, ou publicação que reproduza a estrutura de controles).
+O produto NUNCA reproduz o texto integral do controle — apenas referencia número e título. Isso constitui referência bibliográfica, não reprodução de obra protegida.
+A regra 1.2 (texto literal + URL) permanece integralmente aplicável a LEIS e RESOLUÇÕES.
+
+Exibição em material público: a regra de citação desta seção aplica-se também a
+páginas, READMEs e propostas comerciais. É vedado exibir identificador de norma sem
+o título oficial. É vedado exibir identificador de norma de forma que possa ser lido
+como certificação, conformidade atestada ou acreditação. Certificação só pode ser
+afirmada com número de certificado, organismo emissor acreditado, escopo e prazo de
+validade declarados no mesmo material.
+
+```
+
+### O — seção própria ao final do roadmap (§9.6)
+Motivo: explicitar certificação não emitida e planejamento pendente, sem afirmar conformidade.
+Antes literal: seção inexistente (nenhuma pendência anterior alterada).
+Depois literal:
+```text
+## Certificação ISO/IEC — pendência declarada
+- [ ] Certificação ISO/IEC 27701 da Privacium — NÃO CERTIFICADA. Referencial
+  metodológico declarado na página pública. A 27701 é extensão da 27001 e depende
+  de SGSI 27001 em operação. Escopo, organismo acreditado e cronograma a definir.
+  Nenhum material público pode afirmar certificação até emissão formal, com número,
+  escopo e validade.
+- [ ] Certificação ISO/IEC 27001 da Privacium — NÃO CERTIFICADA. Pré-requisito
+  prático da 27701.
+```
+Proveniência: não certificação e atuação profissional são declarações do usuário. O texto sobre a dependência entre 27701 e 27001 foi transcrito conforme solicitado, sem verificação da edição aplicável nesta rodada; não representa validação técnica dessa dependência. Nenhuma nova afirmação legal nem alteração de regra LGPD/ANPD foi implementada. Fontes oficiais e títulos oficiais das normas não foram verificados independentemente nesta rodada; os referenciais foram transcritos do protocolo, não classificados como citações verificadas na biblioteca normativa. CT-1 a CT-5 não executados: nenhuma regra jurídica ou fluxo de negócio foi alterado.
+
+### Q — última alteração do blueprint, após gravação de M, N e O
+Hash declarado anterior: `63fda41c420c8a23b5cbf98cfcc64e1b9fab35345635ae897bbedbcc223bfc31`.
+Hash calculado antes desta rodada, excluindo L4: `8a12e788449ab3052604ebc5d14a8b55505d5f017e5131abeef61183edc49144` (divergência preexistente confirmada).
+Hash novo: `4d518eaa6a45b018837777e891073fbe3fc46d48d580e7488d9d2fc89f73f233`.
+Comando usado (núcleo do comando executado, com exclusão da linha e de sua quebra):
+```sh
+python3 - <<'PY'
+from pathlib import Path
+import hashlib
+p = Path('system-blueprint.md')
+lines = p.read_bytes().splitlines(keepends=True)
+old = lines[3].decode().strip()
+new = hashlib.sha256(b''.join(lines[:3] + lines[4:])).hexdigest()
+lines[3] = lines[3].replace(old.split(': ')[1].rstrip('.').encode(), new.encode())
+p.write_bytes(b''.join(lines))
+check = p.read_bytes().splitlines(keepends=True)
+second = hashlib.sha256(b''.join(check[:3] + check[4:])).hexdigest()
+assert new == second and new.encode() in check[3]
+PY
+```
+Segunda conferência após gravação: `4d518eaa6a45b018837777e891073fbe3fc46d48d580e7488d9d2fc89f73f233`. Valor declarado e conteúdo conferem: **SIM**.
+Nota de método: recalcular o digest é etapa obrigatória de qualquer alteração de conteúdo, não uma alteração adicional a ser evitada. Restrições de escopo devem prever essa linha explicitamente.
+
+### R — verificações e limites de aceite
+Comando literal executado:
+```sh
+grep -rn "27037" --include="*.tsx" --include="*.ts" . | wc -l
+```
+Saída literal:
+```text
+19
+```
+Antes: 20; depois: 19. O esperado 0 é incompatível com alterar apenas o trecho de autenticação: outras 19 linhas de referências, metadados e testes permanecem fora do escopo e intactas.
+Verificação por navegador: `http://localhost:8080/auth` renderiza e exibe a declaração, com título “Entrar — Privacium”, headline, trilha e botão de entrada preservados; captura desktop e mobile examinadas, sem transbordamento horizontal no mobile. Leitura de `https://screenshot-snap-replica-93.lovable.app/auth`: a declaração **NÃO aparece**; permanece o trecho antigo. Publicação não executada; confirmação pública pendente de publicação pelo usuário. Nenhuma gravação de dados, login ou operação de negócio durante a verificação.
+Baseline V1.0 intocada. Nenhum SQL, migration, policy, gatilho, função ou objeto do banco alterado; nenhuma operação em repositórios externos. Alterados somente auth.tsx, blueprint, roadmap e este CHANGELOG no repositório; preferência permanente de certificação registrada separadamente na memória do projeto.
+
+### Veredito — cinco linhas
+1. M aplicado e confirmado localmente; componente, título, headline, trilha e entrada preservados.
+2. N e O acrescentados literalmente; referências técnicas não verificadas independentemente, ressalva acima.
+3. Q executado por último no blueprint e duplamente conferido: `4d518eaa6a45b018837777e891073fbe3fc46d48d580e7488d9d2fc89f73f233`.
+4. Busca transcrita: 19, não 0; demais referências fora do escopo preservadas.
+5. URL publicada ainda sem declaração; aguarda publicação. Nenhum objeto do banco ou repositório externo alterado.

@@ -83,7 +83,7 @@ function AuthPage() {
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="hidden flex-col justify-between bg-sidebar p-12 text-sidebar-foreground lg:flex">
+      <div className="flex flex-col justify-between gap-6 bg-sidebar p-6 text-sidebar-foreground lg:p-12">
         <PrivaciumLogo size="lg" className="text-sidebar-accent-foreground" />
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.2em]">Referenciais do método: Privacy by Design (Ann Cavoukian) · ISO/IEC 27001 — Sistemas de Gestão da Segurança da Informação · ISO/IEC 27005 — Gestão de Riscos de Segurança da Informação · ISO/IEC 27701 — Gestão da Privacidade da Informação · ISO 9001 — Sistemas de Gestão da Qualidade</p>

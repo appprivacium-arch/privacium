@@ -35,7 +35,7 @@ export function canAccess(role: Role, path: string) {
 export function AppShell({ children }: { children: ReactNode }) {
   const enquadramento = useEnquadramento();
   useFocoPendencia();
-  const { role, roles, setRole, set, enterprise, signatures, reset, ready, email, cnpj, empresas, selectEmpresa, createEmpresa, log, demo, publicDemo, setDemo } = usePriva();
+  const { role, roles, setRole, set, enterprise, signatures, reset, ready, email, cnpj, empresas, empresaError, selectEmpresa, createEmpresa, log, demo, publicDemo, setDemo } = usePriva();
   const [demoAsk, setDemoAsk] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
   const podeDemo = roles.includes("ADMIN_SISTEMA") || roles.includes("DPO_OPERACIONAL");
@@ -90,9 +90,10 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen items-center justify-center bg-background p-8">
       <div className="w-full max-w-md rounded-md border bg-card p-10">
         <Building2 className="h-8 w-8 text-muted-foreground" />
-        <h1 className="mt-4 text-lg font-semibold text-primary">Cadastre a primeira empresa</h1>
-        <p className="mt-2 mb-4 text-sm text-muted-foreground">O progresso do Método BLLOCO é amarrado a cada CNPJ.</p>
-        {role === "C_SUITE" ? <p className="text-sm text-muted-foreground">Peça ao encarregado ou administrador para cadastrar.</p> : empresaForm}
+        <h1 className="mt-4 text-lg font-semibold text-primary">{empresaError ? 'Empresa indisponível' : 'Cadastre a primeira empresa'}</h1>
+        {empresaError ? <p role="alert" className="mt-2 mb-4 text-sm text-destructive">{empresaError}</p> : <><p className="mt-2 mb-4 text-sm text-muted-foreground">O progresso do Método BLLOCO é amarrado a cada CNPJ.</p>{role === "C_SUITE" ? <p className="text-sm text-muted-foreground">Peça ao encarregado ou administrador para cadastrar.</p> : empresaForm}</>}
+        {empresaError && <Button className="mt-3" variant="outline" onClick={() => window.location.reload()}>Tentar novamente</Button>}
+        {roles.length > 1 && <select aria-label="Painel (RBAC)" value={role} onChange={e => setRole(e.target.value as Role)} className="mt-3 w-full rounded-sm border bg-background p-2 text-sm">{roles.map(r => <option key={r} value={r}>{ROLE_LABEL[r]}</option>)}</select>}
         <button onClick={signOut} className="mt-6 text-sm text-primary hover:underline">Sair</button>
       </div>
     </div>
@@ -133,6 +134,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="border-b border-sidebar-border px-5 py-4">
           <label className="font-mono text-[10px] uppercase tracking-widest">Painel (RBAC)</label>
           <select
+            aria-label="Painel (RBAC)"
             value={role}
             onChange={(e) => setRole(e.target.value as Role)}
             className="mt-1 w-full rounded-sm border border-sidebar-border bg-sidebar-accent px-2 py-1.5 text-sm text-sidebar-accent-foreground"
@@ -142,13 +144,15 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <div className="border-b border-sidebar-border px-5 py-4">
           <label className="font-mono text-[10px] uppercase tracking-widest">Empresa (CNPJ)</label>
-          <select
+          {role !== 'ADMIN_SISTEMA' && empresas.length === 1 ? <p className="mt-1 break-words text-sm" data-testid="empresa-vinculada">{maskCNPJ(empresas[0]?.cnpj ?? '')} · {empresas[0]?.razao_social}</p> : <select
+            aria-label="Empresa (CNPJ)"
             value={cnpj}
             onChange={(e) => selectEmpresa(e.target.value)}
             className="mt-1 w-full rounded-sm border border-sidebar-border bg-sidebar-accent px-2 py-1.5 text-sm text-sidebar-accent-foreground"
           >
             {empresas.map((e) => <option key={e.cnpj} value={e.cnpj}>{maskCNPJ(e.cnpj)} · {e.razao_social}</option>)}
-          </select>
+          </select>}
+          {empresaError && <p role="alert" className="mt-2 text-xs text-destructive">{empresaError}</p>}
           {role !== "C_SUITE" && !demo && (
             <details className="mt-2 text-xs"><summary className="cursor-pointer opacity-70">+ Nova empresa</summary><div className="mt-2">{empresaForm}</div></details>
           )}

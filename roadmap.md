@@ -1,3 +1,8 @@
+## Seletor de empresa — correção autorizada
+- [x] Restringir o escopo visual ao vínculo, mostrar vínculo único como informação e explicar leitura/troca negada; 21 testes passaram e troca ADMIN autenticada verificada, sem mudanças no banco.
+- [ ] Validar no navegador com contas reais C_SUITE e DPO de empresas distintas — depende de autorização das sessões correspondentes; testes de ambos os perfis passaram com fixtures isoladas.
+- [ ] Publicar e repetir a verificação na URL pública — depende do acionamento da publicação pelo usuário.
+
 ## Congelamento V1.0 e acesso de suporte — 22/11/2026
 - [x] Ler integralmente o blueprint e congelar cópia byte-idêntica por commit, sem editar o original.
 - [x] Aplicar somente a opção A em admin_acesso_suporte, mantendo guardas e lista de 15 tipos; testes isolados e chamada real na empresa de teste aprovados.

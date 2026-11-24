@@ -40,3 +40,4 @@
 - Public client build vars (VITE_ URL + publishable key only) live in versioned `publico.env`; vite.config.ts reads it with a no-fallback guard. Why: publish builder gets no `.env`/env vars and `.env.*` is gitignored.
 - Peças/evidências/não conformidades/ações (+ pivôs rot_pecas, rot_evidencias) são tabelas aditivas por empresa_cnpj, sem DELETE (exclusão lógica), com diff auditado por trigger e eventos sem sessão via `private.registrar_trilha_sistema` (schema private sem acesso do app + asserção de current_user postgres/service_role); why: evidência forense sem tocar o ROT, com defesa em profundidade.
 - ROT and content block DELETE via triggers to prevent cascade loss.
+- Company selection derives its UI scope from the active granted role and usuarios.empresa_id, reloading on role changes; failed reads never activate a tenant or replace its data. Why: avoid cross-profile visual leakage while retaining database authorization.

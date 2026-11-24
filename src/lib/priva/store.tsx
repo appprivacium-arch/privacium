@@ -7,6 +7,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { supabase } from "@/integrations/supabase/client";
 import { sha256, type InventoryRow, type KanbanCard, type Role } from "./data";
 import type { GovernancaEmpresa } from "./governancaEmpresa";
+import { AVISO_SEM_VINCULO, empresasDoPerfil, podeSelecionarEmpresa } from './escopoEmpresa';
 
 export type AuditEntry = {
   seq: number;
@@ -78,6 +79,7 @@ type Ctx = Shared & {
   auditTotal: number;
   cnpj: string | null;
   empresas: Empresa[];
+  empresaError: string | null;
   saveStatus: SaveStatus;
   saveMessage: string | null;
   lastSavedAt: string | null;
@@ -123,6 +125,9 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   const [auditTotal, setAuditTotal] = useState(0);
   const [cnpj, setCnpj] = useState<string | null>(null);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
+  const [empresaError, setEmpresaError] = useState<string | null>(null);
+  const empresasRef = useRef<Empresa[]>([]);
+  const leituraEmpresa = useRef(0);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("SALVO");
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
@@ -148,7 +153,17 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   }, [initialDemo, demo]);
 
   const loadEmpresa = async (c: string) => {
-    const { data: ws } = await supabase.from("workspace_empresa").select("data, updated_at").eq("cnpj", c).maybeSingle();
+    if (!podeSelecionarEmpresa(empresasRef.current, c)) {
+      setEmpresaError(AVISO_SEM_VINCULO);
+      return false;
+    }
+    const leitura = ++leituraEmpresa.current;
+    const { data: ws, error } = await supabase.from("workspace_empresa").select("data, updated_at").eq("cnpj", c).maybeSingle();
+    if (leitura !== leituraEmpresa.current) return false;
+    if (error || !ws) {
+      setEmpresaError(error && error.code !== '42501' ? 'Não foi possível carregar a empresa. Tente novamente.' : AVISO_SEM_VINCULO);
+      return false;
+    }
     if (saveTimer.current) { clearTimeout(saveTimer.current); saveTimer.current = null; }
     pending.current = null;
     setShared({ ...initialShared, ...((ws?.data ?? {}) as Partial<Shared>) });
@@ -158,6 +173,39 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
     setSaveMessage(null);
     setLastSavedAt(ws?.updated_at ? formatarHora(new Date(ws.updated_at)) : formatarHora());
     localStorage.setItem(CNPJ_PREF, c);
+    setEmpresaError(null);
+    return true;
+  };
+
+  const carregarEmpresas = async (perfil: Role, id: string) => {
+    const leitura = ++leituraEmpresa.current;
+    let vinculo: string | null = null;
+    if (perfil !== 'ADMIN_SISTEMA') {
+      const usuario = await supabase.from('usuarios').select('empresa_id').eq('id', id).maybeSingle();
+      if (leitura !== leituraEmpresa.current) return;
+      if (usuario.error) { setEmpresaError('Não foi possível consultar seu vínculo. Tente novamente.'); return; }
+      if (!usuario.data?.empresa_id) { setEmpresaError(AVISO_SEM_VINCULO); return; }
+      const empresa = await supabase.from('empresas').select('cnpj').eq('id', usuario.data.empresa_id).maybeSingle();
+      if (leitura !== leituraEmpresa.current) return;
+      if (empresa.error) { setEmpresaError('Não foi possível consultar sua empresa. Tente novamente.'); return; }
+      if (!empresa.data) { setEmpresaError(AVISO_SEM_VINCULO); return; }
+      vinculo = empresa.data.cnpj;
+    }
+    let consulta = supabase.from('workspace_empresa').select('cnpj, razao_social').order('created_at');
+    if (vinculo) consulta = consulta.eq('cnpj', vinculo);
+    const { data: list, error } = await consulta;
+    if (leitura !== leituraEmpresa.current) return;
+    if (error) { setEmpresaError('Não foi possível carregar a lista de empresas. Tente novamente.'); return; }
+    const escopo = empresasDoPerfil(list ?? [], perfil, vinculo);
+    empresasRef.current = escopo;
+    setEmpresas(escopo);
+    if (!escopo.length) {
+      setEmpresaError(perfil === 'ADMIN_SISTEMA' ? null : AVISO_SEM_VINCULO);
+      return;
+    }
+    const prefC = localStorage.getItem(CNPJ_PREF);
+    const pick = escopo.find(e => e.cnpj === prefC)?.cnpj ?? escopo[0]?.cnpj;
+    if (pick) await loadEmpresa(pick);
   };
 
   useEffect(() => {
@@ -174,14 +222,12 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
       setRoles(granted);
       const pref = localStorage.getItem(ROLE_PREF) as Role | null;
       const first = granted[0];
-      if (first) setRoleState(pref && granted.includes(pref) ? pref : first);
+      const perfil = pref && granted.includes(pref) ? pref : first;
+      if (perfil) { setRoleState(perfil); roleRef.current = perfil; }
       if (granted.length) {
-        const { data: list } = await supabase.from("workspace_empresa").select("cnpj, razao_social").order("created_at");
-        setEmpresas(list ?? []);
-        const prefC = localStorage.getItem(CNPJ_PREF);
-        const pick = list?.find((e) => e.cnpj === prefC)?.cnpj ?? list?.[0]?.cnpj ?? null;
-        if (pick) await loadEmpresa(pick);
+        if (perfil) await carregarEmpresas(perfil, u.id);
       }
+      if (cancelled) return;
       setReady(true);
     })();
     return () => { cancelled = true; };
@@ -302,11 +348,25 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   };
 
   const setRole = (r: Role) => {
-    if (!roles.includes(r)) return;
-    localStorage.setItem(ROLE_PREF, r);
-    setRoleState(r);
-    roleRef.current = r;
-    log("SELECT", "session", `Troca de painel para ${r}`);
+    if (!roles.includes(r) || r === roleRef.current || !userId) return;
+    void (async () => {
+      if (pending.current) await flushPersist();
+      if (pending.current) { setEmpresaError('Salve as alterações pendentes antes de trocar de perfil.'); return; }
+      ++leituraEmpresa.current;
+      empresasRef.current = [];
+      setEmpresas([]);
+      setCnpj(null);
+      cnpjRef.current = null;
+      setShared(initialShared);
+      setEmpresaError(null);
+      setReady(false);
+      localStorage.setItem(ROLE_PREF, r);
+      setRoleState(r);
+      roleRef.current = r;
+      try { await carregarEmpresas(r, userId); }
+      catch { setEmpresaError('Não foi possível carregar a empresa. Tente novamente.'); }
+      finally { setReady(true); }
+    })();
   };
 
   const sign = async (pi: string) => {
@@ -320,11 +380,12 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   };
 
   const selectEmpresa = (c: string) => {
+    if (!podeSelecionarEmpresa(empresasRef.current, c)) { setEmpresaError(AVISO_SEM_VINCULO); return; }
     if (c === cnpjRef.current) return;
     void (async () => {
       if (pending.current) await flushPersist();
+      if (pending.current) { setEmpresaError('Salve as alterações pendentes antes de trocar de empresa.'); return; }
       await loadEmpresa(c);
-      log("SELECT", "workspace_empresa", `Abertura da esteira do CNPJ ${c}`);
     })();
   };
 
@@ -332,9 +393,9 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
     const c = raw.replace(/\D/g, "");
     const { error } = await supabase.from("workspace_empresa").insert({ cnpj: c, razao_social: razao.trim(), data: initialShared as never, updated_by: userId });
     if (error) return error.code === "23505" ? "CNPJ já cadastrado." : "Não foi possível cadastrar (verifique seu cargo).";
-    setEmpresas((e) => [...e, { cnpj: c, razao_social: razao.trim() }]);
-    await loadEmpresa(c);
     log("INSERT", "workspace_empresa", `Cadastro do CNPJ ${c}`);
+    localStorage.setItem(CNPJ_PREF, c);
+    if (userId) await carregarEmpresas(roleRef.current, userId);
     return null;
   };
 
@@ -388,13 +449,13 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
   const value: Ctx = demo
     ? {
         ...demoShared, ready, userId: initialDemo ? null : userId, email: initialDemo ? 'dpo@cenografica.com.br' : email, roles: ['DPO_OPERACIONAL'], role: 'DPO_OPERACIONAL', audit: demoEventos as AuditEntry[], auditTotal: demoEventos.length, cnpj: DEMO_CNPJ,
-        empresas: [{ cnpj: DEMO_CNPJ, razao_social: razaoDemo(demoPorte) }], saveStatus: "SALVO", saveMessage: null, lastSavedAt: null, retrySave: async () => undefined, selectEmpresa: noop,
+        empresas: [{ cnpj: DEMO_CNPJ, razao_social: razaoDemo(demoPorte) }], empresaError: null, saveStatus: "SALVO", saveMessage: null, lastSavedAt: null, retrySave: async () => undefined, selectEmpresa: noop,
         createEmpresa: async () => "Indisponível no Modo Demonstração.", setRole: noop,
         set: noop, log: noop, sign: async (pi: string) => demoAssinar(pi, "DPO"),
         reset: noop, refreshAudit: async () => undefined, demo, publicDemo: initialDemo, setDemo, demoPorte, setDemoPorte,
         demoSessao, demoEnviarANPD, demoEncerrarIncidente, demoAssinar, demoRegistrarEvento: registrarEventoDemo,
       }
-    : { ...shared, signatures: assinaturasVigentes(shared.signatures, new Date()), ready, userId, email, roles, role, audit, auditTotal, cnpj, empresas, saveStatus, saveMessage, lastSavedAt, retrySave, selectEmpresa, createEmpresa, setRole, set, log, sign, reset, refreshAudit, demo, demoPorte, setDemoPorte: noop, publicDemo: false, setDemo, demoSessao: DEMO_SESSAO_INICIAL, demoEnviarANPD: async () => undefined, demoEncerrarIncidente: async () => undefined, demoAssinar: async () => undefined, demoRegistrarEvento: async () => ({ hash: "", ts: "" }) };
+    : { ...shared, signatures: assinaturasVigentes(shared.signatures, new Date()), ready, userId, email, roles, role, audit, auditTotal, cnpj, empresas, empresaError, saveStatus, saveMessage, lastSavedAt, retrySave, selectEmpresa, createEmpresa, setRole, set, log, sign, reset, refreshAudit, demo, demoPorte, setDemoPorte: noop, publicDemo: false, setDemo, demoSessao: DEMO_SESSAO_INICIAL, demoEnviarANPD: async () => undefined, demoEncerrarIncidente: async () => undefined, demoAssinar: async () => undefined, demoRegistrarEvento: async () => ({ hash: "", ts: "" }) };
 
   return (
     <C.Provider value={value}>

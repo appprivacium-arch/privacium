@@ -83,17 +83,7 @@ function AuthPage() {
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="flex flex-col justify-between gap-6 bg-sidebar p-6 text-sidebar-foreground lg:p-12">
-        <PrivaciumLogo size="lg" className="text-sidebar-accent-foreground" />
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em]">Referenciais do método: Privacy by Design (Ann Cavoukian) · ISO/IEC 27001 — Sistemas de Gestão da Segurança da Informação · ISO/IEC 27005 — Gestão de Riscos de Segurança da Informação · ISO/IEC 27701 — Gestão da Privacidade da Informação · ISO 9001 — Sistemas de Gestão da Qualidade</p>
-          <p className="mt-2 text-xs font-normal opacity-75">Metodologia desenvolvida por profissional com atuação em auditoria e implementação dessas normas. A Privacium não possui certificação ISO/IEC emitida.</p>
-          <h1 className="mt-4 text-4xl font-semibold leading-tight text-sidebar-accent-foreground">Governança de privacidade como ciclo contínuo.</h1>
-          <p className="mt-4 max-w-md text-sm">Método BLLOCO sob a lógica do Ciclo Privacium Semestral: preparar, registrar, implementar, vigiar e auditar.</p>
-        </div>
-        <p className="flex items-center gap-2 text-xs"><ShieldCheck className="h-4 w-4 text-sidebar-primary" /> Toda ação é registrada em trilha de auditoria imutável.</p>
-      </div>
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center p-8 lg:col-start-2 lg:row-start-1">
         <div className="w-full max-w-sm">
           <PrivaciumLogo size="sm" className="mb-6 text-primary lg:hidden" />
           <h2 className="text-2xl font-semibold text-primary">{mode === "in" ? "Entrar" : "Criar conta"}</h2>
@@ -118,6 +108,16 @@ function AuthPage() {
             {mode === "in" ? "Não tem conta? Criar conta" : "Já tem conta? Entrar"}
           </button>
         </div>
+      </div>
+      <div className="flex flex-col justify-between gap-6 bg-sidebar p-6 text-sidebar-foreground lg:col-start-1 lg:row-start-1 lg:p-12">
+        <PrivaciumLogo size="lg" className="text-sidebar-accent-foreground" />
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.2em]">Referenciais do método: Privacy by Design (Ann Cavoukian) · ISO/IEC 27001 — Sistemas de Gestão da Segurança da Informação · ISO/IEC 27005 — Gestão de Riscos de Segurança da Informação · ISO/IEC 27701 — Gestão da Privacidade da Informação · ISO 9001 — Sistemas de Gestão da Qualidade</p>
+          <p className="mt-2 text-xs font-normal opacity-75">Metodologia desenvolvida por profissional com atuação em auditoria e implementação dessas normas. A Privacium não possui certificação ISO/IEC emitida.</p>
+          <h1 className="mt-4 text-4xl font-semibold leading-tight text-sidebar-accent-foreground">Governança de privacidade como ciclo contínuo.</h1>
+          <p className="mt-4 max-w-md text-sm">Método BLLOCO sob a lógica do Ciclo Privacium Semestral: preparar, registrar, implementar, vigiar e auditar.</p>
+        </div>
+        <p className="flex items-center gap-2 text-xs"><ShieldCheck className="h-4 w-4 text-sidebar-primary" /> Toda ação é registrada em trilha de auditoria imutável.</p>
       </div>
     </div>
   );

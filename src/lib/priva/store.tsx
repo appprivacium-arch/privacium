@@ -225,7 +225,15 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
       .select("cnpj");
     if (error || !updated || updated.length === 0) {
       setSaveStatus("FALHOU");
-      setSaveMessage(null);
+      if (role === "ADMIN_SISTEMA") {
+        setSaveMessage("O seu perfil atual (Administrador) não grava dados de empresa. Use o perfil Encarregado (DPO) para salvar.");
+      } else if (role === "C_SUITE") {
+        setSaveMessage("O seu perfil atual (Diretoria / C-Suite) não grava dados operacionais de empresa. Use o perfil Encarregado (DPO) para salvar.");
+      } else if (error?.code === "42501" || !updated || updated.length === 0) {
+        setSaveMessage("Esta etapa exige o perfil Encarregado (DPO) vinculado a esta empresa.");
+      } else {
+        setSaveMessage("Não foi possível salvar por falha de comunicação. Suas alterações continuam nesta tela.");
+      }
       return;
     }
     if (pending.current === data) {
@@ -234,7 +242,7 @@ export function PrivaProvider({ children, initialDemo = false, initialUser }: { 
       setSaveMessage(null);
       setLastSavedAt(formatarHora(new Date(nowIso)));
     }
-  }, [userId]);
+  }, [userId, role]);
 
   useEffect(() => {
     if (demo || initialDemo) return;

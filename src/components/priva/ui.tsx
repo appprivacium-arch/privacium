@@ -6,9 +6,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from "@/components/ui/input";
 import { maskCNPJ, maskCPF, maskEmail, maskName, sha256 } from "@/lib/priva/data";
 import { usePriva, isUnlocked } from "@/lib/priva/store";
-import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { TelaBloqueio } from "./TelaBloqueio";
+import { PendenciasDoBloco } from "./PendenciasDoBloco";
 import { useEncarregado } from "@/lib/priva/useEncarregado";
 import { contatoPublicavel } from "@/lib/priva/atoIndicacao";
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';
@@ -68,7 +68,7 @@ export function IndicadorGravacao() {
           : "Salvo"
         : saveStatus === "PENDENTE"
           ? saveMessage ?? "Alterações não salvas"
-          : "Não foi possível salvar. Suas alterações continuam nesta tela. Tente novamente.";
+          : saveMessage ?? "Não foi possível salvar. Suas alterações continuam nesta tela. Tente novamente.";
   return (
     <div
       role="status"
@@ -223,7 +223,9 @@ export function PIOutput({ pi, ready, readyHint, children, dual, acoesExtras }: 
 export function BlockGate({ n, children }: { n: number; children: ReactNode }) {
   const { signatures, demo } = usePriva();
   const enquadramento = useEnquadramento();
-  if (!demo && n > 1 && !enquadramento.vigente) return <Panel title="Enquadramento do agente pendente"><p className="text-sm">Assine a declaração de enquadramento do agente no Bloco 1 neste Ciclo Privacium Semestral.</p><Button asChild className="mt-3"><Link to="/bloco-1">Abrir Bloco 1</Link></Button></Panel>;
+  if (!demo && n > 1 && !enquadramento.vigente) {
+    return <PendenciasDoBloco bloco={n} titulo="Enquadramento do agente pendente" />;
+  }
   if (isUnlocked(signatures, n)) return <>{children}</>;
   return <TelaBloqueio n={n} />;
 }

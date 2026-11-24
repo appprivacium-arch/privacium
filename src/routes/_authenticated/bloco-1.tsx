@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { validarBuscaFoco } from "@/lib/priva/pendenciasEmpresa";
 import { Bloco1 } from "@/components/priva/views/Bloco1";
+import { PendenciasDoBloco } from "@/components/priva/PendenciasDoBloco";
 
 export const Route = createFileRoute("/_authenticated/bloco-1")({
   validateSearch: validarBuscaFoco,
@@ -14,5 +15,5 @@ export const Route = createFileRoute("/_authenticated/bloco-1")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Bloco1,
+  component: () => <><PendenciasDoBloco bloco={1} /><Bloco1 /></>,
 });

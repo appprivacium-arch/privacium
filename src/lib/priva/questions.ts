@@ -76,7 +76,9 @@ export function useResponder(cnpj: string | null, userId: string | null) {
     );
     if (error) {
       void qc.invalidateQueries({ queryKey: respostasKey(cnpj) });
-      return "Não foi possível salvar a resposta.";
+      return error.code === "42501"
+        ? "Esta etapa exige o perfil Encarregado (DPO) vinculado a esta empresa."
+        : "Não foi possível salvar a resposta. Verifique se o seu perfil Encarregado (DPO) está vinculado a esta empresa.";
     }
     return null;
   };

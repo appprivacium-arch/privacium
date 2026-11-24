@@ -2,7 +2,7 @@ import { PrivaciumLogo } from "@/components/priva/Logo";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Lock, CheckCircle2, LayoutDashboard, KanbanSquare, ScrollText, Building2, RotateCcw, LogOut, Users, Presentation, X, BookOpen, BookA, Menu, ListChecks, ShieldCheck, MessageSquareWarning } from "lucide-react";
+import { Lock, CheckCircle2, LayoutDashboard, KanbanSquare, ScrollText, Building2, RotateCcw, LogOut, Users, Presentation, X, BookOpen, BookA, Menu, ListChecks, ShieldCheck, MessageSquareWarning, FileSignature } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { BLOCKS, ROLE_LABEL, isValidCNPJ, maskCNPJ, type Role } from "@/lib/priva/data";
 import { usePriva, isUnlocked } from "@/lib/priva/store";
@@ -21,7 +21,7 @@ import { Tag, IndicadorGravacao } from './ui';
 const ROLE_ACCESS: Record<Role, string[]> = {
   ADMIN_SISTEMA: ["/painel", "/auditoria", "/kanban", "/pendencias", "/membros", "/manual", "/divergencias", "/glossario", "/qualidade-normativa", "/solicitacoes-titular"],
   DPO_OPERACIONAL: ["/painel", "/bloco", "/kanban", "/pendencias", "/auditoria", "/enterprise", "/manual", "/divergencias", "/membros", "/glossario", "/qualidade-normativa", "/solicitacoes-titular"],
-  C_SUITE: ["/painel", "/enterprise", "/kanban", "/pendencias", "/auditoria", "/manual", "/divergencias", "/membros", "/glossario", "/qualidade-normativa"],
+  C_SUITE: ["/painel", "/decisoes", "/enterprise", "/kanban", "/pendencias", "/auditoria", "/manual", "/divergencias", "/membros", "/glossario", "/qualidade-normativa"],
 };
 const SENSITIVE = [
   { path: "/bloco-2", target: "inventario_dados_pessoais" },
@@ -180,6 +180,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             );
           })}
           <p className="px-3 pb-1 pt-4 font-mono text-[10px] uppercase tracking-widest">Transversal</p>
+          {item("/decisoes", "Decisões pendentes", <FileSignature className="h-4 w-4" />)}
           {item("/pendencias", "Dashboard · Pendências", <ListChecks className="h-4 w-4" />)}
           {item("/kanban", "Kanban 5W2H · Plano de ação", <KanbanSquare className="h-4 w-4" />)}
           {item("/auditoria", "Trilha de Auditoria (Trilho Core)", <ScrollText className="h-4 w-4" />)}
@@ -239,8 +240,24 @@ export function AppShell({ children }: { children: ReactNode }) {
         ) : allowed ? <><ProximoPasso />{children}</> : (
           <div className="rounded-md border border-dashed bg-card p-16 text-center">
             <Lock className="mx-auto h-8 w-8 text-muted-foreground" />
-            <p className="mt-4 font-semibold text-primary">Acesso negado pelo princípio do privilégio mínimo</p>
-            <p className="mt-1 text-sm text-muted-foreground">O painel {ROLE_LABEL[role]} não tem necessidade de conhecer este conteúdo.</p>
+            <p className="mt-4 font-semibold text-primary">Acesso restrito para o perfil {ROLE_LABEL[role]}</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {pathname.startsWith("/bloco")
+                ? `O seu perfil atual (${ROLE_LABEL[role]}) não acessa as telas operacionais dos blocos. Esta etapa exige o perfil Encarregado (DPO).`
+                : pathname.startsWith("/decisoes")
+                  ? `A tela de Decisões pendentes é exclusiva do perfil Diretoria (C-Suite). O perfil ${ROLE_LABEL[role]} não possui acesso.`
+                  : `O perfil ${ROLE_LABEL[role]} não possui permissão para acessar esta tela.`}
+            </p>
+            {(() => {
+              const perfilPermitido = roles.find((r) => canAccess(r, pathname));
+              if (!perfilPermitido) return null;
+              const nome = perfilPermitido === "DPO_OPERACIONAL" ? "Encarregado (DPO)" : perfilPermitido === "C_SUITE" ? "Diretoria (C-Suite)" : "Administrador";
+              return (
+                <Button type="button" className="mt-4" onClick={() => setRole(perfilPermitido)}>
+                  Usar perfil {nome}
+                </Button>
+              );
+            })()}
           </div>
         )}
       </main>

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { validarBuscaFoco } from "@/lib/priva/pendenciasEmpresa";
 import { Bloco2 } from "@/components/priva/views/Bloco2";
 import { BlockGate } from "@/components/priva/ui";
+import { PendenciasDoBloco } from "@/components/priva/PendenciasDoBloco";
 
 export const Route = createFileRoute("/_authenticated/bloco-2")({
   validateSearch: validarBuscaFoco,
@@ -15,5 +16,5 @@ export const Route = createFileRoute("/_authenticated/bloco-2")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: () => <BlockGate n={2}><Bloco2 /></BlockGate>,
+  component: () => <BlockGate n={2}><PendenciasDoBloco bloco={2} /><Bloco2 /></BlockGate>,
 });

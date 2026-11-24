@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useQuestions, useRespostas } from "@/lib/priva/questions";
 import { usePriva } from "@/lib/priva/store";
 import { Masked, PageHeader, Panel, Tag } from "@/components/priva/ui";
+import { PendenciasDoBloco } from "@/components/priva/PendenciasDoBloco";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -68,6 +69,7 @@ export function AdminDashboard() {
       <PageHeader eyebrow="ADMIN_SISTEMA · Super Administrador" title="Operação comercial do Privacium">
         Visão consolidada dos clientes multi-tenant. Acesso exclusivo do dono do ecossistema.
       </PageHeader>
+      <PendenciasDoBloco ocultarSeVazio />
       <div className="mb-6 rounded-md border bg-secondary p-4 text-sm">
         <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Infraestrutura · DNS</p>
         <p className="mt-1 text-foreground">
@@ -205,6 +207,7 @@ export function CSuiteDashboard() {
       <PageHeader eyebrow="C_SUITE · Visão estratégica" title="Mapa de riscos globais (ERM)">
         Riscos de privacidade por área, em linguagem executiva. Dados pessoais brutos não são exibidos neste painel.
       </PageHeader>
+      <PendenciasDoBloco ocultarSeVazio />
       <div className="mb-8 grid gap-4 md:grid-cols-3">
         <CardGM gm={gm} />
         <CardScore score={score} max={bankMax} />

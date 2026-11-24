@@ -9,6 +9,7 @@ import { PageHeader, Panel } from "@/components/priva/ui";
 import { cn } from "@/lib/utils";
 import { AdminDashboard, CSuiteDashboard } from "@/components/priva/RoleDashboards";
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';
+import { PendenciasDoBloco } from "@/components/priva/PendenciasDoBloco";
 
 
 
@@ -31,6 +32,8 @@ function Index() {
       <PageHeader eyebrow={`Trilho ${enterprise ? "Enterprise" : "Core (registrador central de eventos)"} · Método BLLOCO`} title="Onboarding Industrial · Esteira de Conformidade">
         Cada bloco produz um <Sigla id="pi">PI · Procedimento Interno</Sigla> chancelado. O próximo bloco só é liberado após a chancela digital do anterior. Ao fim do bloco A, o ciclo retroalimenta o bloco P.
       </PageHeader>
+
+      <PendenciasDoBloco ocultarSeVazio />
 
       <div className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <CardGM gm={gm} />

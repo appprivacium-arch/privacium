@@ -1,3 +1,7 @@
+## Exportação estrutural offline — arquivo 0095
+- [x] Consolidar schema e conferir migrações obrigatórias, sintaxe e permissões offline, sem executar SQL: 42 tabelas, 142 policies, 97 funções, 59 gatilhos.
+- [x] Gerar arquivo único para download sem dados de empresas ou da trilha; documentar que 225 evidências são 75 modelos × 3 empresas, seed vazio sem empresas no destino e restauração não executada.
+
 ## Seletor de empresa — correção autorizada
 - [x] Restringir o escopo visual ao vínculo, mostrar vínculo único como informação e explicar leitura/troca negada; 21 testes passaram e troca ADMIN autenticada verificada, sem mudanças no banco.
 - [ ] Validar no navegador com contas reais C_SUITE e DPO de empresas distintas — depende de autorização das sessões correspondentes; testes de ambos os perfis passaram com fixtures isoladas.

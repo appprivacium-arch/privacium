@@ -3,15 +3,22 @@ import { describe, expect, it } from 'vitest';
 
 const access = readFileSync('drizzle/migrations/0094_fechar_exposicao_normas.sql', 'utf8');
 const split = readFileSync('drizzle/migrations/0095_separar_permissoes_catalogos_normativos.sql', 'utf8');
+const selectUpdate = readFileSync('drizzle/migrations/0096_ajustar_select_catalogos_normativos.sql', 'utf8');
 
 describe.each(['normas_referencia', 'pergunta_norma'])('%s · proteção dos catálogos', table => {
   it('habilita proteção por linha e revoga o acesso anônimo', () => {
     expect(access).toContain(`ALTER TABLE public.${table} ENABLE ROW LEVEL SECURITY;`);
     expect(access).toContain(`REVOKE ALL ON TABLE public.${table} FROM PUBLIC, anon;`);
+    expect(selectUpdate).toContain(`ALTER TABLE public.${table} ENABLE ROW LEVEL SECURITY;`);
+    expect(selectUpdate).toContain(`REVOKE ALL ON TABLE public.${table} FROM anon;`);
   });
 
-  it('exige papel concedido para consultar', () => {
-    expect(access).toContain(`CREATE POLICY "${table}_select" ON public.${table} FOR SELECT TO authenticated USING (public.has_any_role(auth.uid()));`);
+  it('permite consulta a usuários autenticados no catálogo comum', () => {
+    expect(selectUpdate).toContain(`CREATE POLICY "${table}_select"`);
+    expect(selectUpdate).toContain(`ON public.${table}`);
+    expect(selectUpdate).toContain('FOR SELECT');
+    expect(selectUpdate).toContain('TO authenticated');
+    expect(selectUpdate).toContain('USING (true);');
   });
 
   it.each(['INSERT', 'UPDATE', 'DELETE'])('reserva %s ao administrador', command => {

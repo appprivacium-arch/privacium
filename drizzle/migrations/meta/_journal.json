@@ -673,6 +673,13 @@
       "when": 1795568711805,
       "tag": "0095_separar_permissoes_catalogos_normativos",
       "breakpoints": true
+    },
+    {
+      "idx": 96,
+      "version": "7",
+      "when": 1795570106675,
+      "tag": "0096_ajustar_select_catalogos_normativos",
+      "breakpoints": true
     }
   ]
 }

@@ -31,7 +31,16 @@ INSERT INTO auth.users (
   raw_app_meta_data,
   raw_user_meta_data,
   is_sso_user,
-  is_anonymous
+  is_anonymous,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  email_change_token_current,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
+  email_change_confirm_status
 ) VALUES (
   '00000000-0000-0000-0000-000000000000'::uuid,
   '50ac2f9f-06ac-4716-9797-d44de6c894dc'::uuid,
@@ -45,7 +54,16 @@ INSERT INTO auth.users (
   '{"provider":"email","providers":["email"]}'::jsonb,
   '{"aud":["68f26841362f495f8e6f1662a6171ee1"],"avatar_url":"https://lh3.googleusercontent.com/a/ACg8ocJgoYHprup4t9X1gvyVGDIHBheZE1C_z53GLiR0PqXlyDhnwMXr=s96-c","email":"samuellgpd@gmail.com","email_verified":true,"exp":1795530667,"full_name":"samuel lima neto","iat":1795528867,"iss":"https://lovable.dev/oauth","name":"samuel liman","phone_verified":false,"picture":"https://lh3.googleusercontent.com/a/ACg8ocJgoYHprup4t9X1gvyVGDIHBheZE1C_z53GLiR0PqXlyDhnwMXr=s96-c","provider_id":"115446688628237379794","sub":"c019e7a0-fc41-56de-9255-fb65bd0b4d9c"}'::jsonb,
   false,
-  false
+  false,
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  0
 );
 
 -- 2/6: samuel@privacium.com.br
@@ -62,7 +80,16 @@ INSERT INTO auth.users (
   raw_app_meta_data,
   raw_user_meta_data,
   is_sso_user,
-  is_anonymous
+  is_anonymous,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  email_change_token_current,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
+  email_change_confirm_status
 ) VALUES (
   '00000000-0000-0000-0000-000000000000'::uuid,
   '576f391f-b995-4ad4-9188-ee36524532fa'::uuid,
@@ -76,7 +103,16 @@ INSERT INTO auth.users (
   '{"provider":"email","providers":["email"]}'::jsonb,
   '{"email":"samuel@privacium.com.br","email_verified":false,"phone_verified":false,"sub":"576f391f-b995-4ad4-9188-ee36524532fa"}'::jsonb,
   false,
-  false
+  false,
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  0
 );
 
 -- 3/6: simone@privacium.com.br
@@ -93,7 +129,16 @@ INSERT INTO auth.users (
   raw_app_meta_data,
   raw_user_meta_data,
   is_sso_user,
-  is_anonymous
+  is_anonymous,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  email_change_token_current,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
+  email_change_confirm_status
 ) VALUES (
   '00000000-0000-0000-0000-000000000000'::uuid,
   'b33eee09-36e7-4fd7-b331-442c9c9542d5'::uuid,
@@ -107,7 +152,16 @@ INSERT INTO auth.users (
   '{"provider":"email","providers":["email"]}'::jsonb,
   '{"email":"simone@privacium.com.br","email_verified":true,"phone_verified":false,"sub":"b33eee09-36e7-4fd7-b331-442c9c9542d5"}'::jsonb,
   false,
-  false
+  false,
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  0
 );
 
 -- 4/6: lgpd@privacium.com.br
@@ -124,7 +178,16 @@ INSERT INTO auth.users (
   raw_app_meta_data,
   raw_user_meta_data,
   is_sso_user,
-  is_anonymous
+  is_anonymous,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  email_change_token_current,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
+  email_change_confirm_status
 ) VALUES (
   '00000000-0000-0000-0000-000000000000'::uuid,
   '5b5d3636-0272-4403-9517-6e738e4e17d7'::uuid,
@@ -138,7 +201,16 @@ INSERT INTO auth.users (
   '{"provider":"email","providers":["email"]}'::jsonb,
   '{"email":"lgpd@privacium.com.br","email_verified":false,"phone_verified":false,"sub":"5b5d3636-0272-4403-9517-6e738e4e17d7"}'::jsonb,
   false,
-  false
+  false,
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  0
 );
 
 -- 5/6: dpo@privacium.com.br
@@ -155,7 +227,16 @@ INSERT INTO auth.users (
   raw_app_meta_data,
   raw_user_meta_data,
   is_sso_user,
-  is_anonymous
+  is_anonymous,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  email_change_token_current,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
+  email_change_confirm_status
 ) VALUES (
   '00000000-0000-0000-0000-000000000000'::uuid,
   '744c0787-a341-4541-9ba7-a0eca9390334'::uuid,
@@ -169,7 +250,16 @@ INSERT INTO auth.users (
   '{"provider":"email","providers":["email"]}'::jsonb,
   '{"email":"dpo@privacium.com.br","email_verified":false,"phone_verified":false,"sub":"744c0787-a341-4541-9ba7-a0eca9390334"}'::jsonb,
   false,
-  false
+  false,
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  0
 );
 
 -- 6/6: dpo.audit.isolamento@privacium.test
@@ -186,7 +276,16 @@ INSERT INTO auth.users (
   raw_app_meta_data,
   raw_user_meta_data,
   is_sso_user,
-  is_anonymous
+  is_anonymous,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new,
+  email_change_token_current,
+  phone_change,
+  phone_change_token,
+  reauthentication_token,
+  email_change_confirm_status
 ) VALUES (
   '00000000-0000-0000-0000-000000000000'::uuid,
   '1ffded63-1f7d-4c11-83e0-7bf10116d6c7'::uuid,
@@ -200,7 +299,16 @@ INSERT INTO auth.users (
   '{"provider":"email","providers":["email"]}'::jsonb,
   '{"finalidade":"teste_isolamento"}'::jsonb,
   false,
-  false
+  false,
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  0
 );
 
 -- ============================================================================

@@ -3,7 +3,7 @@ import { createFileRoute, Link, useNavigate, useHydrated } from "@tanstack/react
 import { safeAuthPath, isLoginSessionEvent } from '@/lib/priva/authNavigation';
 import '@lovable.dev/cloud-auth-js/styles.css';
 import { useEffect, useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,7 @@ function AuthPage() {
   const [mode, setMode] = useState<"in" | "up">("in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [msg, setMsg] = useState<{ tone: "ok" | "err"; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [embedded, setEmbedded] = useState(false);
@@ -99,7 +100,15 @@ function AuthPage() {
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />ou com e-mail<span className="h-px flex-1 bg-border" /></div>
           <form onSubmit={submit} className="space-y-4">
             <div><Label htmlFor="email">E-mail corporativo</Label><Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-            <div><Label htmlFor="password">Senha corporativa</Label><Input id="password" type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+            <div>
+              <Label htmlFor="password">Senha corporativa</Label>
+              <div className="relative">
+                <Input id="password" type={showPassword ? "text" : "password"} required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="pr-10" />
+                <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:bg-transparent hover:text-foreground" onClick={() => setShowPassword((prev) => !prev)} aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}>
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
+            </div>
             {mode === "in" && <Button asChild variant="link" className="h-auto p-0"><Link to="/redefinir-senha">Esqueci a senha</Link></Button>}
             {msg && <p className={msg.tone === "ok" ? "text-sm text-success" : "text-sm text-destructive"}>{msg.text}</p>}
             <Button type="submit" className="w-full" disabled={busy || !hydrated}>{mode === "in" ? "Entrar" : "Criar conta"}</Button>

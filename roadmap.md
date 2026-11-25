@@ -1,3 +1,7 @@
+## Exportação estrutural offline — arquivo 0097
+- [x] Gerar arquivo único com catálogo medido pós-0096: 42 tabelas, 8 enums, 99 funções, 51 gatilhos app, 146 policies; tabelas órfãs explícitas, privilégios por coluna e seeds sem dados operacionais.
+- [x] Validar sintaxe e dependências offline; disponibilizar arquivo para download e versionamento sem executar SQL. Restauração não executada; peças/evidências dependem de empresas cadastradas no destino.
+
 ## Segurança — dois catálogos normativos selecionados
 - [x] Habilitar proteção no banco, vedar acesso anônimo e separar leitura por papel das alterações exclusivas do administrador, sem tocar outros apontamentos ou dados.
 

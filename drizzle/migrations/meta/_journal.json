@@ -659,6 +659,13 @@
       "when": 1795390234560,
       "tag": "0093_corrigir_admin_acesso_suporte_op_select",
       "breakpoints": true
+    },
+    {
+      "idx": 94,
+      "version": "7",
+      "when": 1795568656202,
+      "tag": "0094_fechar_exposicao_normas",
+      "breakpoints": true
     }
   ]
 }

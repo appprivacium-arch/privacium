@@ -42,3 +42,4 @@
 - ROT and content block DELETE via triggers to prevent cascade loss.
 - Company selection derives its UI scope from the active granted role and usuarios.empresa_id, reloading on role changes; failed reads never activate a tenant or replace its data. Why: avoid cross-profile visual leakage while retaining database authorization.
 - Offline schema exports use preserved catalogs plus final migration definitions, retain column-level grants, and separate tenant templates from operational rows; never execute the export against the connected database. Why: portable structure without leaking identities or changing the source.
+- Global normative catalogs require RLS, no anonymous privileges, role-granted reads and separate administrator-only write policies; why: prevent public mutation without conflating read and write access.

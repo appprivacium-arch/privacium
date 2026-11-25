@@ -666,6 +666,13 @@
       "when": 1795568656202,
       "tag": "0094_fechar_exposicao_normas",
       "breakpoints": true
+    },
+    {
+      "idx": 95,
+      "version": "7",
+      "when": 1795568711805,
+      "tag": "0095_separar_permissoes_catalogos_normativos",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,6 @@
+## Segurança — dois catálogos normativos selecionados
+- [x] Habilitar proteção no banco, vedar acesso anônimo e separar leitura por papel das alterações exclusivas do administrador, sem tocar outros apontamentos ou dados.
+
 ## Exportação estrutural offline — arquivo 0095
 - [x] Consolidar schema e conferir migrações obrigatórias, sintaxe e permissões offline, sem executar SQL: 42 tabelas, 142 policies, 97 funções, 59 gatilhos.
 - [x] Gerar arquivo único para download sem dados de empresas ou da trilha; documentar que 225 evidências são 75 modelos × 3 empresas, seed vazio sem empresas no destino e restauração não executada.

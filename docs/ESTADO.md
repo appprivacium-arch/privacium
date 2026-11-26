@@ -53,11 +53,12 @@ A fictícia existe para provar que conta de cliente, sem privilégio de platafor
 
 | Papel | Nome no produto | Definição |
 |---|---|---|
-| R | Interlocutor Gestor | Faz e responde pelo ato que praticou. Redige a linha do ROT |
+| R | Interlocutor Gestor | Faz e responde pelo ato que praticou. Redige a linha do ROT | 
 | A | Diretor Responsável | Responde pelo resultado do processo como um todo. Aprova o produto interno |
 | C | Encarregado — ou canal de comunicação com o titular e com a ANPD | Consultado antes do fechamento |
 | I | Informado | Ator interno ciente. Passivo: não gera pendência, não assina, não bloqueia |
 
+**Trava de unicidade:** única por (empresa, usuário, papel). Uma pessoa pode exercer mais de um papel na mesma empresa; o mesmo papel não pode ser duplicado.
 ---
 
 ## 2. Semáforo dos marcos

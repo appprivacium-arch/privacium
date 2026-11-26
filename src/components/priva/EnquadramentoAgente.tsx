@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Panel, Tag } from './ui';
 import { usePriva } from '@/lib/priva/store';
 import { useEnquadramento } from '@/lib/priva/useEnquadramento';
-import { altoRiscoArt4, calcularPorte, CRITERIOS_DEMO, CRITERIOS_ESPECIFICOS, CRITERIOS_GERAIS, CRITERIOS_INICIAIS, criteriosSchema, normalizarCriterios, FUNDAMENTO_PORTE, rotuloPorte, travaPorte, type CriteriosPorte } from '@/lib/priva/enquadramento';
+import { altoRiscoArt4, avisosMetodo, calcularPorte, CRITERIOS_DEMO, CRITERIOS_ESPECIFICOS, CRITERIOS_GERAIS, CRITERIOS_INICIAIS, criteriosSchema, normalizarCriterios, FUNDAMENTO_PORTE, rotuloPorte, travaPorte, type CriteriosPorte } from '@/lib/priva/enquadramento';
 import { FONTE_LGPD, LITERAL_ART5_VI, LITERAL_ART5_VII, PAPEIS_AGENTE, ROTULO_PAPEL } from '@/lib/priva/rot';
 import { toast } from 'sonner';
 import { avisarAcaoDemo } from '@/lib/priva/demoAction';
@@ -23,13 +23,14 @@ export function EnquadramentoAgente() {
   const valida = criteriosSchema.safeParse(c);
   const porte = valida.success ? calcularPorte(c) : null;
   const trava = valida.success ? travaPorte(c, enterprise) : null;
+  const avisos = valida.success ? avisosMetodo(c, enterprise) : [];
   return <Panel id="enquadramento" title="Enquadramento do agente">
     {demo && <div className="mb-4"><Label htmlFor="cenario-porte">Cenário demonstrativo de enquadramento</Label><select id="cenario-porte" value={demoPorte} onChange={event => setDemoPorte(event.target.value === 'PEQUENO' ? 'PEQUENO' : 'COMPLETO')} className="mt-1 w-full rounded-sm border bg-background p-2 text-sm"><option value="COMPLETO">Médio/grande porte — cenográfico</option><option value="PEQUENO">Pequeno porte — cenográfico</option></select></div>}
     <div className="mb-4 space-y-2 text-xs text-muted-foreground" data-testid="fundamento-enquadramento">
       <p>Enquadramento como agente de pequeno porte: {FUNDAMENTO_PORTE}. Alto risco: art. 4º. Teto geral de receita: R$ 4.800.000,00/ano (LC 123/2006, art. 3º, II); para startups, R$ 16.000.000,00/ano (LC 182/2021, art. 4º, § 1º, I), por remissão expressa da Res. CD/ANPD nº 2/2022, art. 3º, II.</p>
       <CitacoesAgrupadas entradas={BIBLIOTECA_NORMATIVA.filter(e => e.norma === 'Res. CD/ANPD nº 2/2022' && ['arts. 2º e 3º', 'art. 4º'].includes(e.identificador))} />
       <CitacoesAgrupadas posicao="REFERENCIA" entradas={BIBLIOTECA_NORMATIVA.filter(e => ['LC 123/2006', 'LC 182/2021'].includes(e.norma))} />
-      <p>S.A. e mais de 10 mil titulares/mês são gatilhos conservadores do método.</p>
+      <p>Tipo societário e volume de titulares, isoladamente, não excluem o regime diferenciado nem bloqueiam a assinatura.</p>
     </div>
     <form className="space-y-4" onSubmit={async event => {
       event.preventDefault(); if (demo) return avisarAcaoDemo();
@@ -60,6 +61,7 @@ export function EnquadramentoAgente() {
         </fieldset>
       </div>
       <p className="text-sm" data-testid="resultado-porte"><b>Resultado calculado:</b> {trava ? 'Pequeno porte bloqueado — regime completo obrigatório' : porte ? rotuloPorte(porte) : 'Preencha os critérios.'}</p>
+      {avisos.length > 0 && <aside aria-label="Recomendações do método" className="space-y-1 text-sm text-muted-foreground"><p className="font-medium">Recomendações do método — não bloqueantes</p><ul className="list-disc space-y-1 pl-5">{avisos.map(aviso => <li key={aviso}>{aviso}</li>)}</ul></aside>}
       {(erro || trava) && <p role="alert" className="text-sm text-destructive">{erro || trava}</p>}
       {e.isError && <p role="alert">Não foi possível consultar a declaração vigente.</p>}
       {e.declaracao && <div className="space-y-1 text-xs"><Tag tone="success">Declaração assinada pelo encarregado · PI-01</Tag><p>{new Date(e.declaracao.assinado_em).toLocaleString('pt-BR')}</p><p className="break-all font-mono">SHA-256 {e.declaracao.hash_sha256}</p></div>}

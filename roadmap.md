@@ -1,3 +1,7 @@
+## Correção de enquadramento — art. 3º da Res. CD/ANPD nº 2/2022
+- [x] Corrigir cálculo/trava, separar avisos não bloqueantes e ajustar citação do art. 11, sem banco ou declarações assinadas.
+- [x] Atualizar testes afetados: 28 aprovados; quatro casos verificados no formulário demo, sem escritas HTTP. Varredura adicional de terminologia apontou 9 ocorrências preexistentes de DPO isolado fora do escopo; nenhuma alterada. Assinatura autenticada não executada para preservar declarações.
+
 ## Exportação estrutural offline — arquivo 0097
 - [x] Gerar arquivo único com catálogo medido pós-0096: 42 tabelas, 8 enums, 99 funções, 51 gatilhos app, 146 policies; tabelas órfãs explícitas, privilégios por coluna e seeds sem dados operacionais.
 - [x] Validar sintaxe e dependências offline; disponibilizar arquivo para download e versionamento sem executar SQL. Restauração não executada; peças/evidências dependem de empresas cadastradas no destino.

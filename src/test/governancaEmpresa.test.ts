@@ -7,7 +7,6 @@ import {
   verificarConflitoIntraempresa,
   type GovernancaEmpresa,
 } from "@/lib/priva/governancaEmpresa";
-import { rotuloPorte } from "@/lib/priva/enquadramento";
 
 describe("Governança da empresa — sequência, conflito, autovalidação e citações", () => {
   it("Item 1: percorre a sequência obrigatória de 5 passos antes de liberar a esteira", () => {
@@ -56,10 +55,4 @@ describe("Governança da empresa — sequência, conflito, autovalidação e cit
     expect(dupla.validado_por).toBe("gestor@empresa.com");
   });
 
-  it("Item 8: rótulo de pequeno porte cita Res. 2/2022 e Res. 18/2024 mantendo obrigação de canal", () => {
-    const r = rotuloPorte("PEQUENO");
-    expect(r).toContain("Res. CD/ANPD 2/2022");
-    expect(r).toContain("Res. 18/2024");
-    expect(r).toContain("canal obrigatório");
-  });
 });

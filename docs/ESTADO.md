@@ -27,7 +27,7 @@
 | empresas | 2 |
 | usuarios | 7 |
 | user_roles | 9 |
-| membros_empresa | 4 |
+| membros_empresa | 5 |
 | workspace_empresa | 2 |
 | pecas | 14 |
 | evidencias | 75 |
@@ -66,12 +66,13 @@ A fictícia existe para provar que conta de cliente, sem privilégio de platafor
 | # | Marco | Estado |
 |---|---|---|
 | M1 | Mapa fechado | **FECHADO 26/11/2026** |
-| M2 | Identidade operável | Em fechamento — depende da linha R de `samuel@` |
+| M2 | Identidade operável | FECHADO 26/11/2026 — R, A e C na matriz; samuel@ com duas linhas ativas (A e R)
 | M3 | Enquadramento assinado | Aberto. Bloqueio de papel removido; executor disponível |
 | M4 | Primeiro ROT real | Aberto |
 | M5 | Telas sobre dado real | Aberto |
 
-**Cobertura:** 1 de 5 · **Contrapeso:** 3 decisões abertas.
+**Cobertura:** Cobertura: 2 de 5 · Contrapeso: 4 decisões abertas (DEC-009b, DEC-002, DEC-004, DEC-007).
+
 
 ---
 

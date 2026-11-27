@@ -203,7 +203,7 @@ O Privacium é um sistema de conformidade. Afirmar como lei algo que não é lei
 
 ### 9.3. Hierarquia de resolução de conflitos
 1. Lei (LGPD, MCI, ECA Digital, CDC, CC, CTN)
-2. Resolução da ANPD vigente (2/2022, 4/2023, 15/2024)
+2. Resolução da ANPD vigente (2/2022 — agentes de pequeno porte; 4/2023 — dosimetria e sanções; 15/2024 — comunicação de incidente de segurança; 18/2024 — atuação do encarregado; 19/2024 — transferência internacional de dados)
 3. Norma técnica (ISO/IEC, NIST)
 4. Blueprint deste projeto
 5. Prompt do usuário
@@ -283,9 +283,10 @@ Alternativas descartadas:
 ### 10.2. Pendências de segurança do repositório
 | Item | Status |
 |---|---|
-| Tornar repositório privado no GitHub | Concluído em 02/11/2026 (ver §10.6 e §10.7.4). Reaberto temporariamente como público em 23/11/2026 para auditoria externa declarada; retorno a privado previsto ao encerramento do projeto. Nenhuma credencial foi exposta nesta reabertura. |
+| Tornar repositório privado no GitHub | Concluído em 02/11/2026; reaberto como público em 23/11/2026 para auditoria externa declarada (§10.2). Retorno a privado previsto ao encerramento do projeto. |
 | Confirmar escopo do app Lovable no GitHub | Pendente — após a mudança de visibilidade |
-| .env no histórico do Git | Encerrado — risco zero confirmado (apenas chaves públicas de bootstrap) |
+| .env no histórico do Git | Encerrado com ressalva. O commit 8fd234e (22/10/2026) adicionou `.env` com 6 variáveis — URL, ID do projeto e chave publicável de bootstrap. A varredura de 02/11/2026 (§10.7.4) não localizou chave privada nos 195 arquivos elegíveis, e a classificação registrada na §10.7.2 é "risco zero". Ressalva declarada: a conclusão de risco zero cobre as variáveis identificadas; a enumeração literal das seis chaves não consta deste documento e precisa ser conferida no próprio commit antes de qualquer uso em dossiê.
+|
 
 Item removido: "Senha do banco exposta no chat". No Lovable Cloud não existe senha estática de banco (postgres://user:password@...) nem chave de serviço exposta ao cliente. O frontend usa exclusivamente a chave pública (VITE_SUPABASE_PUBLISHABLE_KEY), protegida por RLS e pelas funções SECURITY DEFINER com guarda de tenant (migrações 0054 e 0055). Nenhuma credencial externa pessoal foi colada no chat. A pendência refletia suposição padrão de banco autogerenciado e não se aplica a esta arquitetura.
 

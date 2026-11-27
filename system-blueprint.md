@@ -1,9 +1,9 @@
 # Blueprint de Arquitetura Contínua - Privacium SaaS
 
-Versão documental: V1.1 · Vigência: 23/11/2026 (UTC).
-SHA-256 do conteúdo com exclusão desta linha de digest: 4d518eaa6a45b018837777e891073fbe3fc46d48d580e7488d9d2fc89f73f233.
-Convenção: o digest acima exclui integralmente sua própria linha (incluindo a quebra de linha); o SHA-256 integral do arquivo está no relatório E-003 a E-007. Um arquivo não pode declarar seu próprio SHA-256 integral sem autorreferência.
-Âncora histórica intocada: `docs/blueprint/V1.0-BASELINE__fe0646f1.md` (SHA-256 `fe0646f150e4ab153ebb4f09fae0847059108a7457dda4e4afd01cc4240f149f`).
+Versão documental: V1.2 · Vigência: 27/11/2026 (UTC).
+SHA-256 do conteúdo: pendente de recálculo após a edição de 27/11/2026 (V1.2).
+Motivo: o digest declarado em V1.1 não corresponde ao conteúdo atual; o método de cálculo original não pôde ser reproduzido nesta sessão, e publicar valor não verificado seria pior que declarar a pendência.
+
 
 ## Identidade e Princípios do Privacium
 
